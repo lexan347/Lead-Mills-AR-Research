@@ -1,0 +1,18 @@
+{
+  "updated": "2026-10-06",
+  "stage": "Repository and experimental architecture",
+  "status": "Planning and scaffold complete locally; field validation not started",
+  "phases": [
+    { "name": "Repository", "state": "local-complete" },
+    { "name": "WebAR demo", "state": "planned" },
+    { "name": "Unity baseline", "state": "planned" },
+    { "name": "VPS integration", "state": "planned" },
+    { "name": "Field validation", "state": "planned" },
+    { "name": "Interpretive release", "state": "planned" }
+  ],
+  "claims": {
+    "deployedApp": false,
+    "surveyedAnchor": false,
+    "fieldValidated": false
+  }
+}
