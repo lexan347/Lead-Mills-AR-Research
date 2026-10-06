@@ -1,0 +1,39 @@
+name: Validate research repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate anchor catalog
+        run: python3 tools/validate_anchor_catalog.py config/anchors.example.json
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Verify Pages entry point
+        run: test -s docs/index.html
+
+      - name: Reject common secret files
+        shell: bash
+        run: |
+          if find . -type f \( -name '*.p12' -o -name '*.mobileprovision' -o -name '*.keystore' -o -name 'GoogleService-Info.plist' -o -name 'google-services.json' \) -print -quit | grep -q .; then
+            echo "A signing or service credential file is present."
+            exit 1
+          fi
