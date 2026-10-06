@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "lead-mills-public-example",
+  "coordinateReference": "WGS84",
+  "anchors": [
+    {
+      "id": "lead-mills-demo-origin",
+      "label": "Lead Mills demonstration origin",
+      "status": "draft",
+      "latitude": null,
+      "longitude": null,
+      "altitudeMeters": null,
+      "altitudeReference": "unresolved",
+      "headingDegreesTrue": null,
+      "horizontalUncertaintyMeters": null,
+      "verticalUncertaintyMeters": null,
+      "headingUncertaintyDegrees": null,
+      "acquisitionMethod": "not-surveyed",
+      "assetId": "placeholder-cube-v1",
+      "publicRelease": false,
+      "notes": "Coordinates intentionally omitted until survey, review, and publication approval."
+    }
+  ]
+}
