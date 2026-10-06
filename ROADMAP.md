@@ -1,0 +1,100 @@
+# Programmatic roadmap
+
+Dates are planning targets, not claims of completed work. Each phase closes only when its acceptance evidence is stored in the repository or linked research archive.
+
+## Phase 0 — repository and governance
+
+**Objective:** establish reproducible source control, documentation, privacy boundaries, and cross-platform handoff.
+
+- Create the repository, workflows, Pages dashboard, decision log, and iteration templates.
+- Confirm GitHub ownership and visibility.
+- Select a license or explicitly retain all rights.
+- Install the same Unity editor version on Ubuntu and macOS before opening a production project.
+
+**Exit evidence:** validation workflow passes; Pages deploys; Ubuntu-to-macOS clone test is documented.
+
+## Phase 1 — browser demonstration
+
+**Objective:** show one lightweight 3D object at or near Lead Mills without an installed application.
+
+- Prepare a small GLB test asset with meter units and a documented forward direction.
+- Configure a GeoCAST/WebAR scene using provisional coordinates.
+- Test on at least one iPhone and one Android phone.
+- Record load time, device/OS/browser, approximate placement behavior, screenshots, and limitations.
+
+**Exit evidence:** both device classes render the same asset onsite or in an approved surrogate location. This phase does not claim precise alignment.
+
+## Phase 2 — Unity cross-platform baseline
+
+**Objective:** produce one source project with Android and iOS builds.
+
+- Pin the Unity editor, AR Foundation, Android, and iOS package versions.
+- Implement camera permissions, a model viewer, diagnostics, and a mock/local anchor provider.
+- Build Android on Ubuntu.
+- Generate the iOS Xcode project and sign it on macOS.
+- Record build manifests and device compatibility results.
+
+**Exit evidence:** identical anchor catalog and test asset render on both platforms.
+
+## Phase 3 — geospatial-provider integration
+
+**Objective:** keep application behavior independent of a single positioning vendor.
+
+- Implement the provider interface for Google ARCore Geospatial or Niantic Spatial VPS2.
+- Retain a GPS/coarse provider for comparison.
+- Expose accuracy, tracking state, localization duration, and failure reason in the UI and logs.
+- Display content only after configurable accuracy thresholds are satisfied.
+
+**Exit evidence:** provider can localize, place a test object, lose tracking safely, and recover without silently reporting false precision.
+
+## Phase 4 — site mapping and historical asset pipeline
+
+**Objective:** connect the mobile model to defensible real-world control.
+
+- Identify durable visual features and approved scanning paths.
+- Establish a surveyed origin, elevation convention, and true/grid-north relationship.
+- Record the transformation from the research model coordinate system to WGS84/East-Up-North.
+- Produce decimated, textured mobile LODs while preserving the research master separately.
+- Record provenance and confidence for reconstructed components.
+
+**Exit evidence:** asset manifest contains source checksum, derivative checksum, units, origin, heading, polygon count, texture sizes, and conversion history.
+
+## Phase 5 — field-validation study
+
+**Objective:** quantify performance rather than relying on visual impressions.
+
+Minimum metrics:
+
+- horizontal and vertical position error;
+- heading error;
+- time to first coarse and precise localization;
+- drift over a defined walking route;
+- repeatability across launches and devices;
+- failure/recovery rate;
+- lighting, weather, foliage, tide, and network conditions.
+
+Compare at least GPS-only, VPS, and a surveyed visual-marker/reference method where permission allows.
+
+**Exit evidence:** preregistered procedure, raw observations, analysis script, results table, and limitations.
+
+## Phase 6 — interpretive experience
+
+**Objective:** transform the validated placement system into a responsible historical interpretation.
+
+- Add narration, labels, time layers, accessibility features, and safety guidance.
+- Separate documented facts from hypothetical reconstruction.
+- Add offline/failure messaging and a non-AR alternative.
+- Obtain site-owner and institutional approvals before public field deployment.
+
+**Exit evidence:** reviewed content, accessibility check, privacy notice, field-safety review, and stakeholder approval.
+
+## Phase 7 — release and preservation
+
+**Objective:** deliver a reproducible academic artifact.
+
+- Publish Android and iOS beta builds or a documented installation package.
+- Archive code commit, dependency lock files, models, metadata, results, and build manifests.
+- Publish the GitHub Pages dashboard and final report links.
+- Document service dependencies and a migration/offline plan.
+
+**Exit evidence:** tagged release, archived research package, deployment instructions, and final limitations statement.

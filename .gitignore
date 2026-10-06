@@ -1,0 +1,45 @@
+# Unity generated directories
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+[Bb]uild/
+[Bb]uilds/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.csproj
+*.sln
+*.suo
+*.user
+
+# Credentials and signing material
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.cer
+*.key
+GoogleService-Info.plist
+google-services.json
+
+# Generated mobile packages
+*.apk
+*.aab
+*.ipa
+
+# Research captures and large raw data
+raw-data/
+private-data/
+*.mcap
+*.bag
+*.ulg
