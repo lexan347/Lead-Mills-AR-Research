@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lexan347.github.io/Lead-Mills-AR-Research/schemas/anchor-catalog.schema.json",
+  "title": "Lead Mills AR anchor catalog",
+  "type": "object",
+  "required": ["schemaVersion", "catalogId", "coordinateReference", "anchors"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "catalogId": { "type": "string", "minLength": 1 },
+    "coordinateReference": { "const": "WGS84" },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "label", "status", "latitude", "longitude",
+          "altitudeMeters", "altitudeReference", "headingDegreesTrue",
+          "acquisitionMethod", "assetId", "publicRelease"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "label": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["draft", "surveyed", "validated", "retired"] },
+          "latitude": { "type": ["number", "null"], "minimum": -90, "maximum": 90 },
+          "longitude": { "type": ["number", "null"], "minimum": -180, "maximum": 180 },
+          "altitudeMeters": { "type": ["number", "null"] },
+          "altitudeReference": { "enum": ["unresolved", "WGS84-ellipsoid", "orthometric", "terrain-relative", "local-site-frame"] },
+          "headingDegreesTrue": { "type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 360 },
+          "horizontalUncertaintyMeters": { "type": ["number", "null"], "minimum": 0 },
+          "verticalUncertaintyMeters": { "type": ["number", "null"], "minimum": 0 },
+          "headingUncertaintyDegrees": { "type": ["number", "null"], "minimum": 0 },
+          "acquisitionMethod": { "type": "string", "minLength": 1 },
+          "assetId": { "type": "string", "minLength": 1 },
+          "publicRelease": { "type": "boolean" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
