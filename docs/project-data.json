@@ -1,18 +1,46 @@
 {
   "updated": "2026-10-06",
-  "stage": "Repository and experimental architecture",
-  "status": "Repository and project dashboard deployed; field validation not started",
+  "stage": "Mac iPhone POC \u2014 Unity iOS export complete",
+  "status": "Unity iOS export succeeded; iPhone 14 Pro deployment paused for iOS 26.7.1 update",
   "phases": [
-    { "name": "Repository", "state": "local-complete" },
-    { "name": "WebAR demo", "state": "planned" },
-    { "name": "Unity baseline", "state": "planned" },
-    { "name": "VPS integration", "state": "planned" },
-    { "name": "Field validation", "state": "planned" },
-    { "name": "Interpretive release", "state": "planned" }
+    {
+      "name": "Repository",
+      "state": "deployed"
+    },
+    {
+      "name": "WebAR demo",
+      "state": "planned"
+    },
+    {
+      "name": "Unity baseline",
+      "state": "in-progress"
+    },
+    {
+      "name": "VPS integration",
+      "state": "planned"
+    },
+    {
+      "name": "Field validation",
+      "state": "planned"
+    },
+    {
+      "name": "Interpretive release",
+      "state": "planned"
+    }
   ],
   "claims": {
     "deployedApp": false,
     "surveyedAnchor": false,
     "fieldValidated": false
+  },
+  "stoppingPoint": {
+    "date": "2026-10-06",
+    "unityValidationIssues": 0,
+    "unityIOSExport": "succeeded with no errors",
+    "signing": "Personal Team; com.alexanderangulo.leadmillsarpoc",
+    "device": "Physical iPhone 14 Pro recognized in Xcode",
+    "iosUpdate": "26.6.2 to 26.7.1 in progress; completion unconfirmed",
+    "ios27Availability": "User unsure; unresolved; no upgrade selected",
+    "nextAction": "Confirm update, select physical iPhone, check signing/provisioning, and verify first install/launch/camera feed"
   }
 }
