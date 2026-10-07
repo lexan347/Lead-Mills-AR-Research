@@ -1,6 +1,8 @@
 # Unity application starter
 
-This directory contains provider-neutral interfaces and data objects. It is not yet a complete Unity project and intentionally does not pin an editor or SDK version until the same supported version is installed and verified on Ubuntu and macOS.
+This directory contains provider-neutral interfaces and data objects, not the complete local Unity project. On October 6, the Mac POC `LeadMills_AR_POC` was created in Universal 3D / URP using Unity 6.3 LTS `6000.3.25f1` for Apple Silicon with iOS Build Support. AR Foundation / ARKit are configured, Project Validation has 0 issues, and the minimal AR scene exported successfully to Xcode with no Unity build errors.
+
+Personal Team signing and bundle ID `com.alexanderangulo.leadmillsarpoc` are configured. The physical iPhone 14 Pro is recognized; deployment is paused while it updates from iOS 26.6.2 to 26.7.1. First on-device launch remains pending. See [iOS setup and resume checklist](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Exact AR package versions, matching Linux editor installation, and cross-platform builds remain unconfirmed.
 
 ## Planned project layout
 
@@ -17,7 +19,7 @@ ProjectSettings/         text-serialized project settings
 
 ## Cross-platform workflow
 
-1. Create/pin the production Unity project on Ubuntu.
+1. Establish the production project and verify Unity `6000.3.25f1` on both machines. The initial Mac iPhone POC exists locally; Ubuntu parity and source handoff remain pending.
 2. Commit `Assets`, `Packages`, `ProjectSettings`, and all `.meta` files.
 3. Build Android APK/AAB on Ubuntu.
 4. Push source changes and pull them on the MacBook Pro.
