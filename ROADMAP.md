@@ -13,6 +13,8 @@ Dates are planning targets, not claims of completed work. Each phase closes only
 
 **Exit evidence:** validation workflow passes; Pages deploys; Ubuntu-to-macOS clone test is documented.
 
+**October 6 status:** public repository and dashboard publication recorded. Linux POC inventory reviewed and Mac inventory/cleanup completed. The Mac toolchain and exact POC editor are recorded in the [software baseline](docs/SOFTWARE_BASELINE.md); matching Ubuntu editor and clone/project-opening evidence are still pending.
+
 ## Phase 1 — browser demonstration
 
 **Objective:** show one lightweight 3D object at or near Lead Mills without an installed application.
@@ -35,6 +37,10 @@ Dates are planning targets, not claims of completed work. Each phase closes only
 - Record build manifests and device compatibility results.
 
 **Exit evidence:** identical anchor catalog and test asset render on both platforms.
+
+**October 6 progress (phase remains open):** Unity 6.3 LTS `6000.3.25f1` Apple Silicon with iOS Build Support is installed on Mac. `LeadMills_AR_POC` (URP), AR Foundation / ARKit configuration, 0-issue validation, and the minimal AR scene are complete. Unity generated the iOS Xcode project with no errors. Personal Team signing is configured with `com.alexanderangulo.leadmillsarpoc`; Xcode recognizes the physical iPhone 14 Pro. Device setup/deployment is paused during its iOS 26.6.2 → 26.7.1 update.
+
+**Next gate:** confirm the update, select the physical phone, check signing/provisioning, and verify the first install/launch/camera feed. Package-version capture, Android build, diagnostics/model placement, and identical cross-platform rendering remain pending. This early iPhone toolchain test does not complete or replace the planned WebAR demonstration.
 
 ## Phase 3 — geospatial-provider integration
 

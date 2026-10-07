@@ -42,11 +42,31 @@ Niantic is the leading candidate because a custom site map can be created where 
 
 The public repository begins with null coordinates. Surveyed coordinates are published only after technical validation and review of site-owner, cultural-resource, safety, and privacy considerations.
 
+## D-007 — pinned iPhone-first setup baseline
+
+**Date:** 2026-10-06<br>
+**Status:** Accepted for POC
+
+Use Unity 6.3 LTS `6000.3.25f1` for Apple Silicon with iOS Build Support and the Universal 3D / URP template for `LeadMills_AR_POC`. First verify a minimal AR Foundation / ARKit camera session on the physical iPhone before importing historical models or adding geospatial SDKs. The longer-term shared Android/iOS project remains the objective; matching Linux editor and package-version capture are pending. Do not upgrade the editor merely because a newer release is available; record any required baseline change.
+
+## D-008 — direct physical-device signing for the first test
+
+**Date:** 2026-10-06<br>
+**Status:** Configured; deployment pending
+
+Use Xcode automatic signing with the user's Personal Team and bundle ID `com.alexanderangulo.leadmillsarpoc` for the initial iPhone 14 Pro test. Recognition of the device and signing configuration do not establish successful provisioning or installation. The first acceptance gate is install, launch, camera permission, and a live AR camera feed without crashing.
+
+## D-009 — pause for the chosen iOS update
+
+**Date:** 2026-10-06<br>
+**Status:** Accepted; update completion pending
+
+Wait for the physical iPhone 14 Pro to update from iOS 26.6.2 to 26.7.1, then resume device setup/deployment next session. The user is unsure whether iOS 27 is available; availability remains unresolved and no iOS 27 upgrade was selected. Record the actual installed iOS version when work resumes.
+
 ## Open decisions
 
-- Repository visibility: public or private during development.
-- Final repository name and organizational ownership.
-- Unity editor and package versions.
+- License and any future visibility/ownership changes for the existing public `lexan347/Lead-Mills-AR-Research` repository.
+- Matching Linux Unity `6000.3.25f1` baseline and exact Unity package versions.
 - Google versus Niantic primary provider after onsite tests.
 - Historical reconstruction source and uncertainty notation.
 - License for original code, models, and documentation.

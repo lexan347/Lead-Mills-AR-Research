@@ -60,6 +60,10 @@ Historical/model coordinates
 
 Every transformation must be documented. Terrain height, orthometric height, and WGS84 ellipsoid height must not be silently interchanged.
 
+## Implementation status — October 6, 2026
+
+The shared cross-platform architecture remains the target. The first local Mac implementation is `LeadMills_AR_POC` (URP, Unity `6000.3.25f1`, AR Foundation / ARKit), with 0 validation issues and a successful Unity iOS Xcode export. Device signing is configured; the recognized physical iPhone 14 Pro is updating to iOS 26.7.1, so first deployment remains pending. The local project is not yet incorporated into `unity/`; Android builds, source handoff, provider integration, and field validation remain pending. See [Unity/iOS setup](unity/IOS_SETUP.md).
+
 ## Repository boundaries
 
 | Path | Purpose |

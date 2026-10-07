@@ -8,7 +8,7 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 Updated October 6, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** repository and experimental architecture established. No field localization result, surveyed anchor, reconstructed mill model, or deployed application is claimed yet.
+**Current stage:** Mac iPhone POC setup completed through a clean Unity iOS Xcode export. Signing is configured and the physical iPhone 14 Pro is recognized; device setup/deployment is paused while the phone updates from iOS 26.6.2 to 26.7.1. First on-device launch remains pending. No field localization result, surveyed anchor, reconstructed mill model, or deployed application is claimed yet.
 
 | Section | What you will find |
 |---|---|
@@ -18,7 +18,9 @@ Updated October 6, 2026. This repository follows the documentation-first and evi
 | [Site and anchor data](SITE_DATA.md) | Coordinate policy, reference frames, survey requirements, and public-data rules |
 | [Security and privacy](SECURITY_AND_PRIVACY.md) | Camera/location notices, secrets, field data, and publishing controls |
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
+| [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, installed Mac versions, and pending iPhone update |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
+| [Unity / iOS setup](unity/IOS_SETUP.md) | Completed POC setup and exact physical-device resume checklist |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |
 | [GitHub Pages dashboard](docs/index.html) | Static public project overview prepared for deployment |
@@ -58,12 +60,12 @@ python3 tools/validate_anchor_catalog.py config/anchors.example.json
 python3 -m unittest discover -s tests -v
 ```
 
-## Planned repository and Pages URLs
+## Repository and Pages URLs
 
 - Repository: `https://github.com/lexan347/Lead-Mills-AR-Research`
 - Project dashboard: `https://lexan347.github.io/Lead-Mills-AR-Research/`
 
-These URLs become active after the repository is created, pushed, and GitHub Pages is configured to use GitHub Actions.
+The public repository exists; dashboard deployment was recorded in the prior publication-status commits. The current setup stopping point is also reflected in the dashboard status.
 
 ## Licensing status
 
