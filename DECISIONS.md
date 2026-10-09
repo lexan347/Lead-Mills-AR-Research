@@ -106,3 +106,10 @@ Follow the user's Polycam capture reference with live triangle-edge feedback bef
 **Status:** Implemented; device acceptance pending
 
 Replace D-013's one-patch gate with tracked/level/size checks, local mesh coverage, three seconds of bounded plane changes, and a 15 cm viewpoint change. Reveal blue planes only after qualification; recheck readiness and mesh support at the actual tap before attaching an anchor. Reset restarts qualification. Exact provisional thresholds and limitations are in [the test guide](unity/PLANE_PLACEMENT_TEST.md). Internal mesh/plane agreement cannot certify physical camera registration. Keep the user's reported mesh sliding as a failed acceptance criterion even when readiness passes. Do not flatten reconstructed room geometry onto an assumed floor or apply an unexplained 90° correction.
+
+## D-015 — verified portrait camera-view registration
+
+**Date:** 2026-10-09
+**Status:** User-verified in diagnostic build; promoted default repeat pending
+
+Use clockwise 90° common-view registration in the portrait POC after the user's confirmations that it fixed mesh/plane alignment and the cube stays in place. Keep provider geometry/world gravity unchanged and use the displayed-camera world ray for placement. Fix app display to portrait until other orientations receive physical validation. Preserve rollback comparisons. This is an observed effective correction, without an independently established vendor-level cause, measured drift, persistent anchors or field accuracy. Repeat the default-build/contact trial before site assets.

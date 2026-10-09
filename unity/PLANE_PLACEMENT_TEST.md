@@ -1,6 +1,6 @@
 # Horizontal-plane placement test
 
-Status: DEVICE DETECTION / VISIBLE PLACEMENT VERIFIED; both initial and plane-anchor trials failed stability. LiDAR scan-first rendering verified; physical alignment failed. Overlay hiding is visually verified. A stronger surface-readiness gate is implemented; physical registration remains failed.
+Status: USER-VERIFIED PORTRAIT MESH/PLANE ALIGNMENT AND STABLE CUBE with CW90 view registration; default-build relaunch/repeat validation pending. Earlier failures are preserved below.
 
 ## Setup and export
 
@@ -162,3 +162,11 @@ Unity compiled/exported **`Builds/iOS_PlanePlacement_20261009_070358`** successf
 Test in portrait with **Pose: Input System**, **SRP batching ON**. Compare a fixed room edge at baseline, then tap the view-test button once for clockwise 90°. Slowly pan right and tilt downward while keeping that edge in view. Verify triangles stay on the structure and the blue surface sits on the real floor, then place a cube and check contact/stability. Return to baseline to test reversibility. Do not assume a rotation that looks right in one still frame remains right during movement or device-orientation changes.
 
 The view-roll export **`20261009_070358`** completed Xcode Debug build, installed, and launched on the physical iPhone at approximately **07:09 EDT**. Private device log: `view-roll-device-20261009.log`. Runtime startup confirms Input System pose, available/matching ARKit color-camera pose, SRP batching ON, **view roll 0°**, and Portrait. The original view is therefore still the default. A user physical comparison with the opt-in clockwise mode is pending; no alignment/stability success is claimed.
+
+## First corrected physical registration and stable cube — October 9, approximately 07:13 EDT
+
+In the installed `20261009_070358` build, the user activated the clockwise 90° view test with Input System pose / SRP batching ON / Portrait. Runtime confirms view roll 90° and a corresponding 90° render-time camera/input rotation difference, while camera/frame projection still matches and scales remain unit. The user then confirmed **“yes it fixed it”**, followed by **“the boxis also staying in place.”** Record **user-verified mesh/plane alignment and stable cube placement in this portrait trial**. This supersedes the earlier failed result for this configuration; earlier failures remain historical evidence. No measured drift, exact test duration, surveyed accuracy, persistent anchor or field validation is established by these confirmations.
+
+The effective correction is the common camera view's clockwise registration relative to the image, not rotating only the LiDAR mesh or flattening room geometry. Input System and alternate color-camera pose values matched before correction, so no differing pose source was found. The observations identify a view-orientation mismatch as the practical issue resolved by the correction; the lower-level origin of the 90° convention mismatch has not been independently established. Do not attribute this to a specific Unity/iOS vendor bug without evidence.
+
+Promoted CW90 to the app's default and explicitly fixed the app display to **Portrait**, the physically verified orientation. The existing Input System pose, SRP batching ON, provider mesh data, world gravity, readiness checks and plane-anchor logic remain. Corrected-view placement uses the displayed camera's world ray. Comparison/rollback modes remain available for research. Other display orientations and other devices are not accepted by this trial. Fresh default-build export/install/relaunch evidence is recorded separately; do not confuse the user-verified test build with the forthcoming default build.

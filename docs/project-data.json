@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-09",
-  "stage": "First successful native AR proof of concept",
-  "status": "Readiness build installed; latest user trial still fails physical mesh/plane/cube registration. Recovery checkpoint saved after credit and phone-connection interruption.",
+  "stage": "User-verified portrait surface registration and stable placement",
+  "status": "User confirmed clockwise 90 deg view registration fixed mesh/plane alignment and cube stayed in place on iPhone 14 Pro; default portrait build and repeat validation underway.",
   "phases": [
     {
       "name": "Repository",
@@ -35,13 +35,15 @@
     "deploymentScope": "Personal Team development install on physical iPhone only; no public release",
     "planeDetection": true,
     "objectPlacement": true,
-    "stablePlacement": false,
+    "stablePlacement": true,
     "lidarPreviewDeviceVerified": true,
     "surfaceReadinessDeviceVerified": false,
-    "surfaceReadinessInteractionDeviceVerified": true
+    "surfaceReadinessInteractionDeviceVerified": true,
+    "stablePlacementScope": "User-reported in CW90 portrait device trial; duration/drift not measured; no field/survey validation",
+    "meshPlaneAlignmentUserVerified": true
   },
   "stoppingPoint": {
-    "date": "2026-10-08",
+    "date": "2026-10-09",
     "unityValidationIssues": 0,
     "unityIOSExport": "succeeded; fresh export after Scene List correction",
     "signing": "Alexander Angulo (Personal Team); com.alexanderangulo.leadmillsarpoc",
@@ -52,12 +54,12 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Test user-proposed clockwise 90 deg view hypothesis against fixed landmarks while panning/tilting; keep pose/render settings fixed and compare baseline reversal",
-    "placement": "Cube/plane rendering and anchor creation observed; both stability trials failed",
+    "nextAction": "Verify promoted CW90 portrait default on fresh launch, repeat fixed-landmark/contact test, then introduce one simple Lead Mills asset",
+    "placement": "User confirms cube stays in place in corrected portrait trial; exact contact, duration and quantitative drift not established",
     "lidarRevision": "Triangles/cube/footprint visibly verified by 21:55 recording; user reports mesh/plane misalignment and floor appearing vertical; acceptance failed",
     "alignmentDiagnostics": "22:15 recording/photo confirm unresolved physical mesh/plane alignment despite internally matching pose/projection; overlay hiding after placement visually verified",
-    "surfaceReadiness": "Build 20261008_223833 installed; user reports a placement, but physical alignment remains failed",
-    "meshRegistration": "22:43 trial: right pan makes triangles move down; downward camera movement makes them move left; plane/cube not level or fixed to physical floor",
+    "surfaceReadiness": "Readiness qualification and placement interaction verified; user confirms physical registration in corrected portrait view",
+    "meshRegistration": "User confirmed CW90 common-view correction fixes mesh/plane alignment in portrait; default promotion underway",
     "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
     "comparisonBuild": "20261009_070358 built/installed/launched 07:09 EDT; default view roll 0 deg; CW90/CCW90 opt-in controls, displayed-camera ray during test; physical result pending"
   },

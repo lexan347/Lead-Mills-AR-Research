@@ -6,8 +6,8 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.XR;
 
-// Temporary device comparison controls; baseline is the existing Input System driver.
-// Explicit view-roll hypotheses are opt-in; provider meshes are never modified.
+// Portrait POC view registration: the user verified clockwise 90 degrees.
+// Comparison controls retain rollback; provider meshes are never modified.
 public sealed class CameraRegistrationComparison : MonoBehaviour
 {
     readonly List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
@@ -16,7 +16,8 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     UniversalRenderPipelineAsset pipeline;
     bool originalBatching, useCameraPose, poseAvailable;
     Pose cameraPose;
-    int rollMode;
+    int rollMode = 1;
+    ScreenOrientation originalOrientation;
     bool restoreBaselineRotation;
     public bool ViewRollTestActive => rollMode != 0;
     float RollAngle => rollMode == 1 ? 90f : rollMode == 2 ? -90f : 0f;
@@ -28,6 +29,10 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
 
     void Awake()
     {
+        originalOrientation = Screen.orientation;
+        // Only portrait has physical acceptance. Keep display orientation fixed
+        // until other orientations receive a separate registration trial.
+        Screen.orientation = ScreenOrientation.Portrait;
         driver = GetComponent<TrackedPoseDriver>();
         pipeline = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
         if (pipeline) originalBatching = pipeline.useSRPBatcher;
@@ -43,6 +48,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         if (driver) driver.enabled = true;
         if (pipeline) pipeline.useSRPBatcher = originalBatching;
         GraphicsSettings.useScriptableRenderPipelineBatching = originalBatching;
+        Screen.orientation = originalOrientation;
     }
 
     void ReadCameraPose()
@@ -138,7 +144,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         restoreBaselineRotation = rollMode == 0;
         ApplyCameraPose();
         if (placement) placement.RestartSurfaceCheck();
-        Debug.Log($"[Lead Mills Compare] Opt-in view roll changed to {RollAngle:F0} deg; remove prior placement and restart landmark trial. This is a hypothesis, not an accepted correction.");
+        Debug.Log($"[Lead Mills Compare] Opt-in view roll changed to {RollAngle:F0} deg; remove prior placement and restart landmark trial. Default CW90 is user-verified in portrait; other comparison modes are unaccepted.");
     }
 
     void TogglePose()
@@ -196,9 +202,9 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
             "Render test — SRP batching: " + (pipeline && pipeline.useSRPBatcher ? "ON" : "OFF"), style)) ToggleBatching();
         GUI.enabled = driver || (useCameraPose && poseAvailable);
         var roll = RollRect();
-        string rollLabel = rollMode == 0 ? "BASELINE" : rollMode == 1 ? "90 deg CLOCKWISE" : "90 deg COUNTERCLOCKWISE";
+        string rollLabel = rollMode == 0 ? "BASELINE" : rollMode == 1 ? "PORTRAIT FIX (CW90)" : "90 deg COUNTERCLOCKWISE";
         if (GUI.Button(new Rect(roll.x / scale, roll.y / scale, roll.width / scale, roll.height / scale),
-            "View rotation test: " + rollLabel, style)) ToggleRoll();
+            "View registration: " + rollLabel, style)) ToggleRoll();
         GUI.enabled = true;
         GUI.matrix = previous;
     }
