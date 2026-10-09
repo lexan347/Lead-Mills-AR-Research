@@ -8,7 +8,7 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Next: detect a real horizontal plane and place one simple test object before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
+**Current stage:** native camera POC confirmed October 8 on iPhone 14 Pro / iOS 27.0.1 after correcting the Build Profiles scene and making a fresh export. On October 9, the user confirmed that clockwise 90° camera-view registration fixed mesh/plane alignment and that the anchored cube stayed in place. This is the first user-verified stable portrait scan → surface → anchor trial. The readiness gate checks level, local LiDAR coverage, temporal stability and viewpoint change. The tested portrait view is now the installed startup default. The fresh trial confirms the orientation fix but reports small residual mesh/cube drift during tilt and movement. Refine steady registration and verify surface contact before a simple Lead Mills asset. Other orientations/devices, persistent/geospatial anchors, surveyed accuracy and field validation remain pending.
 
 | Section | What you will find |
 |---|---|
@@ -20,6 +20,7 @@ Updated October 8, 2026. This repository follows the documentation-first and evi
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
 | [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
+| [Horizontal-plane test](unity/PLANE_PLACEMENT_TEST.md) | LiDAR scan → surface → anchor POC, failed stability trials and acceptance procedure |
 | [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |

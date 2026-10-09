@@ -73,9 +73,23 @@ Enable only `Assets/Scenes/LeadMills_AR_POC.unity` in iOS Build Profiles and unc
 ## D-011 — horizontal-plane placement before historical assets
 
 **Date:** 2026-10-08<br>
-**Status:** Accepted; implementation pending
+**Status:** Implemented; stable device placement still pending
 
 With the native camera pipeline working, next detect a real horizontal surface and place one simple test object. Establish stable placement/tracking before importing Lead Mills site assets or integrating geospatial providers. This camera milestone does not close Android, WebAR, or field-validation gates.
+
+## D-012 — session-space plane placement for the next POC
+
+**Date:** 2026-10-08<br>
+**Status:** Both initial and plane-anchor device trials failed stability
+
+Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing XR Origin. Accept only hits inside an upward horizontal plane's polygon while it is tracking; place one orange 20 cm cube with its bottom at the hit surface. The first device build used session coordinates under the trackables parent. After the user reported unstable placement, revise this to attach an AR anchor to the detected plane and parent the cube to that anchor. Show anchor tracking and log camera/anchor poses for the repeat test. The user again reported sliding relative to a floor landmark after the anchor revision. This is a session-local anchor; the cause of instability is not established. Do not claim persistent/geospatial anchoring from this test. Visualize detected planes in blue, display tracking feedback, and provide a reset control. Read both placement and reset touches through the existing Input System-only configuration. Preserve a scene backup and use a fresh iOS development export for testing. Source/setup are in [the plane test guide](unity/PLANE_PLACEMENT_TEST.md).
+
+## D-013 — LiDAR scan preview before surface selection and anchoring
+
+**Date:** 2026-10-08<br>
+**Status:** Accepted interaction; scan-first rendering verified; physical alignment failed
+
+Follow the user's Polycam capture reference with live triangle-edge feedback before placement. Use AR Mesh Manager on an XR Origin child, keep horizontal-plane detection active during scanning, and attach an anchor only after the user selects a tracked plane. Require at least one mesh patch; this is a basic readiness gate, not proof of full room coverage or alignment accuracy. Hide scan overlays while inspecting the anchored cube and restore them on reset. Retain shaded cube faces and a virtual green footprint for contact observation. The current trial requires LiDAR and does not add saved scans, texturing, persistent anchors, or surveyed control. Unity's [ARKit meshing documentation](https://docs.unity3d.com/Packages/com.unity.xr.arkit@6.3/manual/arkit-meshing.html) supports combined meshing/plane detection; it does not establish that mesh visualization resolves the reported drift.
 
 ## Open decisions
 
@@ -85,3 +99,25 @@ With the native camera pipeline working, next detect a real horizontal surface a
 - Historical reconstruction source and uncertainty notation.
 - License for original code, models, and documentation.
 - Long-term hosting and offline behavior after graduation.
+
+## D-014 — measured surface readiness before placement
+
+**Date:** 2026-10-08
+**Status:** Implemented; device acceptance pending
+
+Replace D-013's one-patch gate with tracked/level/size checks, local mesh coverage, three seconds of bounded plane changes, and a 15 cm viewpoint change. Reveal blue planes only after qualification; recheck readiness and mesh support at the actual tap before attaching an anchor. Reset restarts qualification. Exact provisional thresholds and limitations are in [the test guide](unity/PLANE_PLACEMENT_TEST.md). Internal mesh/plane agreement cannot certify physical camera registration. Keep the user's reported mesh sliding as a failed acceptance criterion even when readiness passes. Do not flatten reconstructed room geometry onto an assumed floor or apply an unexplained 90° correction.
+
+## D-015 — verified portrait camera-view registration
+
+**Date:** 2026-10-09
+**Status:** User-verified in diagnostic build; promoted default repeat pending
+
+Use clockwise 90° common-view registration in the portrait POC after the user's confirmations that it fixed mesh/plane alignment and the cube stays in place. Keep provider geometry/world gravity unchanged and use the displayed-camera world ray for placement. Fix app display to portrait until other orientations receive physical validation. Preserve rollback comparisons. This is an observed effective correction, without an independently established vendor-level cause, measured drift, persistent anchors or field accuracy. Repeat the default-build/contact trial before site assets.
+
+## D-016 — three-point multi-view calibration before stable-placement acceptance
+
+October 9: user requested repeated three-point calibration and anchor testing after both pose modes showed drift. Fit one projection focal scale from two views of three physical floor marks; require sufficient perspective change and a third-view holdout before allowing an anchor at A. Keep native projection as the default/fallback, retain portrait/CW90 and provider geometry, and clear calibration on interrupted tracking or configuration changes. No arbitrary smoothing or frozen world geometry. Device acceptance remains pending.
+
+## D-017 — selectable real-landmark trials and reversible point capture
+
+October 9: user requested one-, two- and three-point calibration plus Undo. Use one real landmark as the simpler default; two points add a span check and three add a triangle check. All modes retain sufficient-perspective conditioning and an independent third-view holdout before anchoring. Pause each captured view for review/Continue; Undo removes the last observation, reopens its view and invalidates dependent fits/placement while preserving earlier points. Changing count starts a new trial. Explicitly distinguish physical image landmarks from virtual reference circles. Earlier circle-target repeats cannot establish a physical zoom/floor-height cause. Preserve native camera-image mapping until a separately validated background/projection change is available.
