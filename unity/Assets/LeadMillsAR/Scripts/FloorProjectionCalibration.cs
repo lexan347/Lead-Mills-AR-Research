@@ -48,8 +48,29 @@ public static class FloorProjectionCalibration
         return Mathf.Sqrt(squared / 3);
     }
 
+    public enum Rejection { None, InvalidGeometry, ScaleBoundary, WeakView, Residual, NoImprovement, SmallTriangle }
+    public struct FitReport
+    {
+        public Rejection rejection;
+        public float scale, rms, baseline, sensitivityMinus, sensitivityPlus, area;
+        public float errorA, errorB, errorC;
+        public int WorstPoint => errorA >= errorB && errorA >= errorC ? 0 : errorB >= errorC ? 1 : 2;
+        public float WorstError => Mathf.Max(errorA, Mathf.Max(errorB, errorC));
+        public override string ToString() => $"reason {rejection}; scale {scale:F5}; RMS {rms:F2}px; baseline {baseline:F2}px; sensitivity {sensitivityMinus:F2}/{sensitivityPlus:F2}px; area {area:F5}m2; A/B/C {errorA:F2}/{errorB:F2}/{errorC:F2}px";
+    }
+    public static float PointError(Observation observation, Vector3 point, float scale)
+    {
+        var clip = Scaled(observation.projection, scale) * observation.view * new Vector4(point.x, point.y, point.z, 1);
+        if (clip.w <= 0) return float.PositiveInfinity;
+        var uv = new Vector2(clip.x / clip.w + 1, clip.y / clip.w + 1) * 0.5f;
+        return Vector2.Scale(uv - observation.viewport, observation.pixels).magnitude;
+    }
     public static bool Solve(Observation[] first, Observation[] repeat, Plane floor,
-        out float scale, out float error, out float baseline, out Vector3[] points)
+        out float scale, out float error, out float baseline, out Vector3[] points) =>
+        Solve(first, repeat, floor, out scale, out error, out baseline, out points, out _);
+
+    public static bool Solve(Observation[] first, Observation[] repeat, Plane floor,
+        out float scale, out float error, out float baseline, out Vector3[] points, out FitReport report)
     {
         baseline = Error(first, repeat, floor, 1, out points);
         scale = 1;
@@ -69,13 +90,26 @@ public static class FloorProjectionCalibration
         }
         scale = (lo + hi) * 0.5f;
         error = Error(first, repeat, floor, scale, out points);
-        // A low residual alone can hide an unobservable focal scale. Require
-        // a 10% zoom change either way to produce a measurable image difference.
-        if (Error(first, repeat, floor, scale - 0.1f, out _) - error < 5f ||
-            Error(first, repeat, floor, scale + 0.1f, out _) - error < 5f) return false;
-        if (baseline <= 8f) { scale = 1; error = baseline; Error(first, repeat, floor, scale, out points); }
-        if (float.IsNaN(error) || float.IsInfinity(error) || error > 12 || scale <= 0.52f || scale >= 1.48f) return false;
-        if (scale != 1 && error > baseline * 0.75f) return false;
-        return Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f >= 0.02f;
+        report = new FitReport {
+            scale = scale, rms = error, baseline = baseline,
+            sensitivityMinus = Error(first, repeat, floor, scale - 0.1f, out _) - error,
+            sensitivityPlus = Error(first, repeat, floor, scale + 0.1f, out _) - error,
+            area = Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f,
+            errorA = PointError(repeat[0], points[0], scale),
+            errorB = PointError(repeat[1], points[1], scale),
+            errorC = PointError(repeat[2], points[2], scale)
+        };
+        if (float.IsNaN(error) || float.IsInfinity(error)) report.rejection = Rejection.InvalidGeometry;
+        else if (error > 12) report.rejection = Rejection.Residual;
+        else if (scale <= 0.52f || scale >= 1.48f) report.rejection = Rejection.ScaleBoundary;
+        else if (report.sensitivityMinus < 5 || report.sensitivityPlus < 5) report.rejection = Rejection.WeakView;
+        else if (baseline > 8 && error > baseline * 0.75f) report.rejection = Rejection.NoImprovement;
+        else
+        {
+            if (baseline <= 8) { scale = 1; error = baseline; Error(first, repeat, floor, scale, out points); }
+            report.area = Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f;
+            if (report.area < 0.02f) report.rejection = Rejection.SmallTriangle;
+        }
+        return report.rejection == Rejection.None;
     }
 }
