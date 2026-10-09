@@ -1,14 +1,14 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026, approximately 09:06 EDT. Numbered three-point calibration build0001 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026, approximately 09:29 EDT. Guided three-point calibration build0002 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active installed implementation: three-point calibration and traceability (`0062284`), version 0.3.0/build0001; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/LMAR_v0.3.0_b0001_20261009T125016Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `LMAR_v0.3.0_b0001_native-build.log`; console log: `LMAR_v0.3.0_b0001_device-session_20261009T1306Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
-- Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
+- Active installed implementation: guided calibration markers/pose guidance (`79eb153`), version 0.3.1/build0002; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/LMAR_v0.3.1_b0002_20261009T132506Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `LMAR_v0.3.1_b0002_native-build.log`; console log: `LMAR_v0.3.1_b0002_device-session_20261009T132901Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs`, `CameraRegistrationComparison.cs`, `ThreePointFloorCalibration.cs`, `FloorProjectionCalibration.cs` and `TrialTrace.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
 - Portrait orientation correction is user-verified. The subsequent default-build trial reports small shared mesh/cube drift with tilt/movement; steady physical registration remains open. Quantitative drift, exact contact, other orientations and field accuracy remain unmeasured.
@@ -123,3 +123,9 @@ Latest pause checkpoint: source `0062284` contains three-point calibration plus 
 User unlocked Mac; Unity export `Builds/LMAR_v0.3.0_b0001_20261009T125016Z` succeeded with version 0.3.0/build 1, embedded source `0062284`, and passing synthetic calibration checks. Native Debug build, installation and launch succeeded at approximately 09:06 EDT. Manifest restored from the embedded identity after Unity cleared its prewritten copy; exporter fix `54a3d55` saves future manifests after export. Installed app version/build fields verified as 0.3.0/1; startup confirms the three-point component. No attempt001 or physical calibration acceptance is claimed.
 
 Latest photos establish an apparent floor-contact discrepancy in the older app. Cube bottom meets the estimated anchor plane by construction; physical plane height/image registration remain unmeasured. Do not force world Y=0 as a floor datum. First numbered calibration attempt and private record persistence are awaiting user trial.
+
+## Guided calibration deployment — 09:29 EDT
+
+Version 0.3.1 / build 0002 (`79eb153`) compiled, passed existing synthetic calibration checks, exported with preserved manifest, completed native Debug build, installed and launched. App fields/embedded ID verified. Adds native-plane anchored 5 cm A red/B yellow/C bright-green rings and labels; accepted repeat touches thicken rings, candidate fitting rebuilds their world locations. Panel shows movement toward 25 cm, suggested tilt-up/down change 15 degrees, closer/away guidance outside 0.6–2.5 m. Hints are advisory; numerical fit/holdout unchanged. Marker appearance/directions/physical stability await user verification. Build 0001 records recovered: 19 attempts, including 4 small-triangle and 3 uncertain-fit rejections; creation/update/retrieval verified. Raw records remain private.
+
+After replacing and relaunching the app, all 19 prior build0001 records and its counter were copied back unchanged. Storage survived this app update/relaunch; the new build uses its own attempt counter.
