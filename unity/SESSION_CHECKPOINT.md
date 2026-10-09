@@ -1,6 +1,6 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; physical repeat is pending. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
@@ -11,7 +11,7 @@ Updated: October 9, 2026. User verified CW90 portrait alignment and a cube stayi
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
-- Physical mesh/plane alignment and stable cube placement are user-verified in the CW90 portrait trial. Quantitative drift, exact contact, other orientations and field accuracy remain unmeasured.
+- Portrait orientation correction is user-verified. The subsequent default-build trial reports small shared mesh/cube drift with tilt/movement; steady physical registration remains open. Quantitative drift, exact contact, other orientations and field accuracy remain unmeasured.
 
 ## Resume in order
 
@@ -19,7 +19,7 @@ Updated: October 9, 2026. User verified CW90 portrait alignment and a cube stayi
 2. Verify Unity is on the correct local project and scene, Xcode is available, and `xcrun devicectl list devices` reports the intended physical phone connected. Resolve device trust/unlock only if needed.
 3. Check whether the installed app is running before launching it. Reattach the console if possible; if a fresh launch is necessary, record it as a new session. A new app/session has no saved scan or anchor.
 4. Preserve previous logs, then write a new timestamped device log. Device console process/session IDs are ephemeral: rediscover them after an interruption.
-5. Verify the promoted portrait/CW90 default on fresh launch, then repeat the fixed-landmark and floor-contact check before importing one Lead Mills asset. Judge registration against physical landmarks, not just internal readiness/tracking flags.
+5. Keep portrait/CW90; diagnose residual shared mesh/cube drift using stationary hold, tilt and translation trials before site-asset import. Judge registration against physical landmarks, not just internal readiness/tracking flags.
 6. Update the daily log and this checkpoint at significant build/deploy/test changes, commit/push the source and observations, and keep the PR draft until physical acceptance passes.
 
 ## Interruption boundaries
@@ -63,3 +63,17 @@ Latest user result October 9: CW90 fixes mesh/plane alignment; cube also stays i
 Fresh export **`Builds/iOS_PlanePlacement_20261009_071607`** completed Xcode Debug build, installation and launch on the physical iPhone 14 Pro. Startup console confirms **Input System / SRP batching ON / view roll 90° / Portrait** without a manual mode change. Current frames and matching frame projection were received; the intentional render-time camera/input rotation difference is 90°. Private logs: `portrait-default-xcodebuild.log` and `portrait-default-device-20261009.log` in this export. This is a new AR session; prior scan/placement was cleared. No phone screen sharing was enabled.
 
 The user’s earlier confirmation establishes physical alignment and a cube staying in place in the corrected portrait trial. Fresh-default 30–60-second landmark/contact confirmation is requested separately; runtime startup alone does not establish that repeat. Next, after that check, introduce one simple Lead Mills asset.
+
+## Default-build movement refinement — October 9, 07:29 recording
+
+Reviewed the private `07-29-40` recording, **33.18 s**, using five-second frame samples. CW90/Portrait, Input System and SRP batching ON remain active. Sample 0 shows 13 meshes and Ready 0/1; sample 10 shows Ready 1/1 and the blue surface. Samples 20–30 show the orange cube/green footprint with scan overlays hidden and Anchor Tracking. The recording supports automatic startup correction, qualification and anchored placement. It does not measure drift in centimeters or establish exact floor contact.
+
+The user confirms the orientation fix, but reports that the registered mesh shifts away during tilt/movement and the cube shifts slightly too: “100 times better,” but still needing refinement to stay steady and fixed. This qualifies the earlier stable-cube confirmation: **orientation correction accepted; residual movement stability not accepted**. Keep CW90 and portrait. Do not claim the comparative phrase as a measured 100-fold accuracy improvement. Site-asset import stays behind the stability gate.
+
+Code inspection confirms the cube is already parented to an ARAnchor attached to the hit plane; native mesh patches remain in the tracked world hierarchy. Both shifting suggests a shared tracking/image-registration contribution, but does not establish its cause. Internal tracking status and matching raw pose/projection cannot certify physical registration. A frozen transform or smoothed camera could conceal motion or add lag, so no speculative stabilization change is introduced by this review.
+
+Next isolate a stationary hold, tilt with minimal translation, and sideways translation against the same floor landmark. Record whether displacement recovers when motion stops (possible timing/render registration) or persists (possible tracking/map refinement), then compare the existing Input System/XR camera controls with CW90 and batching unchanged. Switching pose clears placement and requires a fresh scan. These outcomes are hypotheses until tested. Keep room media and full device logs private.
+
+Follow-up: the user confirms the mesh/cube **remain shifted when the phone is held still**. Residual drift is persistent in this trial, not reported as recovering after a few seconds. This does not by itself distinguish world-map drift, calibration error, plane refinement or render registration.
+
+Inspection of the default-build console found two separate placements whose centimeter-rounded anchor positions changed about 1–2 cm vertically in sampled output. Later, a background/foreground transition was followed by SessionInitializing/Anchor Limited and a larger anchor-height change. The log has no synchronized recording timestamps, so neither event is established as the cause of the 07:29 video’s drift. Do not conflate separate placements or the later resume episode. Next instrumentation should record high-precision anchor pose deltas, session transitions and monotonic camera-frame times to correlate against recorded movement.
