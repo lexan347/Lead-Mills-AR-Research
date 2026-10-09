@@ -62,7 +62,7 @@
     "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
     "recovery": "October 9 12:02 EDT: physical iPhone reconnected by cable; saved signed build0003 installed without re-export, launched as a fresh AR session and private console logging restored.",
     "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified.",
-    "threePointCalibration": "Diagnostic LMAR_v0.3.2_b0003 installed/launched October 9 at 12:02 EDT after cable reconnection; phone app inventory confirms 0.3.2/3 and runtime component startup verified. Separate View 2 circles and precise fit/retry feedback await user trial; physical acceptance pending.",
+    "threePointCalibration": "Build0003 marker sets and rejection UI verified in user photos. Completed repeat fits rejected on residual (a009 RMS24.76px >12), so Anchor at A remains gated; no independent holdout acceptance. Offline floor-height hypothesis under investigation; no correction or threshold relaxation applied.",
     "floorContact": "User reports cube/footprint above physical floor; latest photos reviewed. Estimated-plane height versus projection discrepancy unresolved; world Y=0 is not a measured floor datum.",
     "testRecords": "19 build0001 attempts recovered privately: record creation/update/retrieval verified; include 4 small-triangle and 3 uncertain-fit rejections."
   },

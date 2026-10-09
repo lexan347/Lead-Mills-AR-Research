@@ -141,3 +141,7 @@ Native Debug build succeeded. Saved signed `Products/LeadMillsARPOC.app` inside 
 ## Diagnostic build0003 deployed — 12:02 EDT
 
 After cable reconnection, the intended physical iPhone was connected. Installed the saved signed app from the numbered export Products folder and launched a fresh AR session. Device app inventory verifies version 0.3.2 / bundle version 3; startup confirms the calibration component. Source `a395884`; no re-export needed. Private console filename records actual UTC launch time. Separate View 2 circles, rejection guidance, retry behavior and physical registration remain awaiting user trial. Older pending-connection entries are historical.
+
+## Latest build0003 trial outcome
+
+User could not Anchor at A. IMG_7609–7611 verify both marker sets and rejection UI; a009 RMS24.76px exceeds12px gate (B34.09px). All three completed repeat fits in recovered attempts are residual failures despite adequate sensitivity; no candidate/independent holdout acceptance. Offline floor-offset experiments suggest model sensitivity to floor height (a009 about7.2px versus24.76px), but other trials remain above threshold and no offset is applied. Verify real-landmark versus virtual-circle correspondence before interpreting this as floor/tracking calibration. Marker visibility is now device-evidenced; anchoring after calibration and physical steadiness remain open.
