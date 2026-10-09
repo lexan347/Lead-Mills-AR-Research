@@ -5,9 +5,9 @@ Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not a
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active implementation: camera registration comparisons (`6a4dd69`), deployed in export `20261009_065219`. Earlier readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_065219`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `comparison-xcodebuild.log`; console log: `comparison-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active implementation: opt-in view-roll comparisons (`78dbaca`), deployed in export `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_070358`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `view-roll-xcodebuild.log`; console log: `view-roll-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -53,3 +53,5 @@ Added `CameraRegistrationComparison.cs` on the AR camera at runtime, with indepe
 Latest active build: comparison export `20261009_065219` built/installed/launched successfully. Its console confirms ARKit/colorCamera available and matching baseline pose values (0°/0 m in samples). Pose Input System, batching ON, portrait at startup. Next pending user test: fixed-landmark slow pan with batching ON → OFF → ON, leaving pose unchanged. Comparison tool session 71973 is ephemeral; rediscover connection if interrupted. Physical registration remains failed until repeat evidence establishes otherwise.
 
 Active follow-up: user suggests 90° clockwise mesh orientation. Added an opt-in common-view roll test (baseline/CW90/CCW90), with placement ray following the displayed view. Default baseline; prior cube removed on mode change. Unity export `20261009_070358` succeeded; native build/deployment pending. Keep earlier comparison logs. The user has not supplied a completed SRP-batching comparison result.
+
+Latest device checkpoint: roll-test export `20261009_070358` built/installed/launched at 07:09 EDT. Startup Input System, SRP ON, roll 0°, Portrait, alternate ARKit/colorCamera matching. Pending user trial: tap view-rotation once for CW90, pan right/tilt down against a fixed landmark; assess mesh/plane then cube contact/stability. Current console tool session 87242 is ephemeral. No phone screen sharing enabled. Physical acceptance remains failed/pending repeat.
