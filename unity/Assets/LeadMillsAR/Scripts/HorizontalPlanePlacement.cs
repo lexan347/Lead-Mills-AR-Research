@@ -19,13 +19,17 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     GameObject placedCube;
     ARAnchor placedAnchor;
     float nextPoseLog;
+    Vector3 anchorStartLocalPosition;
+    Quaternion anchorStartLocalRotation;
     string feedback = "Move slowly over a textured table or floor.";
     GUIStyle labelStyle;
     GUIStyle buttonStyle;
     int trackedPlanes;
     ARCameraManager cameraManager;
     CameraRegistrationComparison comparison;
-    Matrix4x4 frameProjection;
+    Matrix4x4 frameProjection, frameDisplay;
+    bool hasFrameDisplay;
+    long frameTimestampNs;
     bool hasFrameProjection;
     float lastCameraFrameTime;
     float nextAlignmentLog;
@@ -122,6 +126,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     void OnCameraFrame(ARCameraFrameEventArgs frame)
     {
         lastCameraFrameTime = Time.unscaledTime;
+        frameTimestampNs = frame.timestampNs ?? -1;
+        hasFrameDisplay = frame.displayMatrix.HasValue;
+        if (hasFrameDisplay) frameDisplay = frame.displayMatrix.Value;
         if (frame.projectionMatrix.HasValue)
         {
             frameProjection = frame.projectionMatrix.Value;
@@ -155,6 +162,15 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         var driver = camera.GetComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>();
         string rotationControl = driver && driver.rotationInput.action != null
             ? driver.rotationInput.action.activeControl?.path ?? "None" : "Missing";
+        string intrinsics = cameraManager && cameraManager.TryGetIntrinsics(out var calibration)
+            ? $"sensor {calibration.resolution}; focal {calibration.focalLength.ToString("F3")}; principal {calibration.principalPoint.ToString("F3")}" : "intrinsics unavailable";
+        // Provider pose agreement does not audit the image crop/projection.
+        // Keep the full matrices and frame timestamp local for calibration review.
+        Debug.Log($"[Lead Mills Calibration] t {Time.unscaledTime:F3}; frame ns {frameTimestampNs}; " +
+            $"screen {Screen.width}x{Screen.height}; pixel rect {camera.pixelRect}; {intrinsics}; " +
+            $"projection {frameProjection.ToString("F5")}; display received {hasFrameDisplay}; " +
+            $"display {frameDisplay.ToString("F5")}; camera world position {camera.transform.position.ToString("F5")}; " +
+            $"camera world rotation {camera.transform.rotation.ToString("F5")}.");
         Debug.Log($"[Lead Mills Alignment] {poseComparison}; projection received {hasFrameProjection}; " +
             $"projection delta {projectionDelta:F5}; camera frame age {Time.unscaledTime - lastCameraFrameTime:F3} s; " +
             $"camera local rotation {camera.transform.localEulerAngles}; origin scale {origin.transform.lossyScale}; " +
@@ -199,9 +215,14 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         // distinguish camera input failure from an evolving AR world estimate.
         if (placedAnchor && Time.unscaledTime >= nextPoseLog)
         {
-            nextPoseLog = Time.unscaledTime + 5f;
+            nextPoseLog = Time.unscaledTime + 1f;
             Debug.Log($"[Lead Mills Placement] Anchor {placedAnchor.trackingState}; " +
-                $"anchor pose {placedAnchor.transform.position}; camera pose {origin.Camera.transform.position}; " +
+                $"t {Time.unscaledTime:F3}; frame ns {frameTimestampNs}; anchor {placedAnchor.trackableId}; " +
+                $"anchor pose {placedAnchor.transform.position.ToString("F5")}; " +
+                $"anchor local {placedAnchor.transform.localPosition.ToString("F5")}; " +
+                $"local delta {Vector3.Distance(anchorStartLocalPosition, placedAnchor.transform.localPosition):F5} m; " +
+                $"local rotation delta {Quaternion.Angle(anchorStartLocalRotation, placedAnchor.transform.localRotation):F4} deg; " +
+                $"camera pose {origin.Camera.transform.position.ToString("F5")}; " +
                 $"session {ARSession.state}; reason {ARSession.notTrackingReason}.");
         }
 
@@ -276,6 +297,8 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
                 Debug.LogWarning("[Lead Mills Placement] Plane anchor creation failed.");
                 return;
             }
+            anchorStartLocalPosition = placedAnchor.transform.localPosition;
+            anchorStartLocalRotation = placedAnchor.transform.localRotation;
             // Anchor sits on the surface; cube pivot is at its center.
             placedCube = Instantiate(cubePrefab, placedAnchor.transform, false);
             placedCube.transform.localPosition = Vector3.up * 0.10f;
