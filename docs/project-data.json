@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-08",
   "stage": "First successful native AR proof of concept",
-  "status": "First native AR POC verified: iPhone 14 Pro / iOS 27.0.1 camera permission and live feed working. Next: horizontal-plane detection and simple test-object placement.",
+  "status": "Native AR camera, horizontal-plane rendering and anchor creation verified on iPhone 14 Pro. Stability failed; next: LiDAR scan \u2192 surface selection \u2192 anchor test.",
   "phases": [
     {
       "name": "Repository",
@@ -33,8 +33,10 @@
     "surveyedAnchor": false,
     "fieldValidated": false,
     "deploymentScope": "Personal Team development install on physical iPhone only; no public release",
-    "planeDetection": false,
-    "objectPlacement": false
+    "planeDetection": true,
+    "objectPlacement": true,
+    "stablePlacement": false,
+    "lidarPreviewDeviceVerified": false
   },
   "stoppingPoint": {
     "date": "2026-10-08",
@@ -48,7 +50,9 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Detect a real horizontal plane and place one simple test object; verify placement/tracking before importing Lead Mills site assets"
+    "nextAction": "Test LiDAR triangles \u2192 horizontal-surface selection \u2192 plane anchor, reset and physical landmark alignment before importing site assets",
+    "placement": "Cube/plane rendering and anchor creation observed; both stability trials failed",
+    "lidarRevision": "Compiled and exported; device acceptance pending"
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

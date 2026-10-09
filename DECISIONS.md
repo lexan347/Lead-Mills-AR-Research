@@ -80,9 +80,16 @@ With the native camera pipeline working, next detect a real horizontal surface a
 ## D-012 — session-space plane placement for the next POC
 
 **Date:** 2026-10-08<br>
-**Status:** First device trial failed stability; anchor revision pending retest
+**Status:** Both initial and plane-anchor device trials failed stability
 
-Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing XR Origin. Accept only hits inside an upward horizontal plane's polygon while it is tracking; place one orange 20 cm cube with its bottom at the hit surface. The first device build used session coordinates under the trackables parent. After the user reported unstable placement, revise this to attach an AR anchor to the detected plane and parent the cube to that anchor. Show anchor tracking and log camera/anchor poses for the repeat test. This is a session-local anchor; the cause of the first trial’s instability is not yet established. Do not claim persistent/geospatial anchoring from this test. Visualize detected planes in blue, display tracking feedback, and provide a reset control. Read both placement and reset touches through the existing Input System-only configuration. Preserve a scene backup and use a fresh iOS development export for testing. Source/setup are in [the plane test guide](unity/PLANE_PLACEMENT_TEST.md).
+Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing XR Origin. Accept only hits inside an upward horizontal plane's polygon while it is tracking; place one orange 20 cm cube with its bottom at the hit surface. The first device build used session coordinates under the trackables parent. After the user reported unstable placement, revise this to attach an AR anchor to the detected plane and parent the cube to that anchor. Show anchor tracking and log camera/anchor poses for the repeat test. The user again reported sliding relative to a floor landmark after the anchor revision. This is a session-local anchor; the cause of instability is not established. Do not claim persistent/geospatial anchoring from this test. Visualize detected planes in blue, display tracking feedback, and provide a reset control. Read both placement and reset touches through the existing Input System-only configuration. Preserve a scene backup and use a fresh iOS development export for testing. Source/setup are in [the plane test guide](unity/PLANE_PLACEMENT_TEST.md).
+
+## D-013 — LiDAR scan preview before surface selection and anchoring
+
+**Date:** 2026-10-08<br>
+**Status:** Accepted interaction; implemented/exported, device acceptance pending
+
+Follow the user's Polycam capture reference with live triangle-edge feedback before placement. Use AR Mesh Manager on an XR Origin child, keep horizontal-plane detection active during scanning, and attach an anchor only after the user selects a tracked plane. Require at least one mesh patch; this is a basic readiness gate, not proof of full room coverage or alignment accuracy. Hide scan overlays while inspecting the anchored cube and restore them on reset. Retain shaded cube faces and a virtual green footprint for contact observation. The current trial requires LiDAR and does not add saved scans, texturing, persistent anchors, or surveyed control. Unity's [ARKit meshing documentation](https://docs.unity3d.com/Packages/com.unity.xr.arkit@6.3/manual/arkit-meshing.html) supports combined meshing/plane detection; it does not establish that mesh visualization resolves the reported drift.
 
 ## Open decisions
 

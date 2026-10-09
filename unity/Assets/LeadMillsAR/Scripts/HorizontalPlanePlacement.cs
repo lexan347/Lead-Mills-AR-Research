@@ -11,6 +11,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     [SerializeField] ARPlaneManager planeManager;
     [SerializeField] ARRaycastManager raycastManager;
     [SerializeField] ARAnchorManager anchorManager;
+    [SerializeField] LiDARMeshPreview meshPreview;
     [SerializeField] XROrigin origin;
     [SerializeField] GameObject cubePrefab;
     readonly List<ARRaycastHit> hits = new List<ARRaycastHit>();
@@ -23,33 +24,39 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     int trackedPlanes;
 
     public void Configure(ARPlaneManager planes, ARRaycastManager raycasts,
-        ARAnchorManager anchors, XROrigin xrOrigin, GameObject cube)
+        ARAnchorManager anchors, LiDARMeshPreview preview, XROrigin xrOrigin, GameObject cube)
     {
         planeManager = planes;
         raycastManager = raycasts;
         anchorManager = anchors;
+        meshPreview = preview;
         origin = xrOrigin;
         cubePrefab = cube;
     }
 
     void Start()
     {
-        if (!planeManager || !raycastManager || !anchorManager || !origin || !cubePrefab)
+        if (!planeManager || !raycastManager || !anchorManager || !meshPreview || !origin || !cubePrefab)
         {
             Debug.LogError("[Lead Mills Placement] Missing setup reference.");
             enabled = false;
             return;
         }
-        Debug.Log("[Lead Mills Placement] Plane-anchor test ready; cube size 0.20 m.");
+        Debug.Log("[Lead Mills Placement] LiDAR scan-to-plane-anchor test ready; cube size 0.20 m.");
     }
 
     void Update()
     {
+        meshPreview.SetVisible(placedCube == null);
         trackedPlanes = 0;
         foreach (var plane in planeManager.trackables)
+        {
+            var surface = plane.GetComponent<MeshRenderer>();
+            if (surface) surface.enabled = placedCube == null;
             if (plane.alignment == PlaneAlignment.HorizontalUp &&
                 plane.trackingState == TrackingState.Tracking && plane.subsumedBy == null)
                 trackedPlanes++;
+        }
 
         // Log camera motion alongside anchor pose so a new device trial can
         // distinguish camera input failure from an evolving AR world estimate.
@@ -83,6 +90,11 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         if (placedCube || ARSession.state != ARSessionState.SessionTracking)
             return;
 
+        if (meshPreview.MeshCount == 0)
+        {
+            feedback = "Scan slowly until LiDAR triangles appear before placing.";
+            return;
+        }
         if (!raycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
         {
             feedback = "Tap inside a detected blue surface.";
@@ -114,7 +126,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             placedCube.transform.localPosition = Vector3.up * 0.10f;
             placedCube.transform.localRotation = Quaternion.identity;
             placedCube.name = "Lead Mills Test Cube (20 cm)";
-            feedback = "Walk slowly around the cube. Check its floor position.";
+            feedback = "Keep cube in view. Move 20 cm sideways and back.";
             Debug.Log($"[Lead Mills Placement] Cube attached to plane {hit.trackableId}; " +
                 $"anchor {placedAnchor.trackableId}; pose {hit.pose.position}.");
             return;
@@ -164,11 +176,12 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         hud = new Rect(hud.x / scale, hud.y / scale, hud.width / scale, hud.height / scale);
         GUI.Box(hud, GUIContent.none);
         GUI.Label(new Rect(hud.x + 12, hud.y + 8, hud.width - 24, 30),
-            $"Horizontal planes: {trackedPlanes}  |  {ARSession.state}", labelStyle);
+            $"Meshes: {meshPreview.MeshCount} | Planes: {trackedPlanes} | {ARSession.state}", labelStyle);
         string instruction = ARSession.state != ARSessionState.SessionTracking
             ? "Tracking is starting or limited. Move slowly in good light."
-            : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : trackedPlanes > 0
-                ? "Tap a blue surface to place the 20 cm cube." : feedback;
+            : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : meshPreview.MeshCount == 0
+                ? "Scan slowly until LiDAR triangles appear." : trackedPlanes > 0
+                ? "Tap a blue horizontal surface to anchor the cube." : feedback;
         GUI.Label(new Rect(hud.x + 12, hud.y + 42, hud.width - 24, 76), instruction, labelStyle);
         GUI.enabled = placedCube != null;
         if (GUI.Button(new Rect(hud.x + 12, hud.y + 126, hud.width - 24, 46),

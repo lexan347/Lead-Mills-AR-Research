@@ -41,3 +41,7 @@ The first native test is iPhone-only. Additional Android/platform modules and po
 | Export procedure | New folder such as `Builds/iOS_Diagnostic`; open its generated `Unity-iPhone.xcodeproj` |
 
 The earlier iOS 26.7.1 target is retained in the October 6 historical log; the actual installed device baseline is iOS 27.0.1. This is a session-recorded camera/AR pipeline success, not plane-placement, geospatial, or cross-platform validation. See the [iOS setup and troubleshooting](../unity/IOS_SETUP.md).
+
+## Phone scanning reference
+
+Polycam is present on the iPhone: October 8 user pictures show live room capture with a triangle mesh overlay. Its exact version/license and a completed scan/export are not established. It is an interaction reference for the local Unity LiDAR scan-first trial, not a Unity dependency or imported room asset. The Unity trial uses the existing AR Foundation / ARKit 6.3.5 baseline; mesh-preview acceptance is still pending.

@@ -8,7 +8,7 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Next: detect a real horizontal plane and place one simple test object before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
+**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Plane/cube rendering and anchor creation are now observed, but stability failed. Next: test the Polycam-inspired LiDAR scan → horizontal surface → anchor flow and floor alignment before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
 
 | Section | What you will find |
 |---|---|
@@ -20,7 +20,7 @@ Updated October 8, 2026. This repository follows the documentation-first and evi
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
 | [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
-| [Horizontal-plane test](unity/PLANE_PLACEMENT_TEST.md) | Implemented tap-placement POC and pending device acceptance procedure |
+| [Horizontal-plane test](unity/PLANE_PLACEMENT_TEST.md) | LiDAR scan → surface → anchor POC, failed stability trials and acceptance procedure |
 | [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |

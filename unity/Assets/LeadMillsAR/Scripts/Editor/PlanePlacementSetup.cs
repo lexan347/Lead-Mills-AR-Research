@@ -25,7 +25,7 @@ public static class PlanePlacementSetup
         AssetDatabase.Refresh();
 
         var planeMaterial = MakeMaterial(Root + "/Materials/DetectedPlane.mat", new Color(0.05f, 0.6f, 1f, 0.28f), true);
-        var cubeMaterial = MakeMaterial(Root + "/Materials/TestCube.mat", new Color(1f, 0.42f, 0.06f, 1f), false);
+        var cubeMaterial = MakeMaterial(Root + "/Materials/TestCube.mat", new Color(1f, 0.42f, 0.06f, 1f), false, true);
         var planeObject = new GameObject("Detected Horizontal Plane");
         planeObject.AddComponent<ARPlane>();
         planeObject.AddComponent<MeshFilter>();
@@ -39,6 +39,26 @@ public static class PlanePlacementSetup
         cubeObject.transform.localScale = Vector3.one * 0.2f;
         Object.DestroyImmediate(cubeObject.GetComponent<Collider>());
         cubeObject.GetComponent<MeshRenderer>().sharedMaterial = cubeMaterial;
+        // Outline the cube footprint at 2 mm above the estimated plane.
+        // It is a virtual contact reference, not a measured physical marker.
+        var outlineMaterial = MakeMaterial(Root + "/Materials/ContactOutline.mat",
+            new Color(0.1f, 1f, 0.15f, 1f), false);
+        var outlineObject = new GameObject("Estimated Surface Footprint");
+        outlineObject.transform.SetParent(cubeObject.transform, false);
+        var outline = outlineObject.AddComponent<LineRenderer>();
+        outline.useWorldSpace = false;
+        outline.loop = true;
+        outline.widthMultiplier = 0.02f;
+        outline.sharedMaterial = outlineMaterial;
+        outline.positionCount = 4;
+        outline.SetPositions(new[] {
+            new Vector3(-0.55f, -0.49f, -0.55f),
+            new Vector3(-0.55f, -0.49f, 0.55f),
+            new Vector3(0.55f, -0.49f, 0.55f),
+            new Vector3(0.55f, -0.49f, -0.55f)
+        });
+        outline.shadowCastingMode = ShadowCastingMode.Off;
+        outline.receiveShadows = false;
         var cubePrefab = PrefabUtility.SaveAsPrefabAsset(cubeObject, Root + "/Prefabs/TestCube.prefab");
         Object.DestroyImmediate(cubeObject);
 
@@ -53,17 +73,42 @@ public static class PlanePlacementSetup
         var anchors = origin.GetComponent<ARAnchorManager>();
         if (!anchors) anchors = Undo.AddComponent<ARAnchorManager>(origin.gameObject);
         anchors.enabled = true;
+        var meshObject = origin.transform.Find("LiDAR Scan Preview");
+        if (!meshObject)
+        {
+            var obj = new GameObject("LiDAR Scan Preview");
+            obj.transform.SetParent(origin.transform, false);
+            meshObject = obj.transform;
+        }
+        // Bounding volume for mesh acquisition; generated patches are parented
+        // by ARMeshManager under the origin's unit-scale trackables parent.
+        meshObject.localScale = Vector3.one * 10f;
+        var sourceMesh = new GameObject("LiDAR Source Mesh");
+        sourceMesh.AddComponent<MeshFilter>();
+        var meshPrefab = PrefabUtility.SaveAsPrefabAsset(sourceMesh, Root + "/Prefabs/LiDARSourceMesh.prefab");
+        Object.DestroyImmediate(sourceMesh);
+        var meshes = meshObject.GetComponent<ARMeshManager>();
+        if (!meshes) meshes = Undo.AddComponent<ARMeshManager>(meshObject.gameObject);
+        meshes.meshPrefab = meshPrefab.GetComponent<MeshFilter>();
+        meshes.normals = false;
+        meshes.enabled = true;
+        var preview = meshObject.GetComponent<LiDARMeshPreview>();
+        if (!preview) preview = Undo.AddComponent<LiDARMeshPreview>(meshObject.gameObject);
+        preview.Configure(meshes, MakeMaterial(Root + "/Materials/LiDARWire.mat",
+            new Color(0.15f, 1f, 0.9f, 1f), false));
         var placement = origin.GetComponent<HorizontalPlanePlacement>();
         if (!placement) placement = Undo.AddComponent<HorizontalPlanePlacement>(origin.gameObject);
-        placement.Configure(planes, raycasts, anchors, origin, cubePrefab);
+        placement.Configure(planes, raycasts, anchors, preview, origin, cubePrefab);
         EditorUtility.SetDirty(planes);
         EditorUtility.SetDirty(raycasts);
         EditorUtility.SetDirty(anchors);
         EditorUtility.SetDirty(placement);
+        EditorUtility.SetDirty(meshes);
+        EditorUtility.SetDirty(preview);
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
-        Debug.Log("[Lead Mills Placement] Setup saved: horizontal planes, blue surface visualization, tap to anchor one orange 20 cm cube to a plane.");
+        Debug.Log("[Lead Mills Placement] Setup saved: LiDAR triangle scan, horizontal surface selection, plane anchor and contact outline.");
     }
 
     [MenuItem("Lead Mills/Export Plane Test for iOS")]
@@ -90,17 +135,23 @@ public static class PlanePlacementSetup
         Debug.Log("[Lead Mills Placement] iOS export succeeded: " + Path.GetFullPath(output));
     }
 
-    static Material MakeMaterial(string path, Color color, bool transparent)
+    static Material MakeMaterial(string path, Color color, bool transparent, bool lit = false)
     {
         var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+        var shader = Shader.Find(lit ? "Universal Render Pipeline/Lit" : "Universal Render Pipeline/Unlit");
+        if (!shader) throw new System.InvalidOperationException("Required URP shader is missing.");
         if (!material)
         {
-            var shader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (!shader) throw new System.InvalidOperationException("URP Unlit shader is missing.");
             material = new Material(shader);
             AssetDatabase.CreateAsset(material, path);
         }
+        material.shader = shader;
         material.SetColor("_BaseColor", color);
+        if (lit)
+        {
+            material.SetFloat("_Metallic", 0f);
+            material.SetFloat("_Smoothness", 0.2f);
+        }
         material.SetFloat("_Surface", transparent ? 1f : 0f);
         material.SetFloat("_SrcBlend", (float)(transparent ? BlendMode.SrcAlpha : BlendMode.One));
         material.SetFloat("_DstBlend", (float)(transparent ? BlendMode.OneMinusSrcAlpha : BlendMode.Zero));

@@ -72,6 +72,6 @@ The recorded Xcode warnings (including generated Unity/ARKit debug symbols and m
 
 ## Next milestone and evidence boundary
 
-Detect a **real horizontal surface** and place **one simple test object** on it. Verify placement and tracking on the physical phone before importing Lead Mills site assets. Plane detection, object placement, historical models, Android, geospatial localization, and field validation are not yet confirmed.
+Subsequent device trials confirmed horizontal-plane rendering, visible cube placement, and plane-anchor creation, but both trials failed stability relative to a floor landmark. Following the user’s Polycam reference, the next trial is **LiDAR triangles → horizontal-surface selection → plane anchor**. See [the setup and acceptance guide](PLANE_PLACEMENT_TEST.md). Verify scan rendering, reset, floor contact and stable alignment before importing Lead Mills site assets. Historical models, Android, geospatial localization, and field validation remain pending.
 
 This setup is recorded from the [Plan software downloads conversation](https://chatgpt.com/c/6ac57c84-40c0-83ea-b2bc-0246fbbf10f3). Dates follow America/New_York (EDT): October 6 setup, October 7 early-morning deployment/debugging, October 8 evening Scene List fix and success. The local Unity project, screenshots, dependency locks, build manifests, and generated Xcode output are not archived by this documentation update. Capture those for reproducibility before source handoff.
