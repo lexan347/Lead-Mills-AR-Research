@@ -1,13 +1,13 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026, approximately 09:29 EDT. Guided three-point calibration build0002 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026, 12:02 EDT. Diagnostic three-point calibration build0003 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active installed implementation: guided calibration markers/pose guidance (`79eb153`), version 0.3.1/build0002; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/LMAR_v0.3.1_b0002_20261009T132506Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `LMAR_v0.3.1_b0002_native-build.log`; console log: `LMAR_v0.3.1_b0002_device-session_20261009T132901Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active installed implementation: separate View 2 markers and precise fit feedback (`a395884`), version 0.3.2/build0003; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/LMAR_v0.3.2_b0003_20261009T154206Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `LMAR_v0.3.2_b0003_native-build.log`; console log: `LMAR_v0.3.2_b0003_device-session_20261009T160215Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs`, `CameraRegistrationComparison.cs`, `ThreePointFloorCalibration.cs`, `FloorProjectionCalibration.cs` and `TrialTrace.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -137,3 +137,7 @@ Saved source `a395884` is pushed and validation passed. New diagnostic v0.3.2/bu
 ### Build0003 ready; phone installation pending
 
 Native Debug build succeeded. Saved signed `Products/LeadMillsARPOC.app` inside export `Builds/LMAR_v0.3.2_b0003_20261009T154206Z`; signature verification passed and app fields/embedded identity confirm 0.3.2/build3. Install this saved product after reconnect/unlock; another export/build is unnecessary. Phone still unavailable at final build verification. Last physically installed version remains0.3.1/build0002. New app launch must be recorded as a fresh AR session.
+
+## Diagnostic build0003 deployed — 12:02 EDT
+
+After cable reconnection, the intended physical iPhone was connected. Installed the saved signed app from the numbered export Products folder and launched a fresh AR session. Device app inventory verifies version 0.3.2 / bundle version 3; startup confirms the calibration component. Source `a395884`; no re-export needed. Private console filename records actual UTC launch time. Separate View 2 circles, rejection guidance, retry behavior and physical registration remain awaiting user trial. Older pending-connection entries are historical.

@@ -60,9 +60,9 @@
     "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
     "surfaceReadiness": "Readiness qualification and placement interaction verified; user confirms physical registration in corrected portrait view",
     "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
-    "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
+    "recovery": "October 9 12:02 EDT: physical iPhone reconnected by cable; saved signed build0003 installed without re-export, launched as a fresh AR session and private console logging restored.",
     "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified.",
-    "threePointCalibration": "Diagnostic LMAR_v0.3.2_b0003 exported and native-built; signed app saved/verified. Adds separate View 2 purple/orange/bright-blue circles and specific fit/retry reports. Phone unavailable: installation pending; last installed remains v0.3.1/build0002.",
+    "threePointCalibration": "Diagnostic LMAR_v0.3.2_b0003 installed/launched October 9 at 12:02 EDT after cable reconnection; phone app inventory confirms 0.3.2/3 and runtime component startup verified. Separate View 2 circles and precise fit/retry feedback await user trial; physical acceptance pending.",
     "floorContact": "User reports cube/footprint above physical floor; latest photos reviewed. Estimated-plane height versus projection discrepancy unresolved; world Y=0 is not a measured floor datum.",
     "testRecords": "19 build0001 attempts recovered privately: record creation/update/retrieval verified; include 4 small-triangle and 3 uncertain-fit rejections."
   },
