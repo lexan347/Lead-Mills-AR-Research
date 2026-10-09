@@ -14,4 +14,4 @@ This first iteration established the repository and architecture, completed the 
 
 Logs retain each date’s stopping point; current configuration and next steps are consolidated in the setup guide. October 7–8 entries were backfilled from the conversation timestamps in America/New_York (EDT).
 
-Device trials verified horizontal-plane rendering and anchor creation but failed stability relative to a floor landmark. A Polycam-inspired LiDAR scan → surface selection → anchor revision is now implemented/exported locally; device acceptance remains pending. See [setup and test procedure](../../unity/PLANE_PLACEMENT_TEST.md).
+Device trials verified horizontal-plane rendering and anchor creation but failed stability relative to a floor landmark. A Polycam-inspired LiDAR scan → surface selection → anchor revision is now implemented/exported locally; scan rendering is verified but physical alignment failed. See [setup and test procedure](../../unity/PLANE_PLACEMENT_TEST.md).

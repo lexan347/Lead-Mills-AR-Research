@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -22,6 +23,11 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     GUIStyle labelStyle;
     GUIStyle buttonStyle;
     int trackedPlanes;
+    ARCameraManager cameraManager;
+    Matrix4x4 frameProjection;
+    bool hasFrameProjection;
+    float lastCameraFrameTime;
+    float nextAlignmentLog;
 
     public void Configure(ARPlaneManager planes, ARRaycastManager raycasts,
         ARAnchorManager anchors, LiDARMeshPreview preview, XROrigin xrOrigin, GameObject cube)
@@ -42,7 +48,56 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             enabled = false;
             return;
         }
+        cameraManager = origin.Camera.GetComponent<ARCameraManager>();
+        if (cameraManager) cameraManager.frameReceived += OnCameraFrame;
+        RenderPipelineManager.beginCameraRendering += OnCameraRendering;
         Debug.Log("[Lead Mills Placement] LiDAR scan-to-plane-anchor test ready; cube size 0.20 m.");
+    }
+
+    void OnCameraFrame(ARCameraFrameEventArgs frame)
+    {
+        lastCameraFrameTime = Time.unscaledTime;
+        if (frame.projectionMatrix.HasValue)
+        {
+            frameProjection = frame.projectionMatrix.Value;
+            hasFrameProjection = true;
+        }
+    }
+
+    void OnCameraRendering(ScriptableRenderContext context, Camera camera)
+    {
+        if (!enabled || !origin || camera != origin.Camera || Time.unscaledTime < nextAlignmentLog) return;
+        nextAlignmentLog = Time.unscaledTime + 2f;
+        var device = InputSystem.GetDevice<HandheldARInputDevice>();
+        string poseComparison = device == null ? "AR input missing" :
+            $"position delta {Vector3.Distance(camera.transform.localPosition, device.devicePosition.ReadValue()):F4} m; " +
+            $"rotation delta {Quaternion.Angle(camera.transform.localRotation, device.deviceRotation.ReadValue()):F2} deg";
+        float projectionDelta = 0f;
+        if (hasFrameProjection)
+            for (int i = 0; i < 16; i++)
+                projectionDelta = Mathf.Max(projectionDelta, Mathf.Abs(camera.projectionMatrix[i] - frameProjection[i]));
+        string planeComparison = "no tracked plane";
+        foreach (var plane in planeManager.trackables)
+            if (plane.alignment == PlaneAlignment.HorizontalUp && plane.trackingState == TrackingState.Tracking)
+            {
+                planeComparison = $"plane up {plane.transform.up}; up dot {Vector3.Dot(plane.transform.up, Vector3.up):F3}; scale {plane.transform.lossyScale}";
+                break;
+            }
+        var driver = camera.GetComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>();
+        string rotationControl = driver && driver.rotationInput.action != null
+            ? driver.rotationInput.action.activeControl?.path ?? "None" : "Missing";
+        Debug.Log($"[Lead Mills Alignment] {poseComparison}; projection received {hasFrameProjection}; " +
+            $"projection delta {projectionDelta:F5}; camera frame age {Time.unscaledTime - lastCameraFrameTime:F3} s; " +
+            $"camera local rotation {camera.transform.localEulerAngles}; origin scale {origin.transform.lossyScale}; " +
+            $"camera parent scale {camera.transform.parent.lossyScale}; orientation {Screen.orientation}; " +
+            $"background {(cameraManager ? cameraManager.currentRenderingMode.ToString() : "Missing")}; " +
+            $"rotation control {rotationControl}; {planeComparison}.");
+    }
+
+    void OnDisable()
+    {
+        if (cameraManager) cameraManager.frameReceived -= OnCameraFrame;
+        RenderPipelineManager.beginCameraRendering -= OnCameraRendering;
     }
 
     void Update()
@@ -51,8 +106,11 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         trackedPlanes = 0;
         foreach (var plane in planeManager.trackables)
         {
-            var surface = plane.GetComponent<MeshRenderer>();
-            if (surface) surface.enabled = placedCube == null;
+            // ARPlaneMeshVisualizer owns renderer visibility each frame.
+            // Disable that visualizer while inspecting placement; the plane
+            // manager still tracks the surface and anchors remain active.
+            var visualizer = plane.GetComponent<ARPlaneMeshVisualizer>();
+            if (visualizer) visualizer.enabled = placedCube == null && plane.subsumedBy == null;
             if (plane.alignment == PlaneAlignment.HorizontalUp &&
                 plane.trackingState == TrackingState.Tracking && plane.subsumedBy == null)
                 trackedPlanes++;

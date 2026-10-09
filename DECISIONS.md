@@ -87,7 +87,7 @@ Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing X
 ## D-013 — LiDAR scan preview before surface selection and anchoring
 
 **Date:** 2026-10-08<br>
-**Status:** Accepted interaction; implemented/exported, device acceptance pending
+**Status:** Accepted interaction; scan-first rendering verified; physical alignment failed
 
 Follow the user's Polycam capture reference with live triangle-edge feedback before placement. Use AR Mesh Manager on an XR Origin child, keep horizontal-plane detection active during scanning, and attach an anchor only after the user selects a tracked plane. Require at least one mesh patch; this is a basic readiness gate, not proof of full room coverage or alignment accuracy. Hide scan overlays while inspecting the anchored cube and restore them on reset. Retain shaded cube faces and a virtual green footprint for contact observation. The current trial requires LiDAR and does not add saved scans, texturing, persistent anchors, or surveyed control. Unity's [ARKit meshing documentation](https://docs.unity3d.com/Packages/com.unity.xr.arkit@6.3/manual/arkit-meshing.html) supports combined meshing/plane detection; it does not establish that mesh visualization resolves the reported drift.
 

@@ -6,7 +6,7 @@ The **first successful native AR POC** was confirmed October 8 on the physical i
 
 ## Horizontal-plane test implementation
 
-The next gate is implemented as a source subset in the local POC: live cyan LiDAR triangles → blue horizontal-surface selection → plane anchor with a shaded orange 20 cm cube and green footprint. Reset restores scan overlays. Earlier device trials verify plane/cube rendering and anchor creation but failed stability relative to a floor landmark. The scan-first revision requires LiDAR and remains pending device acceptance; it does not prove a drift fix. See the [test setup and acceptance procedure](PLANE_PLACEMENT_TEST.md).
+The next gate is implemented as a source subset in the local POC: live cyan LiDAR triangles → blue horizontal-surface selection → plane anchor with a shaded orange 20 cm cube and green footprint. Reset restores scan overlays. Earlier device trials verify plane/cube rendering and anchor creation but failed stability relative to a floor landmark. The scan-first revision requires LiDAR and has verified scan rendering but failed physical floor alignment; camera/geometry diagnostics are next. See the [test setup and acceptance procedure](PLANE_PLACEMENT_TEST.md).
 
 ## Planned project layout
 
