@@ -1,13 +1,13 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026, 12:41 EDT. Selectable 1–3 landmark calibration build0004 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026, 13:33 EDT. Test 3 marker build0005 installed/launched; prior build0004/a004 reached Anchor A, physical stability acceptance remains open. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active installed implementation: selectable counts, review/Continue and Undo (`646cc97`), version 0.4.0/build0004; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/LMAR_v0.4.0_b0004_20261009T163754Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `LMAR_v0.4.0_b0004_native-build.log`; console log: `LMAR_v0.4.0_b0004_device-session_20261009T164145Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active installed implementation: selectable counts, review/Continue, Undo and separate Test 3 markers (`1ab00fb`), version 0.4.1/build0005; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/LMAR_v0.4.1_b0005_20261009T171630Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `LMAR_v0.4.1_b0005_native-build.log`; console log: `LMAR_v0.4.1_b0005_device-session.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs`, `CameraRegistrationComparison.cs`, `ThreePointFloorCalibration.cs`, `FloorProjectionCalibration.cs` and `TrialTrace.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -163,3 +163,7 @@ Next proposed interaction: coarse stage guides stable floor acquisition/framing 
 ### Test 3 marker confirmation requested
 
 Added independent Test 3 native-plane marker anchors: 3A white, 3B hot pink, 3C aqua; selected one-/two-point mode creates only A or A/B. Third-view taps now confirm their own saved floor intersections instead of merely thickening Test 1 rings. Ring diameters5/7/9cm and separated label offsets distinguish overlapping Test 1/2/3 observations. Review asks the user to compare every circle to its physical target; virtual rings remain references, not repeat-tap targets. Undo recreates all remaining Test 3 markers from accepted history and removes the undone point. Clear/retry cleanup covers all nine owned anchors/materials. Fitting/holdout thresholds and live-camera mapping unchanged. Version0.4.1 deployment pending.
+
+### 13:33 EDT — Test 3 marker build0005 deployed
+
+Unity compilation, export and existing 1/2/3-point synthetic validation passed; native Debug BUILD SUCCEEDED. Saved signed version-specific app; codesign, embedded build ID and phone inventory0.4.1/5 verified. Installed/launched source1ab00fb; startup confirms separate3A/3B/3C markers. Latest export `LMAR_v0.4.1_b0005_20261009T171630Z`; build-ID native/device logs remain private. Test 3 visual confirmation/Undo usability await a new user trial; no new physical stability acceptance claimed. Coarse/fine interaction remains proposed.
