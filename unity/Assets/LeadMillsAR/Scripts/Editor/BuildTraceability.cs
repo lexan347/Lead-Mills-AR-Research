@@ -34,8 +34,14 @@ public static class BuildTraceability
         PlayerSettings.iOS.buildNumber = sequence.buildNumber.ToString();
         string output = Path.Combine(builds, id + "_" + System.DateTime.UtcNow.ToString("yyyyMMddTHHmmssZ"));
         Directory.CreateDirectory(output);
-        File.WriteAllText(Path.Combine(output, id + "_build-manifest.json"), JsonUtility.ToJson(identity, true));
+        // BuildPipeline clears a fresh iOS export directory; save the manifest after it finishes.
         Debug.Log("[Lead Mills Test ID] Export " + id + "; source " + identity.sourceRevision);
         return output;
+    }
+    public static void SaveManifest(string output)
+    {
+        string json = File.ReadAllText(Path.Combine(Application.dataPath, "LeadMillsAR/Resources/LeadMillsBuildIdentity.json"));
+        var identity = JsonUtility.FromJson<LeadMillsBuildIdentity>(json);
+        File.WriteAllText(Path.Combine(output, identity.buildId + "_build-manifest.json"), json);
     }
 }

@@ -132,6 +132,7 @@ public static class PlanePlacementSetup
             target = BuildTarget.iOS,
             options = BuildOptions.Development
         });
+        BuildTraceability.SaveManifest(output);
         if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
             throw new System.InvalidOperationException("Plane test export failed: " + report.summary.result);
         Debug.Log("[Lead Mills Placement] iOS export succeeded: " + Path.GetFullPath(output));
