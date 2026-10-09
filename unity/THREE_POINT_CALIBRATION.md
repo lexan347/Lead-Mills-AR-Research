@@ -45,3 +45,7 @@ Records now include the exact rejection class, fitted/baseline RMS, per-point re
 ## Camera framing and correspondence clarification
 
 User clarified that earlier repeats tapped the colored circles. Those trials are not independent physical-landmark calibration evidence and cannot establish the proposed zoom/floor-height cause. The installed ARKit background shader samples the camera through the provider display transform; this revision preserves that live-image mapping. The fitted focal scale affects virtual projection, not optical camera zoom. Start with one physical detail to avoid requiring a whole wide triangle in the image. A wider live camera view would require its own background/projection-consistent implementation and validation.
+
+## Proposed coarse-to-fine interaction
+
+Build0004/a004 reached a recorded independent-view pass and Anchor A after repeated retries. To reduce manual tap difficulty, the next proposed interface separates coarse floor/framing acquisition from fine landmark placement: dim/hide the mesh, magnify the camera detail, adjust a crosshair, then confirm or Undo. The magnifier must map input back to the original camera viewport, and trial results must retain independent-view validation. This proposal is not implemented; a passed pixel check does not establish physical anchor stability.
