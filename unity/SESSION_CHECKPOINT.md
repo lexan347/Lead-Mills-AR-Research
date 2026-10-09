@@ -5,9 +5,9 @@ Updated: October 9, 2026. User verified CW90 portrait alignment and a cube stayi
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active implementation: default portrait CW90 correction (`2af2717`), deployed in export `20261009_071607`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_071607`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `portrait-default-xcodebuild.log`; console log: `portrait-default-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active implementation: single-handler mobile comparison controls (`4327d6c`), deployed in export `20261009_074548`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_074548`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `touch-toggle-xcodebuild.log`; console log: `touch-toggle-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -83,3 +83,5 @@ Inspection of the default-build console found two separate placements whose cent
 The user clarified the drift observation was in **Input System** mode, then reported that XR camera appeared only while the Pose button was held and reverted on release. Source inspection found two input routes for the same mobile button: Input System touch-down in `Update()` and IMGUI button click on release in `OnGUI()`. This can toggle pose twice during one tap. The same pattern affected SRP and view-registration controls, so prior intended mode comparisons must be verified from the persistent label/log, not the transient pressed label.
 
 Corrected all three controls: mobile Input System touch-down remains the single action handler; IMGUI draws the buttons but only dispatches clicks on non-mobile platforms for desktop/editor mouse input. CW90 portrait remains the startup default. No world tracking/anchor correction is claimed by this input fix. Unity compiled/exported `Builds/iOS_PlanePlacement_20261009_074548`; native deployment and released-button verification are recorded separately.
+
+Touch-control export **`20261009_074548`** completed Xcode Debug build, install and fresh launch on the iPhone at approximately **07:48 EDT**. Console confirms Input System baseline, available ARKit/colorCamera, SRP batching ON and CW90/Portrait. Old-build logs show repeated XR-camera/Input-System mode-change pairs, corroborating the duplicate-input bug. New private logs: `touch-toggle-xcodebuild.log`, `touch-toggle-device-20261009.log`. One released-button tap verification is pending from the user; physical drift remains open. No phone screen sharing was enabled.
