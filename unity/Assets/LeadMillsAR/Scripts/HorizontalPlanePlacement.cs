@@ -234,7 +234,14 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             feedback = scanStatus;
             return;
         }
-        if (!raycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
+        // The native viewport ray uses the provider's unmodified camera view.
+        // During the opt-in roll test use the displayed camera's world ray so
+        // the hit matches the visible surface rather than an unrotated viewport.
+        if (comparison) comparison.PrepareViewForRaycast();
+        bool didHit = comparison && comparison.ViewRollTestActive
+            ? raycastManager.Raycast(origin.Camera.ScreenPointToRay(screenPoint), hits, TrackableType.PlaneWithinPolygon)
+            : raycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon);
+        if (!didHit)
         {
             feedback = "Tap inside a detected blue surface.";
             return;
