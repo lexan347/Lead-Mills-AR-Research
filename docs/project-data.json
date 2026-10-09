@@ -54,7 +54,7 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Test three-point floor landmarks across three views; accept only a conditioned fit and independent holdout, then verify anchor at A against real movement",
+    "nextAction": "Start one-point trial on a distinctive physical floor detail; test Undo replacement and Continue review, retap the same real detail across views, then check independent fit and anchor contact/stability.",
     "placement": "User confirms slight mesh/cube shifting remains after stopping motion; plane-anchor is active, but steady registration is not accepted",
     "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
     "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
@@ -62,9 +62,10 @@
     "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
     "recovery": "October 9 12:02 EDT: physical iPhone reconnected by cable; saved signed build0003 installed without re-export, launched as a fresh AR session and private console logging restored.",
     "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified.",
-    "threePointCalibration": "Build0003 marker sets and rejection UI verified in user photos. Completed repeat fits rejected on residual (a009 RMS24.76px >12), so Anchor at A remains gated; no independent holdout acceptance. Offline floor-height hypothesis under investigation; no correction or threshold relaxation applied.",
+    "threePointCalibration": "Selectable LMAR_v0.4.0_b0004 installed/launched October9 at12:41 EDT; 1/2/3 real landmark counts, Undo and review/Continue startup verified. All counts retain conditioned fit and independent third-view check. Synthetic tests passed; physical controls/calibration/contact acceptance pending.",
     "floorContact": "User reports cube/footprint above physical floor; latest photos reviewed. Estimated-plane height versus projection discrepancy unresolved; world Y=0 is not a measured floor datum.",
-    "testRecords": "19 build0001 attempts recovered privately: record creation/update/retrieval verified; include 4 small-triangle and 3 uncertain-fit rejections."
+    "testRecords": "19 build0001 attempts recovered privately: record creation/update/retrieval verified; include 4 small-triangle and 3 uncertain-fit rejections.",
+    "calibrationCorrespondences": "User clarified earlier repeats tapped virtual circles; those trials cannot establish independent physical zoom/floor-height calibration. New prompts explicitly target real floor details."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

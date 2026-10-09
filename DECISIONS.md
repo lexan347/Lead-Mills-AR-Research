@@ -117,3 +117,7 @@ Use clockwise 90° common-view registration in the portrait POC after the user's
 ## D-016 — three-point multi-view calibration before stable-placement acceptance
 
 October 9: user requested repeated three-point calibration and anchor testing after both pose modes showed drift. Fit one projection focal scale from two views of three physical floor marks; require sufficient perspective change and a third-view holdout before allowing an anchor at A. Keep native projection as the default/fallback, retain portrait/CW90 and provider geometry, and clear calibration on interrupted tracking or configuration changes. No arbitrary smoothing or frozen world geometry. Device acceptance remains pending.
+
+## D-017 — selectable real-landmark trials and reversible point capture
+
+October 9: user requested one-, two- and three-point calibration plus Undo. Use one real landmark as the simpler default; two points add a span check and three add a triangle check. All modes retain sufficient-perspective conditioning and an independent third-view holdout before anchoring. Pause each captured view for review/Continue; Undo removes the last observation, reopens its view and invalidates dependent fits/placement while preserving earlier points. Changing count starts a new trial. Explicitly distinguish physical image landmarks from virtual reference circles. Earlier circle-target repeats cannot establish a physical zoom/floor-height cause. Preserve native camera-image mapping until a separately validated background/projection change is available.

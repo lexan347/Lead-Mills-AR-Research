@@ -105,4 +105,4 @@ Compare at least GPS-only, VPS, and a surveyed visual-marker/reference method wh
 
 **Exit evidence:** tagged release, archived research package, deployment instructions, and final limitations statement.
 
-**October 9 next trial:** execute the [three-point multi-view calibration](unity/THREE_POINT_CALIBRATION.md), check independent-view residuals and then physical anchor-at-A contact/stability. Repeated real-room testing is required; passing synthetic math alone does not clear the site-asset gate.
+**October 9 next trial:** start with one real floor detail using the [selectable multi-view calibration](unity/THREE_POINT_CALIBRATION.md), verify Undo/review/Continue, retap the same physical detail instead of virtual circles, check independent-view residuals and then physical anchor-at-A contact/stability. Repeated real-room testing is required; passing synthetic math alone does not clear the site-asset gate.

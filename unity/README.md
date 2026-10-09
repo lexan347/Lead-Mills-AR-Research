@@ -48,6 +48,6 @@ Do not commit `Library`, `Temp`, `Logs`, `obj`, platform builds, credentials, ke
 
 The current diagnostic revision adds `CameraRegistrationComparison.cs`: independently compare Input System versus available tracked XR camera pose, and SRP batching ON/OFF, using a fixed physical landmark. The CW90 portrait view now has user-reported alignment/stability acceptance and is the default; alternate comparison modes remain diagnostic. Other display orientations are pending. See the comparison procedure in [the test guide](PLANE_PLACEMENT_TEST.md).
 
-### Three-point calibration trial
+### Selectable 1–3-point calibration trial
 
 Both pose modes still show small lasting drift. The new [three-point procedure](THREE_POINT_CALIBRATION.md) fits one common projection zoom correction from real floor marks, requires an independent third-view check, and can anchor the cube at A. It is experimental and session-local; physical acceptance is pending.

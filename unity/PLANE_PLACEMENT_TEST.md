@@ -222,3 +222,7 @@ The user proposed a repeated **three-point calibration and anchor test**. Implem
 New scripts: `FloorProjectionCalibration.cs`, `ThreePointFloorCalibration.cs` and editor math validation, integrated with existing placement/view controls. Unity math checks passed for known-scale/world-point recovery, independent holdout, incorrect-correspondence rejection, native no-op, displaced-mark rejection and weak-view rejection. Initial synthetic testing exposed a weak-perspective case; the solver now rejects insufficiently observable data rather than treating low error alone as acceptance. Added [repeatable phone procedure](THREE_POINT_CALIBRATION.md).
 
 Fresh Unity export `Builds/iOS_PlanePlacement_20261009_083132` succeeded; native deployment follows. Physical calibration interaction, held-out real landmarks and stable calibrated cube acceptance remain pending.
+
+### Latest capture controls — v0.4.0/build0004
+
+Select 1/2/3 real landmark points; default one. Each view pauses for inspection, Undo last replacement and Continue. Undo works across view/fitted/verified transitions and invalidates dependent results/placement. Retap the same physical floor details in subsequent views, not the virtual colored circles. Fit/independent-view checks remain required. Startup/installation and synthetic math checks passed; physical Undo/selector usability and stable contact remain unverified. See the [updated procedure](THREE_POINT_CALIBRATION.md).

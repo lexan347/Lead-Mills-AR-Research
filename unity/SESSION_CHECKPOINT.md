@@ -1,13 +1,13 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026, 12:02 EDT. Diagnostic three-point calibration build0003 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026, 12:41 EDT. Selectable 1–3 landmark calibration build0004 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active installed implementation: separate View 2 markers and precise fit feedback (`a395884`), version 0.3.2/build0003; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/LMAR_v0.3.2_b0003_20261009T154206Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `LMAR_v0.3.2_b0003_native-build.log`; console log: `LMAR_v0.3.2_b0003_device-session_20261009T160215Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active installed implementation: selectable counts, review/Continue and Undo (`646cc97`), version 0.4.0/build0004; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/LMAR_v0.4.0_b0004_20261009T163754Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `LMAR_v0.4.0_b0004_native-build.log`; console log: `LMAR_v0.4.0_b0004_device-session_20261009T164145Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs`, `CameraRegistrationComparison.cs`, `ThreePointFloorCalibration.cs`, `FloorProjectionCalibration.cs` and `TrialTrace.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -149,3 +149,7 @@ User could not Anchor at A. IMG_7609–7611 verify both marker sets and rejectio
 ## Correspondence clarification and next implementation
 
 User says repeat taps targeted the same colored circles. Prior repeat fits are not independent physical-landmark evidence; exploratory floor-height/zoom causality remains unproven. Implemented v0.4.0 selectable1/2/3 real points, review/Continue and Undo last across stage transitions. All counts retain fit conditioning and independent holdout; default1 reduces initial interaction burden. Compile/synthetic math checks passed; export/deployment pending. Last installed app remains v0.3.2/build0003.
+
+## Build0004 deployed — 12:41 EDT
+
+Unity compile and 1/2/3-point synthetic fit/holdout checks passed; numbered export/manifest and native Debug build succeeded. Signed app saved in the export Products folder; signature and embedded identity verified. Installed/launched on the connected physical phone; inventory confirms 0.4.0/build4 and startup confirms 1/2/3 points, Undo and review/Continue. Default one point; physical control usability/independent calibration/contact remain awaiting user trial. User should tap the same real floor detail across views, not virtual circles. Undo can rewind across views and invalidates dependent fitting/placement. Camera-image display mapping remains native.
