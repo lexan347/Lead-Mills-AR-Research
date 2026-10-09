@@ -28,6 +28,67 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     bool hasFrameProjection;
     float lastCameraFrameTime;
     float nextAlignmentLog;
+    sealed class SurfaceReadiness
+    {
+        public Vector3 position, normal, cameraStart;
+        public Vector2 size;
+        public float since;
+        public int cells;
+        public bool ready, moved;
+    }
+    readonly Dictionary<TrackableId, SurfaceReadiness> surfaces = new Dictionary<TrackableId, SurfaceReadiness>();
+    readonly HashSet<TrackableId> livePlanes = new HashSet<TrackableId>();
+    float nextSurfaceCheck;
+    int readyPlanes;
+    string scanStatus = "Scan slowly over a textured surface.";
+
+    void CheckSurfaces()
+    {
+        bool tracking = ARSession.state == ARSessionState.SessionTracking &&
+            ARSession.notTrackingReason == NotTrackingReason.None && hasFrameProjection &&
+            Time.unscaledTime - lastCameraFrameTime < 0.5f;
+        livePlanes.Clear();
+        readyPlanes = 0;
+        scanStatus = tracking ? "Scan a level area at least 40 cm across." : "Waiting for steady camera tracking.";
+        foreach (var plane in planeManager.trackables)
+        {
+            livePlanes.Add(plane.trackableId);
+            if (!surfaces.TryGetValue(plane.trackableId, out var state))
+                surfaces[plane.trackableId] = state = new SurfaceReadiness();
+            bool eligible = tracking && plane.trackingState == TrackingState.Tracking &&
+                plane.subsumedBy == null && plane.alignment == PlaneAlignment.HorizontalUp &&
+                Vector3.Dot(plane.transform.up, Vector3.up) >= 0.985f &&
+                plane.size.x >= 0.4f && plane.size.y >= 0.4f;
+            state.cells = eligible ? meshPreview.SupportedCells(plane,
+                plane.center, 0.3f) : 0;
+            state.ready = false;
+            if (!eligible || state.cells < 8)
+            {
+                state.since = 0;
+                if (eligible) scanStatus = $"Collecting LiDAR coverage: {state.cells}/8 cells.";
+                continue;
+            }
+            if (state.since == 0 || Vector3.Distance(state.position, plane.transform.position) > 0.03f ||
+                Vector3.Angle(state.normal, plane.transform.up) > 3f || Vector2.Distance(state.size, plane.size) > 0.10f)
+            {
+                state.since = Time.unscaledTime;
+                state.position = plane.transform.position;
+                state.normal = plane.transform.up;
+                state.size = plane.size;
+                state.cameraStart = origin.Camera.transform.position;
+                state.moved = false;
+            }
+            float elapsed = Time.unscaledTime - state.since;
+            state.moved |= Vector3.Distance(state.cameraStart, origin.Camera.transform.position) >= 0.15f;
+            state.ready = elapsed >= 3f && state.moved;
+            if (state.ready) readyPlanes++;
+            else scanStatus = elapsed < 3f ? $"Checking surface stability: {Mathf.Min(elapsed, 3f):F1}/3 s." :
+                "Move 15 cm sideways slowly to check another view.";
+        }
+        foreach (var id in new List<TrackableId>(surfaces.Keys))
+            if (!livePlanes.Contains(id)) surfaces.Remove(id);
+        if (readyPlanes > 0) scanStatus = "Blue surface ready. Check it matches the room, then tap.";
+    }
 
     public void Configure(ARPlaneManager planes, ARRaycastManager raycasts,
         ARAnchorManager anchors, LiDARMeshPreview preview, XROrigin xrOrigin, GameObject cube)
@@ -51,7 +112,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         cameraManager = origin.Camera.GetComponent<ARCameraManager>();
         if (cameraManager) cameraManager.frameReceived += OnCameraFrame;
         RenderPipelineManager.beginCameraRendering += OnCameraRendering;
-        Debug.Log("[Lead Mills Placement] LiDAR scan-to-plane-anchor test ready; cube size 0.20 m.");
+        Debug.Log("[Lead Mills Placement] LiDAR readiness gate: level within 10 deg, 40 cm extent, 8 supported 10 cm cells, 3 s stability, 15 cm viewpoint change; cube size 0.20 m.");
     }
 
     void OnCameraFrame(ARCameraFrameEventArgs frame)
@@ -76,6 +137,10 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         if (hasFrameProjection)
             for (int i = 0; i < 16; i++)
                 projectionDelta = Mathf.Max(projectionDelta, Mathf.Abs(camera.projectionMatrix[i] - frameProjection[i]));
+        var xrDevice = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.CenterEye);
+        string xrComparison = xrDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.centerEyeRotation, out var xrRotation)
+            ? $"XR center-eye rotation difference {Quaternion.Angle(camera.transform.localRotation, xrRotation):F2} deg"
+            : "XR center-eye rotation unavailable";
         string planeComparison = "no tracked plane";
         foreach (var plane in planeManager.trackables)
             if (plane.alignment == PlaneAlignment.HorizontalUp && plane.trackingState == TrackingState.Tracking)
@@ -91,7 +156,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             $"camera local rotation {camera.transform.localEulerAngles}; origin scale {origin.transform.lossyScale}; " +
             $"camera parent scale {camera.transform.parent.lossyScale}; orientation {Screen.orientation}; " +
             $"background {(cameraManager ? cameraManager.currentRenderingMode.ToString() : "Missing")}; " +
-            $"rotation control {rotationControl}; {planeComparison}.");
+            $"rotation control {rotationControl}; {xrComparison}; {planeComparison}.");
     }
 
     void OnDisable()
@@ -103,6 +168,11 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     void Update()
     {
         meshPreview.SetVisible(placedCube == null);
+        if (Time.unscaledTime >= nextSurfaceCheck)
+        {
+            nextSurfaceCheck = Time.unscaledTime + 0.5f;
+            CheckSurfaces();
+        }
         trackedPlanes = 0;
         foreach (var plane in planeManager.trackables)
         {
@@ -110,7 +180,12 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             // Disable that visualizer while inspecting placement; the plane
             // manager still tracks the surface and anchors remain active.
             var visualizer = plane.GetComponent<ARPlaneMeshVisualizer>();
-            if (visualizer) visualizer.enabled = placedCube == null && plane.subsumedBy == null;
+            bool ready = surfaces.TryGetValue(plane.trackableId, out var readiness) && readiness.ready &&
+                ARSession.state == ARSessionState.SessionTracking && ARSession.notTrackingReason == NotTrackingReason.None;
+            if (visualizer) visualizer.enabled = placedCube == null && ready;
+            // Explicit visibility also covers visualizers disabled before their first Update.
+            var renderer = plane.GetComponent<MeshRenderer>();
+            if (renderer) renderer.enabled = placedCube == null && ready;
             if (plane.alignment == PlaneAlignment.HorizontalUp &&
                 plane.trackingState == TrackingState.Tracking && plane.subsumedBy == null)
                 trackedPlanes++;
@@ -148,9 +223,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         if (placedCube || ARSession.state != ARSessionState.SessionTracking)
             return;
 
-        if (meshPreview.MeshCount == 0)
+        if (readyPlanes == 0)
         {
-            feedback = "Scan slowly until LiDAR triangles appear before placing.";
+            feedback = scanStatus;
             return;
         }
         if (!raycastManager.Raycast(screenPoint, hits, TrackableType.PlaneWithinPolygon))
@@ -164,6 +239,15 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             if (plane == null || plane.alignment != PlaneAlignment.HorizontalUp ||
                 plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null)
                 continue;
+            // Recheck the plane and the tap area at placement time, not just a
+            // previously qualified center. No anchor on unsupported geometry.
+            CheckSurfaces();
+            if (!surfaces.TryGetValue(plane.trackableId, out var readiness) || !readiness.ready ||
+                meshPreview.SupportedCells(plane, hit.pose.position, 0.2f) < 4)
+            {
+                feedback = "That spot needs more LiDAR coverage. Scan it slowly.";
+                return;
+            }
 
             if (anchorManager.subsystem == null ||
                 !anchorManager.subsystem.subsystemDescriptor.supportsTrackableAttachments)
@@ -215,7 +299,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             Debug.LogWarning("[Lead Mills Placement] Provider did not remove the anchor.");
         placedAnchor = null;
         placedCube = null;
-        feedback = "Tap a blue surface to place the 20 cm cube.";
+        surfaces.Clear();
+        readyPlanes = 0;
+        feedback = "Scan again to verify the surface before placing.";
         Debug.Log("[Lead Mills Placement] Cube removed for another placement.");
     }
 
@@ -234,12 +320,10 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         hud = new Rect(hud.x / scale, hud.y / scale, hud.width / scale, hud.height / scale);
         GUI.Box(hud, GUIContent.none);
         GUI.Label(new Rect(hud.x + 12, hud.y + 8, hud.width - 24, 30),
-            $"Meshes: {meshPreview.MeshCount} | Planes: {trackedPlanes} | {ARSession.state}", labelStyle);
+            $"Meshes: {meshPreview.MeshCount} | Ready: {readyPlanes}/{trackedPlanes} | {ARSession.state}", labelStyle);
         string instruction = ARSession.state != ARSessionState.SessionTracking
             ? "Tracking is starting or limited. Move slowly in good light."
-            : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : meshPreview.MeshCount == 0
-                ? "Scan slowly until LiDAR triangles appear." : trackedPlanes > 0
-                ? "Tap a blue horizontal surface to anchor the cube." : feedback;
+            : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : scanStatus + (feedback.StartsWith("That spot") ? " " + feedback : "");
         GUI.Label(new Rect(hud.x + 12, hud.y + 42, hud.width - 24, 76), instruction, labelStyle);
         GUI.enabled = placedCube != null;
         if (GUI.Button(new Rect(hud.x + 12, hud.y + 126, hud.width - 24, 46),

@@ -99,3 +99,10 @@ Follow the user's Polycam capture reference with live triangle-edge feedback bef
 - Historical reconstruction source and uncertainty notation.
 - License for original code, models, and documentation.
 - Long-term hosting and offline behavior after graduation.
+
+## D-014 — measured surface readiness before placement
+
+**Date:** 2026-10-08
+**Status:** Implemented; device acceptance pending
+
+Replace D-013's one-patch gate with tracked/level/size checks, local mesh coverage, three seconds of bounded plane changes, and a 15 cm viewpoint change. Reveal blue planes only after qualification; recheck readiness and mesh support at the actual tap before attaching an anchor. Reset restarts qualification. Exact provisional thresholds and limitations are in [the test guide](unity/PLANE_PLACEMENT_TEST.md). Internal mesh/plane agreement cannot certify physical camera registration. Keep the user's reported mesh sliding as a failed acceptance criterion even when readiness passes. Do not flatten reconstructed room geometry onto an assumed floor or apply an unexplained 90° correction.

@@ -9,6 +9,9 @@ public sealed class LiDARMeshPreview : MonoBehaviour
     [SerializeField] ARMeshManager meshManager;
     [SerializeField] Material wireMaterial;
     readonly Dictionary<int, MeshFilter> previews = new Dictionary<int, MeshFilter>();
+    struct SurfaceSample { public Vector3 center, normal; }
+    readonly Dictionary<int, List<SurfaceSample>> samples = new Dictionary<int, List<SurfaceSample>>();
+    readonly HashSet<Vector2Int> occupiedCells = new HashSet<Vector2Int>();
     bool visible = true;
     float nextLog;
     public int MeshCount => previews.Count;
@@ -42,6 +45,44 @@ public sealed class LiDARMeshPreview : MonoBehaviour
             if (preview) preview.GetComponent<MeshRenderer>().enabled = show;
     }
 
+    // Count spatial coverage, not raw vertex density. Samples are triangle centers
+    // transformed through their live mesh parent, so origin changes stay consistent.
+    public int SupportedCells(ARPlane plane, Vector3 center, float radius)
+    {
+        occupiedCells.Clear();
+        Vector3 planeCenter = plane.transform.InverseTransformPoint(center);
+        foreach (var pair in samples)
+        {
+            if (!previews.TryGetValue(pair.Key, out var filter) || !filter) continue;
+            foreach (var sample in pair.Value)
+            {
+                Vector3 world = filter.transform.TransformPoint(sample.center);
+                Vector3 normal = filter.transform.TransformDirection(sample.normal).normalized;
+                Vector3 local = plane.transform.InverseTransformPoint(world);
+                if (Mathf.Abs(local.y) > 0.05f || Mathf.Abs(Vector3.Dot(normal, plane.transform.up)) < 0.94f)
+                    continue;
+                Vector2 offset = new Vector2(local.x - planeCenter.x, local.z - planeCenter.z);
+                if (offset.sqrMagnitude > radius * radius) continue;
+                if (!InsideBoundary(new Vector2(local.x, local.z), plane)) continue;
+                occupiedCells.Add(new Vector2Int(Mathf.FloorToInt(offset.x / 0.10f), Mathf.FloorToInt(offset.y / 0.10f)));
+            }
+        }
+        return occupiedCells.Count;
+    }
+
+    static bool InsideBoundary(Vector2 point, ARPlane plane)
+    {
+        var boundary = plane.boundary;
+        bool inside = false;
+        for (int i = 0, j = boundary.Length - 1; i < boundary.Length; j = i++)
+        {
+            var a = boundary[i]; var b = boundary[j];
+            if ((a.y > point.y) != (b.y > point.y) &&
+                point.x < (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+        }
+        return inside;
+    }
+
     void OnMeshesChanged(ARMeshesChangedEventArgs args)
     {
         foreach (var filter in args.removed) RemovePreview(filter.GetInstanceID());
@@ -66,7 +107,17 @@ public sealed class LiDARMeshPreview : MonoBehaviour
             renderer.receiveShadows = false;
             previews[key] = preview;
         }
+        var vertices = source.sharedMesh.vertices;
         var triangles = source.sharedMesh.triangles;
+        var surfaceSamples = new List<SurfaceSample>(triangles.Length / 3);
+        for (int i = 0; i + 2 < triangles.Length; i += 3)
+        {
+            Vector3 a = vertices[triangles[i]], b = vertices[triangles[i + 1]], c = vertices[triangles[i + 2]];
+            Vector3 cross = Vector3.Cross(b - a, c - a);
+            if (cross.sqrMagnitude > 0.00000001f)
+                surfaceSamples.Add(new SurfaceSample { center = (a + b + c) / 3f, normal = cross.normalized });
+        }
+        samples[key] = surfaceSamples;
         var lines = new int[triangles.Length * 2];
         for (int i = 0, j = 0; i + 2 < triangles.Length; i += 3)
         {
@@ -91,6 +142,7 @@ public sealed class LiDARMeshPreview : MonoBehaviour
             Destroy(preview.gameObject);
         }
         previews.Remove(key);
+        samples.Remove(key);
     }
 
     void OnDisable()

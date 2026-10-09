@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-08",
   "stage": "First successful native AR proof of concept",
-  "status": "Native camera, LiDAR triangles and plane-anchor rendering verified on iPhone 14 Pro. Mesh/plane alignment with the real floor failed; camera/geometry diagnostics are next.",
+  "status": "Native camera, LiDAR triangles and plane-anchor rendering verified on iPhone 14 Pro. Physical registration failed. Stronger surface-readiness gate implemented; repeat device acceptance pending.",
   "phases": [
     {
       "name": "Repository",
@@ -36,7 +36,8 @@
     "planeDetection": true,
     "objectPlacement": true,
     "stablePlacement": false,
-    "lidarPreviewDeviceVerified": true
+    "lidarPreviewDeviceVerified": true,
+    "surfaceReadinessDeviceVerified": false
   },
   "stoppingPoint": {
     "date": "2026-10-08",
@@ -50,10 +51,12 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Isolate camera/display orientation and rendering against a known baseline; require physical floor alignment before accepting anchors or assets",
+    "nextAction": "Verify level/coverage/stability/viewpoint readiness gate and physical mesh registration; require real landmark alignment before accepting anchors or importing assets",
     "placement": "Cube/plane rendering and anchor creation observed; both stability trials failed",
     "lidarRevision": "Triangles/cube/footprint visibly verified by 21:55 recording; user reports mesh/plane misalignment and floor appearing vertical; acceptance failed",
-    "alignmentDiagnostics": "22:15 recording/photo confirm unresolved physical mesh/plane alignment despite internally matching pose/projection; overlay hiding after placement visually verified"
+    "alignmentDiagnostics": "22:15 recording/photo confirm unresolved physical mesh/plane alignment despite internally matching pose/projection; overlay hiding after placement visually verified",
+    "surfaceReadiness": "Implemented: current tracking/frames, 40 cm plane, level normal, local LiDAR cell coverage, 3 s stability and 15 cm viewpoint change; export 20261008_223833 built, installed and launched at 22:42 EDT; physical acceptance pending",
+    "meshRegistration": "22:32 recording shows cyan mesh with no detected horizontal plane; user reports sliding relative to structures; physical alignment remains failed"
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",
