@@ -5,10 +5,10 @@ Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not a
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Last implementation: `6de57a9`, measured surface-readiness gate plus XR center-eye diagnostic.
+- Active implementation: camera registration comparisons (`6a4dd69`), deployed in export `20261009_065219`. Earlier readiness baseline: `6de57a9`.
 - Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_065219`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
 - Current build log: `comparison-xcodebuild.log`; console log: `comparison-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
-- Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs` and `LiDARMeshPreview.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
+- Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
 - Build, install, launch and mesh acquisition verified; physical registration/stable placement FAILED. The readiness gate allowed the user's latest placement but did not fix registration.
