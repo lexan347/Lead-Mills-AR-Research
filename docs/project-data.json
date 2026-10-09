@@ -52,7 +52,7 @@
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
     "nextAction": "Test LiDAR triangles \u2192 horizontal-surface selection \u2192 plane anchor, reset and physical landmark alignment before importing site assets",
     "placement": "Cube/plane rendering and anchor creation observed; both stability trials failed",
-    "lidarRevision": "Fresh export, signed Debug build, installation and launch succeeded; runtime reports 2 mesh patches; visual/stability acceptance pending"
+    "lidarRevision": "Signed build installed/launched; runtime mesh count reached 10 and plane-anchor creation/preview hiding executed; visual/stability acceptance pending"
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",
