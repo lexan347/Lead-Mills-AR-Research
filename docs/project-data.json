@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-09",
   "stage": "User-verified portrait surface registration and stable placement",
-  "status": "User confirmed clockwise 90 deg view registration fixed mesh/plane alignment and cube stayed in place on iPhone 14 Pro; default portrait build and repeat validation underway.",
+  "status": "User confirmed CW90 view registration fixed portrait mesh/plane alignment and cube stayed in place; automatic portrait correction built, installed and launched October 9. Fresh-default contact/repeat check pending.",
   "phases": [
     {
       "name": "Repository",
@@ -56,12 +56,12 @@
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
     "nextAction": "Verify promoted CW90 portrait default on fresh launch, repeat fixed-landmark/contact test, then introduce one simple Lead Mills asset",
     "placement": "User confirms cube stays in place in corrected portrait trial; exact contact, duration and quantitative drift not established",
-    "lidarRevision": "Triangles/cube/footprint visibly verified by 21:55 recording; user reports mesh/plane misalignment and floor appearing vertical; acceptance failed",
-    "alignmentDiagnostics": "22:15 recording/photo confirm unresolved physical mesh/plane alignment despite internally matching pose/projection; overlay hiding after placement visually verified",
+    "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
+    "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
     "surfaceReadiness": "Readiness qualification and placement interaction verified; user confirms physical registration in corrected portrait view",
-    "meshRegistration": "User confirmed CW90 common-view correction fixes mesh/plane alignment in portrait; default promotion underway",
+    "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
     "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
-    "comparisonBuild": "20261009_070358 built/installed/launched 07:09 EDT; default view roll 0 deg; CW90/CCW90 opt-in controls, displayed-camera ray during test; physical result pending"
+    "comparisonBuild": "20261009_071607 built/installed/launched approximately 07:28 EDT; automatic CW90/Portrait, Input System/SRP ON confirmed in console. Earlier opt-in trial user-verified; fresh-default contact/repeat pending."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

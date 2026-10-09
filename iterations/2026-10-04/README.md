@@ -17,3 +17,5 @@ Logs retain each date’s stopping point; current configuration and next steps a
 Device trials verified horizontal-plane rendering and anchor creation but failed stability relative to a floor landmark. A Polycam-inspired LiDAR scan → surface selection → anchor revision is now implemented/exported locally; scan rendering is verified but physical alignment failed. A stronger level/coverage/stability/viewpoint readiness gate is now implemented for the next device trial. See [setup and test procedure](../../unity/PLANE_PLACEMENT_TEST.md).
 
 October 9 recovery is recorded in [the daily log](Daily_Log_2026-10-09.md) and [the session checkpoint](../../unity/SESSION_CHECKPOINT.md), including safe unplug/reconnect steps and the latest failed registration trial.
+
+October 9 also records the user's confirmed clockwise 90° view-registration fix and a cube staying in place. The prior failed trials are retained as historical evidence; corrected portrait default/repeat validation is the next step.

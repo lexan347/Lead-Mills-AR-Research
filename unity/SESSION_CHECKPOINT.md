@@ -1,17 +1,17 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not an assertion that physical AR placement is accepted.
+Updated: October 9, 2026. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; physical repeat is pending. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active implementation: opt-in view-roll comparisons (`78dbaca`), deployed in export `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_070358`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `view-roll-xcodebuild.log`; console log: `view-roll-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active implementation: default portrait CW90 correction (`2af2717`), deployed in export `20261009_071607`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_071607`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `portrait-default-xcodebuild.log`; console log: `portrait-default-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
-- Build, install, launch and mesh acquisition verified; physical registration/stable placement FAILED. The readiness gate allowed the user's latest placement but did not fix registration.
+- Physical mesh/plane alignment and stable cube placement are user-verified in the CW90 portrait trial. Quantitative drift, exact contact, other orientations and field accuracy remain unmeasured.
 
 ## Resume in order
 
@@ -19,7 +19,7 @@ Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not a
 2. Verify Unity is on the correct local project and scene, Xcode is available, and `xcrun devicectl list devices` reports the intended physical phone connected. Resolve device trust/unlock only if needed.
 3. Check whether the installed app is running before launching it. Reattach the console if possible; if a fresh launch is necessary, record it as a new session. A new app/session has no saved scan or anchor.
 4. Preserve previous logs, then write a new timestamped device log. Device console process/session IDs are ephemeral: rediscover them after an interruption.
-5. Continue camera/display/world-registration diagnosis. Do not accept an anchor merely because internal tracking, plane normals or readiness checks pass.
+5. Verify the promoted portrait/CW90 default on fresh launch, then repeat the fixed-landmark and floor-contact check before importing one Lead Mills asset. Judge registration against physical landmarks, not just internal readiness/tracking flags.
 6. Update the daily log and this checkpoint at significant build/deploy/test changes, commit/push the source and observations, and keep the PR draft until physical acceptance passes.
 
 ## Interruption boundaries
@@ -57,3 +57,9 @@ Active follow-up: user suggests 90° clockwise mesh orientation. Added an opt-in
 Latest device checkpoint: roll-test export `20261009_070358` built/installed/launched at 07:09 EDT. Startup Input System, SRP ON, roll 0°, Portrait, alternate ARKit/colorCamera matching. Pending user trial: tap view-rotation once for CW90, pan right/tilt down against a fixed landmark; assess mesh/plane then cube contact/stability. Current console tool session 87242 is ephemeral. No phone screen sharing enabled. Physical acceptance remains failed/pending repeat.
 
 Latest user result October 9: CW90 fixes mesh/plane alignment; cube also stays in place. Current installed test export 20261009_070358 is user-verified in portrait/Input System/SRP ON/CW90. Promoted source default CW90 and explicit Portrait display; fresh export/build/install pending. Preserve earlier failure evidence. Next repeat default on launch and verify floor contact before importing one asset.
+
+## Default correction deployed — October 9, approximately 07:28 EDT
+
+Fresh export **`Builds/iOS_PlanePlacement_20261009_071607`** completed Xcode Debug build, installation and launch on the physical iPhone 14 Pro. Startup console confirms **Input System / SRP batching ON / view roll 90° / Portrait** without a manual mode change. Current frames and matching frame projection were received; the intentional render-time camera/input rotation difference is 90°. Private logs: `portrait-default-xcodebuild.log` and `portrait-default-device-20261009.log` in this export. This is a new AR session; prior scan/placement was cleared. No phone screen sharing was enabled.
+
+The user’s earlier confirmation establishes physical alignment and a cube staying in place in the corrected portrait trial. Fresh-default 30–60-second landmark/contact confirmation is requested separately; runtime startup alone does not establish that repeat. Next, after that check, introduce one simple Lead Mills asset.
