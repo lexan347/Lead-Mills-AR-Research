@@ -5,38 +5,42 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-// One 20 cm cube placed in session space. No persistent/geospatial anchor is claimed.
+// One 20 cm cube attached to a tracked plane anchor. No persistence/geospatial anchor.
 public sealed class HorizontalPlanePlacement : MonoBehaviour
 {
     [SerializeField] ARPlaneManager planeManager;
     [SerializeField] ARRaycastManager raycastManager;
+    [SerializeField] ARAnchorManager anchorManager;
     [SerializeField] XROrigin origin;
     [SerializeField] GameObject cubePrefab;
     readonly List<ARRaycastHit> hits = new List<ARRaycastHit>();
     GameObject placedCube;
+    ARAnchor placedAnchor;
+    float nextPoseLog;
     string feedback = "Move slowly over a textured table or floor.";
     GUIStyle labelStyle;
     GUIStyle buttonStyle;
     int trackedPlanes;
 
     public void Configure(ARPlaneManager planes, ARRaycastManager raycasts,
-        XROrigin xrOrigin, GameObject cube)
+        ARAnchorManager anchors, XROrigin xrOrigin, GameObject cube)
     {
         planeManager = planes;
         raycastManager = raycasts;
+        anchorManager = anchors;
         origin = xrOrigin;
         cubePrefab = cube;
     }
 
     void Start()
     {
-        if (!planeManager || !raycastManager || !origin || !cubePrefab)
+        if (!planeManager || !raycastManager || !anchorManager || !origin || !cubePrefab)
         {
             Debug.LogError("[Lead Mills Placement] Missing setup reference.");
             enabled = false;
             return;
         }
-        Debug.Log("[Lead Mills Placement] Horizontal-plane test ready; cube size 0.20 m.");
+        Debug.Log("[Lead Mills Placement] Plane-anchor test ready; cube size 0.20 m.");
     }
 
     void Update()
@@ -46,6 +50,16 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             if (plane.alignment == PlaneAlignment.HorizontalUp &&
                 plane.trackingState == TrackingState.Tracking && plane.subsumedBy == null)
                 trackedPlanes++;
+
+        // Log camera motion alongside anchor pose so a new device trial can
+        // distinguish camera input failure from an evolving AR world estimate.
+        if (placedAnchor && Time.unscaledTime >= nextPoseLog)
+        {
+            nextPoseLog = Time.unscaledTime + 5f;
+            Debug.Log($"[Lead Mills Placement] Anchor {placedAnchor.trackingState}; " +
+                $"anchor pose {placedAnchor.transform.position}; camera pose {origin.Camera.transform.position}; " +
+                $"session {ARSession.state}; reason {ARSession.notTrackingReason}.");
+        }
 
         Vector2 screenPoint;
         var touch = Touchscreen.current;
@@ -81,14 +95,28 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
                 plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null)
                 continue;
 
-            // Cube pivot is at its center. Lift by half its 20 cm height.
-            var pose = hit.pose;
-            placedCube = Instantiate(cubePrefab,
-                pose.position + pose.rotation * Vector3.up * 0.10f,
-                pose.rotation, origin.TrackablesParent);
+            if (anchorManager.subsystem == null ||
+                !anchorManager.subsystem.subsystemDescriptor.supportsTrackableAttachments)
+            {
+                feedback = "Plane anchors are unavailable. Placement was not created.";
+                Debug.LogWarning("[Lead Mills Placement] Plane anchor attachment unsupported.");
+                return;
+            }
+            placedAnchor = anchorManager.AttachAnchor(plane, hit.pose);
+            if (!placedAnchor)
+            {
+                feedback = "Anchor creation failed. Scan the surface and try again.";
+                Debug.LogWarning("[Lead Mills Placement] Plane anchor creation failed.");
+                return;
+            }
+            // Anchor sits on the surface; cube pivot is at its center.
+            placedCube = Instantiate(cubePrefab, placedAnchor.transform, false);
+            placedCube.transform.localPosition = Vector3.up * 0.10f;
+            placedCube.transform.localRotation = Quaternion.identity;
             placedCube.name = "Lead Mills Test Cube (20 cm)";
-            feedback = "Walk slowly around the cube. It should stay on the surface.";
-            Debug.Log($"[Lead Mills Placement] Cube placed on plane {hit.trackableId}; pose {pose.position}.");
+            feedback = "Walk slowly around the cube. Check its floor position.";
+            Debug.Log($"[Lead Mills Placement] Cube attached to plane {hit.trackableId}; " +
+                $"anchor {placedAnchor.trackableId}; pose {hit.pose.position}.");
             return;
         }
         feedback = "Wait for a horizontal surface to finish tracking.";
@@ -113,6 +141,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     void RemoveCube()
     {
         Destroy(placedCube);
+        if (placedAnchor && !anchorManager.TryRemoveAnchor(placedAnchor))
+            Debug.LogWarning("[Lead Mills Placement] Provider did not remove the anchor.");
+        placedAnchor = null;
         placedCube = null;
         feedback = "Tap a blue surface to place the 20 cm cube.";
         Debug.Log("[Lead Mills Placement] Cube removed for another placement.");
@@ -136,7 +167,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             $"Horizontal planes: {trackedPlanes}  |  {ARSession.state}", labelStyle);
         string instruction = ARSession.state != ARSessionState.SessionTracking
             ? "Tracking is starting or limited. Move slowly in good light."
-            : placedCube ? feedback : trackedPlanes > 0
+            : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : trackedPlanes > 0
                 ? "Tap a blue surface to place the 20 cm cube." : feedback;
         GUI.Label(new Rect(hud.x + 12, hud.y + 42, hud.width - 24, 76), instruction, labelStyle);
         GUI.enabled = placedCube != null;

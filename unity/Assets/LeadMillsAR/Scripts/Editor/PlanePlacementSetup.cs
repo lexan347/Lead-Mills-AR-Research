@@ -50,16 +50,20 @@ public static class PlanePlacementSetup
         var raycasts = origin.GetComponent<ARRaycastManager>();
         if (!raycasts) raycasts = Undo.AddComponent<ARRaycastManager>(origin.gameObject);
         raycasts.enabled = true;
+        var anchors = origin.GetComponent<ARAnchorManager>();
+        if (!anchors) anchors = Undo.AddComponent<ARAnchorManager>(origin.gameObject);
+        anchors.enabled = true;
         var placement = origin.GetComponent<HorizontalPlanePlacement>();
         if (!placement) placement = Undo.AddComponent<HorizontalPlanePlacement>(origin.gameObject);
-        placement.Configure(planes, raycasts, origin, cubePrefab);
+        placement.Configure(planes, raycasts, anchors, origin, cubePrefab);
         EditorUtility.SetDirty(planes);
         EditorUtility.SetDirty(raycasts);
+        EditorUtility.SetDirty(anchors);
         EditorUtility.SetDirty(placement);
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
-        Debug.Log("[Lead Mills Placement] Setup saved: horizontal planes, blue surface visualization, tap to place one orange 20 cm cube.");
+        Debug.Log("[Lead Mills Placement] Setup saved: horizontal planes, blue surface visualization, tap to anchor one orange 20 cm cube to a plane.");
     }
 
     [MenuItem("Lead Mills/Export Plane Test for iOS")]

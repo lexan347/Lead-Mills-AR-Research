@@ -73,16 +73,16 @@ Enable only `Assets/Scenes/LeadMills_AR_POC.unity` in iOS Build Profiles and unc
 ## D-011 — horizontal-plane placement before historical assets
 
 **Date:** 2026-10-08<br>
-**Status:** Accepted; implementation pending
+**Status:** Implemented; stable device placement still pending
 
 With the native camera pipeline working, next detect a real horizontal surface and place one simple test object. Establish stable placement/tracking before importing Lead Mills site assets or integrating geospatial providers. This camera milestone does not close Android, WebAR, or field-validation gates.
 
 ## D-012 — session-space plane placement for the next POC
 
 **Date:** 2026-10-08<br>
-**Status:** Implemented locally; device acceptance pending
+**Status:** First device trial failed stability; anchor revision pending retest
 
-Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing XR Origin. Accept only hits inside an upward horizontal plane's polygon while it is tracking; place one orange 20 cm cube with its bottom at the hit surface. Keep placement in session coordinates under the trackables parent. Do not claim persistent/geospatial anchoring from this test. Visualize detected planes in blue, display tracking feedback, and provide a reset control. Read both placement and reset touches through the existing Input System-only configuration. Preserve a scene backup and use a fresh iOS development export for testing. Source/setup are in [the plane test guide](unity/PLANE_PLACEMENT_TEST.md).
+Use AR Plane Manager in horizontal mode and AR Raycast Manager on the existing XR Origin. Accept only hits inside an upward horizontal plane's polygon while it is tracking; place one orange 20 cm cube with its bottom at the hit surface. The first device build used session coordinates under the trackables parent. After the user reported unstable placement, revise this to attach an AR anchor to the detected plane and parent the cube to that anchor. Show anchor tracking and log camera/anchor poses for the repeat test. This is a session-local anchor; the cause of the first trial’s instability is not yet established. Do not claim persistent/geospatial anchoring from this test. Visualize detected planes in blue, display tracking feedback, and provide a reset control. Read both placement and reset touches through the existing Input System-only configuration. Preserve a scene backup and use a fresh iOS development export for testing. Source/setup are in [the plane test guide](unity/PLANE_PLACEMENT_TEST.md).
 
 ## Open decisions
 

@@ -1,6 +1,6 @@
 # Horizontal-plane placement test
 
-Status: IMPLEMENTED LOCALLY; physical-device acceptance pending. This advances the next gate after the October 8 camera POC; it does not claim successful plane detection or placement on the phone yet.
+Status: DEVICE DETECTION / VISIBLE PLACEMENT VERIFIED; stability failed in the first trial. A plane-anchor revision is prepared for retesting.
 
 ## Setup and export
 
@@ -8,7 +8,7 @@ The source is in `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs` and `A
 
 1. Copy these scripts and their `.meta` files into the local project's matching Assets paths. Back up the scene before first setup.
 2. Open `Assets/Scenes/LeadMills_AR_POC.unity` and wait for compilation.
-3. Run **Lead Mills → Set Up Horizontal Plane Test**. This adds AR Plane Manager and AR Raycast Manager to the existing XR Origin, requests horizontal planes, creates a blue translucent plane prefab and orange 20 cm cube prefab, assigns their materials/references, and saves the scene. It preserves the existing camera and mobile renderer.
+3. Run **Lead Mills → Set Up Horizontal Plane Test**. This adds AR Plane Manager, AR Raycast Manager, and AR Anchor Manager to the existing XR Origin, requests horizontal planes, creates a blue translucent plane prefab and orange 20 cm cube prefab, assigns their materials/references, and saves the scene. It preserves the existing camera and mobile renderer.
 4. Confirm the Scene List enables only the AR scene. Run **Lead Mills → Export Plane Test for iOS** for a fresh timestamped `Builds/iOS_PlanePlacement_*` development export. This export explicitly includes the AR scene and reports build failure rather than claiming success.
 5. Open the new export's `Unity-iPhone.xcodeproj`, retain the existing Personal Team/bundle ID, select the physical iPhone, and build/run.
 
@@ -16,7 +16,7 @@ Generated materials/prefabs are created by the setup menu. The repository preser
 
 ## Current local build evidence
 
-The saved scene was configured through the setup menu and the scripts compiled in Unity. The corrected development export `Builds/iOS_PlanePlacement_20261008_204644` succeeded. The Xcode Debug build succeeded after the user completed the macOS keychain prompt. The app was installed and launched on the physical iPhone 14 Pro at approximately 20:57 EDT. Runtime output showed the placement component starting and ARKit requesting horizontal Plane Tracking and Raycast, with no unsatisfied requested features. The captured runtime console subsequently recorded **two cube placements with one reset between them**, demonstrating accepted tracked-horizontal-plane raycasts and the placement/reset handlers on the device. Blue-surface rendering, visible cube contact, and stability still require the user’s physical-phone observations.
+The saved scene was configured through the setup menu and the scripts compiled in Unity. The corrected development export `Builds/iOS_PlanePlacement_20261008_204644` succeeded. The Xcode Debug build succeeded after the user completed the macOS keychain prompt. The app was installed and launched on the physical iPhone 14 Pro at approximately 20:57 EDT. Runtime output showed the placement component starting and ARKit requesting horizontal Plane Tracking and Raycast, with no unsatisfied requested features. The captured runtime console subsequently recorded **two cube placements with one reset between them**, demonstrating accepted tracked-horizontal-plane raycasts and the placement/reset handlers on the device. Eight user-supplied screenshots (IMG_7545–IMG_7552) confirm live camera video, blue plane meshes, 4–5 horizontal planes with SessionTracking, and an orange cube visible across multiple views. The user subsequently reported that the cube slid, floated, or followed the phone. This fails the stability criterion; exact floor contact and the cause remain unresolved. The room screenshots and raw device logs are not published in this repository.
 
 ## On-device procedure
 
@@ -26,7 +26,7 @@ The saved scene was configured through the setup menu and the scripts compiled i
 4. Tap **Remove cube and place again** and place it once more. Confirm the reset action does not accidentally place another cube beneath the button.
 5. Briefly point away and return to the surface. Record tracking state and recovery; do not label this precise spatial validation.
 
-The app accepts only polygon raycast hits on an upward horizontal plane that is currently tracking and not subsumed. Taps on the status/reset overlay are ignored. Once placed, further surface taps do not move or duplicate the cube. Placement uses session coordinates under XR Origin's trackables parent; it does not create a persistent or geospatial anchor. Restarting the app does not preserve the placement.
+The app accepts only polygon raycast hits on an upward horizontal plane that is currently tracking and not subsumed. Taps on the status/reset overlay are ignored. Once placed, further surface taps do not move or duplicate the cube. The revised placement attaches an AR anchor to the hit plane and parents the cube to that anchor, with a local 0.10 m height offset. It refuses placement if plane attachment is unsupported or anchor creation fails. Reset removes the cube and requests anchor removal. The HUD reports anchor tracking, and five-second console diagnostics include anchor and camera poses plus session tracking reason. This is a session-local plane anchor; it is neither persistent nor geospatial. Restarting the app does not preserve the placement.
 
 ## Evidence to record
 
@@ -37,3 +37,9 @@ The app accepts only polygon raycast hits on an upward horizontal plane that is 
 - Console lines starting `[Lead Mills Placement]`, and exact errors if any.
 
 Only mark this gate complete after the physical-phone result is observed. Historical site assets, geospatial providers, Android, and field accuracy remain subsequent work.
+
+## Stability revision
+
+The first build instantiated the cube directly under the trackables parent without an anchor. The revision uses `ARAnchorManager.AttachAnchor` so the provider can update the placement with its tracked plane estimate. Camera pose-driver position/rotation bindings and origin offsets were inspected; no camera-transform fault was established. An anchor is a targeted improvement, not a proven diagnosis or guarantee against drift. Repeat the movement, surface-contact, and reset tests before accepting this gate.
+
+Unity compiled the anchor revision and successfully exported **`Builds/iOS_PlanePlacement_20261008_210614`**. This export result is separate from device stability acceptance.

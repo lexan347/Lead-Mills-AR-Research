@@ -6,7 +6,7 @@ The **first successful native AR POC** was confirmed October 8 on the physical i
 
 ## Horizontal-plane test implementation
 
-The next gate is now implemented as a source subset and configured in the local POC: blue detected-plane visualization, one orange 20 cm cube placed by tapping a tracked horizontal surface, and a reset control. Physical-device acceptance remains pending. See the [test setup and acceptance procedure](PLANE_PLACEMENT_TEST.md).
+The next gate is now implemented as a source subset and configured in the local POC: blue detected-plane visualization, one orange 20 cm cube placed by tapping a tracked horizontal surface, and a reset control. Device screenshots verify rendering, but the user reported unstable placement; the revised plane-anchor implementation needs a repeat stability test. See the [test setup and acceptance procedure](PLANE_PLACEMENT_TEST.md).
 
 ## Planned project layout
 
