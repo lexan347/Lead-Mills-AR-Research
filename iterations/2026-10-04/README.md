@@ -13,3 +13,5 @@ This first iteration established the repository and architecture, completed the 
 - [October 8 daily log — first native AR POC](Daily_Log_2026-10-08.md)
 
 Logs retain each date’s stopping point; current configuration and next steps are consolidated in the setup guide. October 7–8 entries were backfilled from the conversation timestamps in America/New_York (EDT).
+
+The horizontal-plane test is now implemented locally; physical-device acceptance remains pending. See [setup and test procedure](../../unity/PLANE_PLACEMENT_TEST.md).

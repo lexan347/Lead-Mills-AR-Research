@@ -4,6 +4,10 @@ This directory contains provider-neutral interfaces and data objects, not the co
 
 The **first successful native AR POC** was confirmed October 8 on the physical iPhone 14 Pro / iOS **27.0.1**, using Personal Team signing and `com.alexanderangulo.leadmillsarpoc`. Camera permission and the live feed worked after selecting the actual AR scene instead of `SampleScene` and making a fresh iOS export. See [iOS setup and troubleshooting](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Next: horizontal-plane detection and simple test-object placement before site-asset import. Local Unity source/package locks, matching Linux editor, and cross-platform builds remain pending.
 
+## Horizontal-plane test implementation
+
+The next gate is now implemented as a source subset and configured in the local POC: blue detected-plane visualization, one orange 20 cm cube placed by tapping a tracked horizontal surface, and a reset control. Physical-device acceptance remains pending. See the [test setup and acceptance procedure](PLANE_PLACEMENT_TEST.md).
+
 ## Planned project layout
 
 ```text

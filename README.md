@@ -20,6 +20,7 @@ Updated October 8, 2026. This repository follows the documentation-first and evi
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
 | [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
+| [Horizontal-plane test](unity/PLANE_PLACEMENT_TEST.md) | Implemented tap-placement POC and pending device acceptance procedure |
 | [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |
