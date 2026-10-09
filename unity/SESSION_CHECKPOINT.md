@@ -133,3 +133,7 @@ After replacing and relaunching the app, all 19 prior build0001 records and its 
 ## Diagnostic recovery in progress — 11:42 EDT
 
 Saved source `a395884` is pushed and validation passed. New diagnostic v0.3.2/build0003 exported to `Builds/LMAR_v0.3.2_b0003_20261009T154206Z` with passing synthetic checks. Native Debug build is running; phone reconnection pending. Last verified installed app remains v0.3.1/build0002. The new build adds separate purple/orange/bright-blue View 2 markers, explicit fit rejection reports and retry with View 1 retained. Do not allocate another export number merely to resume native compilation.
+
+### Build0003 ready; phone installation pending
+
+Native Debug build succeeded. Saved signed `Products/LeadMillsARPOC.app` inside export `Builds/LMAR_v0.3.2_b0003_20261009T154206Z`; signature verification passed and app fields/embedded identity confirm 0.3.2/build3. Install this saved product after reconnect/unlock; another export/build is unnecessary. Phone still unavailable at final build verification. Last physically installed version remains0.3.1/build0002. New app launch must be recorded as a fresh AR session.
