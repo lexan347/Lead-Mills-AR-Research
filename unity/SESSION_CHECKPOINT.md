@@ -145,3 +145,7 @@ After cable reconnection, the intended physical iPhone was connected. Installed 
 ## Latest build0003 trial outcome
 
 User could not Anchor at A. IMG_7609–7611 verify both marker sets and rejection UI; a009 RMS24.76px exceeds12px gate (B34.09px). All three completed repeat fits in recovered attempts are residual failures despite adequate sensitivity; no candidate/independent holdout acceptance. Offline floor-offset experiments suggest model sensitivity to floor height (a009 about7.2px versus24.76px), but other trials remain above threshold and no offset is applied. Verify real-landmark versus virtual-circle correspondence before interpreting this as floor/tracking calibration. Marker visibility is now device-evidenced; anchoring after calibration and physical steadiness remain open.
+
+## Correspondence clarification and next implementation
+
+User says repeat taps targeted the same colored circles. Prior repeat fits are not independent physical-landmark evidence; exploratory floor-height/zoom causality remains unproven. Implemented v0.4.0 selectable1/2/3 real points, review/Continue and Undo last across stage transitions. All counts retain fit conditioning and independent holdout; default1 reduces initial interaction burden. Compile/synthetic math checks passed; export/deployment pending. Last installed app remains v0.3.2/build0003.

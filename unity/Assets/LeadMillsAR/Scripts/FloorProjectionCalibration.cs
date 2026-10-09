@@ -34,9 +34,10 @@ public static class FloorProjectionCalibration
     public static float Error(Observation[] first, Observation[] repeat, Plane floor, float scale,
         out Vector3[] points)
     {
-        points = new Vector3[3];
+        points = new Vector3[first.Length];
+        if (first.Length < 1 || first.Length > 3 || repeat.Length != first.Length) return float.PositiveInfinity;
         float squared = 0;
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < first.Length; ++i)
         {
             if (!FloorPoint(first[i], floor, scale, out points[i])) return float.PositiveInfinity;
             var clip = Scaled(repeat[i].projection, scale) * repeat[i].view *
@@ -45,7 +46,7 @@ public static class FloorProjectionCalibration
             var uv = new Vector2(clip.x / clip.w + 1, clip.y / clip.w + 1) * 0.5f;
             squared += Vector2.Scale(uv - repeat[i].viewport, repeat[i].pixels).sqrMagnitude;
         }
-        return Mathf.Sqrt(squared / 3);
+        return Mathf.Sqrt(squared / first.Length);
     }
 
     public enum Rejection { None, InvalidGeometry, ScaleBoundary, WeakView, Residual, NoImprovement, SmallTriangle }
@@ -72,6 +73,11 @@ public static class FloorProjectionCalibration
     public static bool Solve(Observation[] first, Observation[] repeat, Plane floor,
         out float scale, out float error, out float baseline, out Vector3[] points, out FitReport report)
     {
+        if (first.Length < 1 || first.Length > 3 || repeat.Length != first.Length)
+        {
+            scale = 1; error = baseline = float.PositiveInfinity; points = new Vector3[first.Length];
+            report = new FitReport { rejection = Rejection.InvalidGeometry }; return false;
+        }
         baseline = Error(first, repeat, floor, 1, out points);
         scale = 1;
         error = float.PositiveInfinity;
@@ -94,10 +100,10 @@ public static class FloorProjectionCalibration
             scale = scale, rms = error, baseline = baseline,
             sensitivityMinus = Error(first, repeat, floor, scale - 0.1f, out _) - error,
             sensitivityPlus = Error(first, repeat, floor, scale + 0.1f, out _) - error,
-            area = Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f,
+            area = points.Length == 3 ? Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f : 0,
             errorA = PointError(repeat[0], points[0], scale),
-            errorB = PointError(repeat[1], points[1], scale),
-            errorC = PointError(repeat[2], points[2], scale)
+            errorB = points.Length > 1 ? PointError(repeat[1], points[1], scale) : 0,
+            errorC = points.Length > 2 ? PointError(repeat[2], points[2], scale) : 0
         };
         if (float.IsNaN(error) || float.IsInfinity(error)) report.rejection = Rejection.InvalidGeometry;
         else if (error > 12) report.rejection = Rejection.Residual;
@@ -107,8 +113,8 @@ public static class FloorProjectionCalibration
         else
         {
             if (baseline <= 8) { scale = 1; error = baseline; Error(first, repeat, floor, scale, out points); }
-            report.area = Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f;
-            if (report.area < 0.02f) report.rejection = Rejection.SmallTriangle;
+            report.area = points.Length == 3 ? Vector3.Cross(points[1] - points[0], points[2] - points[0]).magnitude * 0.5f : 0;
+            if ((points.Length == 3 && report.area < 0.02f) || (points.Length == 2 && Vector3.Distance(points[0], points[1]) < 0.25f)) report.rejection = Rejection.SmallTriangle;
         }
         return report.rejection == Rejection.None;
     }

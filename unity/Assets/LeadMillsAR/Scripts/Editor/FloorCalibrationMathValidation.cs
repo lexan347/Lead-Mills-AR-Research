@@ -37,6 +37,18 @@ public static class FloorCalibrationMathValidation
         Require(Mathf.Abs(scale - 0.75f) < 0.001f && error < 0.1f && baseline > 12, "known focal scale not recovered: scale=" + scale + ", error=" + error + ", baseline=" + baseline);
         for (int i = 0; i < 3; ++i) Require(Vector3.Distance(points[i], recovered[i]) < 0.001f, "floor landmark reconstruction");
         Require(FloorProjectionCalibration.Error(first, third, floor, scale, out _) < 0.1f, "independent holdout projection");
+        for (int count = 1; count <= 2; count++)
+        {
+            var reducedFirst = new FloorProjectionCalibration.Observation[count];
+            var reducedSecond = new FloorProjectionCalibration.Observation[count];
+            var reducedThird = new FloorProjectionCalibration.Observation[count];
+            System.Array.Copy(first, reducedFirst, count); System.Array.Copy(second, reducedSecond, count); System.Array.Copy(third, reducedThird, count);
+            Require(FloorProjectionCalibration.Solve(reducedFirst, reducedSecond, floor, out var reducedScale, out var reducedError, out _, out var reducedPoints), count + "-point fit rejected");
+            Require(reducedPoints.Length == count && Mathf.Abs(reducedScale - 0.75f) < 0.001f && reducedError < 0.1f, count + "-point scale recovery");
+            Require(FloorProjectionCalibration.Error(reducedFirst, reducedThird, floor, reducedScale, out _) < 0.1f, count + "-point independent holdout");
+            reducedThird[0] = Observe(new Vector3(-0.45f, 1.1f, 0.5f), points[0] + Vector3.right * 0.2f, native, 0.75f);
+            Require(FloorProjectionCalibration.Error(reducedFirst, reducedThird, floor, reducedScale, out _) > 15, count + "-point displaced holdout accepted");
+        }
         var swap = second[1]; second[1] = second[2]; second[2] = swap;
         Require(!FloorProjectionCalibration.Solve(first, second, floor, out _, out _, out _, out _, out var mismatch) && mismatch.rejection == FloorProjectionCalibration.Rejection.Residual && mismatch.WorstError > 12, "wrong correspondence not identified as a residual mismatch");
         for (int i = 0; i < 3; ++i)
@@ -53,6 +65,6 @@ public static class FloorCalibrationMathValidation
             second[i] = Observe(new Vector3(0.45f, 1, -1), points[i], native, 0.75f);
         }
         Require(!FloorProjectionCalibration.Solve(first, second, floor, out _, out _, out _, out _, out var weak) && weak.rejection == FloorProjectionCalibration.Rejection.WeakView, "weak viewpoint not identified for specific movement guidance");
-        Debug.Log("[Lead Mills Calibration Test] Synthetic validation PASSED: known zoom, world points, independent holdout, wrong correspondence, native no-op displaced landmark and weak-view rejection.");
+        Debug.Log("[Lead Mills Calibration Test] Synthetic validation PASSED: 1/2/3-point fits and independent holdouts, known zoom, world points, independent holdout, wrong correspondence, native no-op displaced landmark and weak-view rejection.");
     }
 }

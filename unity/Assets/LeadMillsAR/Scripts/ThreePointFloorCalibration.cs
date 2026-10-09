@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -7,8 +8,11 @@ using UnityEngine.XR.ARSubsystems;
 [DefaultExecutionOrder(-50)]
 public sealed class ThreePointFloorCalibration : MonoBehaviour
 {
-    enum Step { Idle, First, Second, Third, Verified }
+    enum Step { Idle, First, ReviewFirst, Second, ReviewSecond, Third, ReviewThird, Verified }
+    struct Tap { public Step view; public int index; public FloorProjectionCalibration.Observation observation; }
     Step step;
+    readonly List<Tap> history = new List<Tap>();
+    int landmarkCount = 1, pointIndex, revision;
     HorizontalPlanePlacement placement;
     CameraRegistrationComparison comparison;
     ARCameraManager manager;
@@ -17,10 +21,9 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     Plane floor;
     Vector3 planeStart;
     Matrix4x4 nativeProjection;
-    bool hasProjection;
-    float frameTime;
-    int pointIndex, revision;
-    float scale = 1, fitError, holdoutError;
+    bool hasProjection, repeatRetry, holdoutRejected;
+    float frameTime, scale = 1, fitError, holdoutError;
+    float movementTarget = 0.25f, tiltTarget = 15;
     readonly FloorProjectionCalibration.Observation[] first = new FloorProjectionCalibration.Observation[3];
     readonly FloorProjectionCalibration.Observation[] second = new FloorProjectionCalibration.Observation[3];
     readonly FloorProjectionCalibration.Observation[] third = new FloorProjectionCalibration.Observation[3];
@@ -30,18 +33,20 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     readonly Material[] markerMaterials = new Material[6];
     readonly LineRenderer[] markerRings = new LineRenderer[6];
     readonly Color[] markerColors = { Color.red, Color.yellow, new Color(0.1f, 1f, 0.05f), new Color(0.75f, 0.15f, 1f), new Color(1f, 0.45f, 0f), new Color(0f, 0.65f, 1f) };
-    int initialPointCount;
-    bool repeatRetry;
-    float movementTarget = 0.25f, tiltTarget = 15;
-    GUIStyle markerStyle;
-
-    string message = "Three real floor landmarks; recheck from two other views.";
-    GUIStyle textStyle, buttonStyle;
+    GUIStyle markerStyle, textStyle, buttonStyle;
+    string message = "Choose 1, 2 or 3 real floor details. Start with one.";
     TrialTrace trace;
     bool Capturing => step == Step.First || step == Step.Second || step == Step.Third;
-    public bool CapturesPlacement => Capturing;
+    bool Reviewing => step == Step.ReviewFirst || step == Step.ReviewSecond || step == Step.ReviewThird;
+    bool Preview => step == Step.Third || (step == Step.ReviewThird && !holdoutRejected) || step == Step.Verified;
+    public bool CapturesPlacement => step != Step.Idle && step != Step.Verified;
     public bool ConsumedTouchThisFrame { get; private set; }
-
+    int ViewNumber => step == Step.First || step == Step.ReviewFirst ? 1 : step == Step.Second || step == Step.ReviewSecond ? 2 : 3;
+    FloorProjectionCalibration.Observation[] Selected(FloorProjectionCalibration.Observation[] source)
+    {
+        var result = new FloorProjectionCalibration.Observation[landmarkCount];
+        System.Array.Copy(source, result, landmarkCount); return result;
+    }
     public void Configure(HorizontalPlanePlacement owner, CameraRegistrationComparison control, Camera camera)
     {
         placement = owner; comparison = control; arCamera = camera;
@@ -49,7 +54,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (manager) manager.frameReceived += OnFrame;
         Application.onBeforeRender += ApplyProjection;
         RenderPipelineManager.beginCameraRendering += OnRendering;
-        Debug.Log("[Lead Mills Calibration Test] Ready: three landmarks, translated/tilted repeat, independent third view, native anchor at A. Native projection retained until a candidate passes fitting.");
+        Debug.Log("[Lead Mills Calibration Test] Ready: 1/2/3 real landmarks, Undo, review/Continue, independent third view and native anchor at A.");
     }
     void OnDisable()
     {
@@ -63,29 +68,25 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     void OnFrame(ARCameraFrameEventArgs frame)
     {
         if (!frame.projectionMatrix.HasValue) return;
-        nativeProjection = frame.projectionMatrix.Value;
-        hasProjection = true; frameTime = Time.unscaledTime;
+        nativeProjection = frame.projectionMatrix.Value; hasProjection = true; frameTime = Time.unscaledTime;
         ApplyProjection();
     }
     void OnRendering(ScriptableRenderContext context, Camera camera) { if (camera == arCamera) ApplyProjection(); }
     [BeforeRenderOrder(200)]
     public void ApplyProjection()
     {
-        if (!arCamera || !hasProjection) return;
-        bool active = step == Step.Third || step == Step.Verified;
-        arCamera.projectionMatrix = active ? FloorProjectionCalibration.Scaled(nativeProjection, scale) : nativeProjection;
+        if (arCamera && hasProjection)
+            arCamera.projectionMatrix = Preview ? FloorProjectionCalibration.Scaled(nativeProjection, scale) : nativeProjection;
     }
     public void Cancel(string reason)
     {
-        bool hadCalibration = step != Step.Idle;
-        ClearMarkers(); initialPointCount = 0; points = null; repeatRetry = false; movementTarget = 0.25f; tiltTarget = 15;
-        step = Step.Idle; scale = 1; pointIndex = 0; plane = null;
-        message = reason;
-        ApplyProjection();
-        if (hadCalibration)
+        bool active = step != Step.Idle;
+        ClearMarkers(); history.Clear(); points = null; repeatRetry = holdoutRejected = false;
+        movementTarget = 0.25f; tiltTarget = 15; step = Step.Idle; scale = 1; pointIndex = 0; plane = null;
+        message = reason; ApplyProjection();
+        if (active)
         {
-            if (trace != null) trace.Outcome("cleared: " + reason);
-            trace = null;
+            trace?.Outcome("cleared: " + reason); trace = null;
             if (placement) placement.RestartSurfaceCheck();
             Debug.Log("[Lead Mills Calibration Test] Cleared: " + reason);
         }
@@ -95,17 +96,19 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         Cancel("Starting a new trial.");
         if (!comparison.PortraitCorrectionActive || !Steady())
         { message = "Wait for tracking and select CW90/Portrait first."; return; }
-        placement.RestartSurfaceCheck();
-        revision = comparison.RegistrationRevision;
-        try { trace = TrialTrace.Begin(comparison.CurrentConfiguration); }
-        catch (System.Exception e) { message = "Could not save test record. Restart after checking storage."; Debug.LogError(e); return; }
-        step = Step.First; pointIndex = 0;
-        message = "View 1: tap A on a real floor mark. Then B and C, spread in a triangle.";
+        placement.RestartSurfaceCheck(); revision = comparison.RegistrationRevision;
+        try { trace = TrialTrace.Begin(comparison.CurrentConfiguration + "; real landmark count " + landmarkCount); }
+        catch (System.Exception e) { message = "Could not save test record. Check storage and retry."; Debug.LogError(e); return; }
+        step = Step.First; message = $"View 1: tap {landmarkCount} REAL floor detail(s). Circles show your taps; Undo replaces the last point.";
     }
     bool Steady() => hasProjection && Time.unscaledTime - frameTime < 0.25f &&
         ARSession.state == ARSessionState.SessionTracking && ARSession.notTrackingReason == NotTrackingReason.None;
-    Vector3 MeanCamera(FloorProjectionCalibration.Observation[] observations) =>
-        (observations[0].cameraPosition + observations[1].cameraPosition + observations[2].cameraPosition) / 3;
+    Vector3 MeanCamera(FloorProjectionCalibration.Observation[] observations)
+    {
+        var mean = Vector3.zero;
+        for (int i = 0; i < landmarkCount; i++) mean += observations[i].cameraPosition;
+        return mean / landmarkCount;
+    }
     void Update()
     {
         ConsumedTouchThisFrame = false;
@@ -113,7 +116,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (step != Step.Idle && (revision != comparison.RegistrationRevision || !Steady() ||
             (plane && (plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null ||
             Vector3.Distance(plane.transform.position, planeStart) > 0.02f))))
-        { Cancel("Tracking/plane/mode changed: restart the three-point trial."); return; }
+        { Cancel("Tracking/plane/mode changed: restart this trial."); return; }
         var touch = Touchscreen.current;
         bool pressed = touch != null && touch.primaryTouch.press.wasPressedThisFrame;
         Vector2 position = pressed ? touch.primaryTouch.position.ReadValue() : Vector2.zero;
@@ -121,17 +124,25 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         { pressed = true; position = Mouse.current.position.ReadValue(); }
         if (!pressed) return;
         var gui = new Vector2(position.x, Screen.height - position.y);
-        if (StartRect().Contains(gui)) { if (step == Step.Idle) Begin(); else Cancel("Trial cleared; native projection restored."); return; }
+        for (int i = 1; i <= 3; i++)
+            if (CountRect(i).Contains(gui))
+            {
+                ConsumedTouchThisFrame = true;
+                if (i != landmarkCount) { Cancel("Point count changed. Press Start for a new trial."); landmarkCount = i; }
+                return;
+            }
+        if (StartRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Idle) Begin(); else Cancel("Trial cleared; native projection restored."); return; }
+        if (UndoRect().Contains(gui)) { ConsumedTouchThisFrame = true; Undo(); return; }
+        if (NextRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (Reviewing && !holdoutRejected) Continue(); return; }
         if (AnchorRect().Contains(gui))
         {
+            ConsumedTouchThisFrame = true;
             if (step == Step.Verified && points != null && plane)
-                message = placement.PlaceCalibrationAnchor(plane, points[0]) ? "A anchored. Check contact and movement; calibration is session-local." : "A no longer has enough surface support; rescan/retry.";
-            trace?.Log("anchor-A", message);
-            return;
+                message = placement.PlaceCalibrationAnchor(plane, points[0]) ? "A anchored. Check real-floor contact and movement." : "A lacks current surface support. Rescan or retry.";
+            trace?.Log("anchor-A", message); return;
         }
         if (!Capturing || PanelRect().Contains(gui) || comparison.ContainsScreenPoint(position) || placement.ContainsHudScreenPoint(position)) return;
-        ConsumedTouchThisFrame = true;
-        Capture(position);
+        ConsumedTouchThisFrame = true; Capture(position);
     }
     void Capture(Vector2 screen)
     {
@@ -148,86 +159,120 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             viewport = new Vector2(screen.x / Screen.width, screen.y / Screen.height),
             pixels = new Vector2(Screen.width, Screen.height), cameraPosition = arCamera.transform.position
         };
-        if (!FloorProjectionCalibration.FloorPoint(observation, floor, step == Step.Third ? scale : 1, out var floorPoint))
-        { message = "Keep the real floor mark visible, within five meters."; return; }
+        if (!FloorProjectionCalibration.FloorPoint(observation, floor, Preview ? scale : 1, out var floorPoint))
+        { message = "Keep the REAL floor detail visible, within five meters."; return; }
         if (step == Step.Second || step == Step.Third)
         {
             var previous = step == Step.Second ? first : second;
             if (Vector3.ProjectOnPlane(observation.cameraPosition - MeanCamera(previous), floor.normal).magnitude < movementTarget)
-            { message = $"Move sideways {movementTarget * 100:F0} cm from the previous view; then tap SAME real A/B/C."; return; }
+            { message = $"Move sideways {movementTarget * 100:F0} cm; retap the SAME physical detail(s), not the circles."; return; }
         }
-        var target = step == Step.First ? first : step == Step.Second ? second : third;
         if (step == Step.First)
         {
-            if (pointIndex == 2 && Vector3.Cross(initialPoints[1] - initialPoints[0], floorPoint - initialPoints[0]).magnitude * 0.5f < 0.02f)
-            { message = "C too close to A-B line. Tap C farther away to widen the triangle; A/B saved."; return; }
-            if (!SetMarker(pointIndex, floorPoint))
-            { message = "Could not anchor the marker. Wait for plane tracking and retry."; return; }
+            if (landmarkCount == 2 && pointIndex == 1 && Vector3.Distance(initialPoints[0], floorPoint) < 0.25f)
+            { message = "B is too close to A. Choose a real detail at least 25 cm away; A saved."; return; }
+            if (landmarkCount == 3 && pointIndex == 2 && Vector3.Cross(initialPoints[1] - initialPoints[0], floorPoint - initialPoints[0]).magnitude * 0.5f < 0.02f)
+            { message = "C too close to A-B line. Tap farther away; A/B saved."; return; }
+            if (!SetMarker(pointIndex, floorPoint)) { message = "Marker anchor unavailable. Wait for tracking and retry."; return; }
             initialPoints[pointIndex] = floorPoint;
-            initialPointCount = pointIndex + 1;
         }
         if (step == Step.Second)
         {
-            if (repeatRetry && pointIndex == 0) { ClearRepeatMarkers(); repeatRetry = false; }
-            if (!SetMarker(3 + pointIndex, floorPoint))
-            { message = "Could not anchor View 2 circle. Wait for tracking and retry this point."; return; }
+            if (repeatRetry && pointIndex == 0)
+            { ClearRepeatMarkers(); history.RemoveAll(t => t.view != Step.First); repeatRetry = false; }
+            if (!SetMarker(3 + pointIndex, floorPoint)) { message = "View 2 marker unavailable. Wait and retry."; return; }
         }
+        var target = step == Step.First ? first : step == Step.Second ? second : third;
+        target[pointIndex] = observation;
+        history.Add(new Tap { view = step, index = pointIndex, observation = observation });
         int markerIndex = step == Step.Second ? 3 + pointIndex : pointIndex;
         if (markerRings[markerIndex]) markerRings[markerIndex].widthMultiplier = 0.009f;
-        target[pointIndex++] = observation;
+        pointIndex++;
         trace?.Log(step + " point " + pointIndex, "viewport " + observation.viewport.ToString("F6") + "; pixels " + observation.pixels.ToString("F0") + "; camera " + observation.cameraPosition.ToString("F5") + "; view " + observation.view.ToString("F5") + "; native projection " + observation.projection.ToString("F5"));
-        Debug.Log($"[Lead Mills Calibration Test] {step} point {pointIndex}; t {Time.unscaledTime:F3}; screen {observation.viewport}; camera {observation.cameraPosition.ToString("F5")}.");
-        if (pointIndex < 3) { message = $"View {(step == Step.First ? 1 : step == Step.Second ? 2 : 3)} {(char)('A' + pointIndex - 1)} accepted. Tap {(step == Step.First ? "a different" : "the SAME")} real {(pointIndex == 1 ? "B" : "C")} floor mark."; return; }
-        pointIndex = 0;
-        if (step == Step.First)
+        if (pointIndex < landmarkCount)
+            message = $"View {ViewNumber} {(char)('A' + pointIndex - 1)} accepted. Tap REAL {(char)('A' + pointIndex)}; Undo corrects the last point.";
+        else
         {
-            FloorProjectionCalibration.Error(first, first, floor, 1, out var initial);
-            if (Vector3.Cross(initial[1] - initial[0], initial[2] - initial[0]).magnitude * 0.5f < 0.02f)
-            { Cancel("Choose three marks spread in a triangle, not a line; start again."); return; }
-            ResetMarkerWidths();
-            step = Step.Second;
-            message = "View 2: move 25 cm sideways and change downward tilt. Tap SAME real A/B/C.";
+            int view = ViewNumber;
+            step = step == Step.First ? Step.ReviewFirst : step == Step.Second ? Step.ReviewSecond : Step.ReviewThird;
+            message = $"View {view}: {landmarkCount} tap(s) saved. Inspect circles. Undo replaces the last point; Continue accepts this view.";
         }
-        else if (step == Step.Second)
+    }
+    void Continue()
+    {
+        trace?.Log("continue-view", ViewNumber.ToString());
+        if (step == Step.ReviewFirst)
         {
-            if (!FloorProjectionCalibration.Solve(first, second, floor, out scale, out fitError, out float baseline, out points, out var report))
+            ResetMarkerWidths(); step = Step.Second; pointIndex = 0;
+            message = "View 2: move/tilt, then tap SAME REAL floor detail(s). Do not tap virtual circles.";
+        }
+        else if (step == Step.ReviewSecond)
+        {
+            if (!FloorProjectionCalibration.Solve(Selected(first), Selected(second), floor, out scale, out fitError, out float baseline, out points, out var report))
             {
                 trace?.Log("fit-rejected", report.ToString());
                 Debug.Log("[Lead Mills Calibration Test] Fit rejected: " + report);
-                message = RejectionGuide(report);
+                message = RejectionGuide(report); step = Step.Second; pointIndex = 0;
                 repeatRetry = true; scale = 1; points = null; ApplyProjection();
-                // Retain View 1 observations and all touch confirmations until the next retry tap.
                 movementTarget = report.rejection == FloorProjectionCalibration.Rejection.WeakView ? 0.4f : 0.25f;
                 tiltTarget = report.rejection == FloorProjectionCalibration.Rejection.WeakView ? 25 : 15;
                 return;
             }
             trace?.Log("fit-report", report.ToString());
-            trace?.Log("candidate", $"scale {scale:F5}; baseline {baseline:F2}px; fit {fitError:F2}px");
-            // Show the candidate's reconstructed locations, not repeat-touch screen coordinates.
-            for (int i = 0; i < 3; i++)
-            {
-                if (!FloorProjectionCalibration.FloorPoint(second[i], floor, scale, out var repeatPoint) ||
-                    !SetMarker(i, points[i]) || !SetMarker(i + 3, repeatPoint))
-                { Cancel("Candidate marker anchor unavailable. Rescan and retry."); return; }
-            }
-            trace?.Log("candidate-markers", "A/B/C native plane anchors rebuilt at fitted world points; physical contact unverified");
-            ResetMarkerWidths();
-            movementTarget = 0.25f; tiltTarget = 15; repeatRetry = false;
-            step = Step.Third; ApplyProjection();
-            message = $"Candidate zoom {scale:F3}; fit {fitError:F1}px. View 3: move/tilt again (25 cm); retap real A/B/C.";
-            Debug.Log($"[Lead Mills Calibration Test] Candidate scale {scale:F5}; baseline RMS {baseline:F2}px; fit RMS {fitError:F2}px. Holdout pending.");
+            trace?.Log("candidate", $"count {landmarkCount}; scale {scale:F5}; baseline {baseline:F2}px; fit {fitError:F2}px");
+            if (!RebuildMarkers(true)) { Cancel("Candidate marker unavailable. Rescan and retry."); return; }
+            ResetMarkerWidths(); movementTarget = 0.25f; tiltTarget = 15; repeatRetry = false;
+            step = Step.Third; pointIndex = 0; ApplyProjection();
+            message = $"Candidate zoom {scale:F3}; fit {fitError:F1}px. View 3: retap SAME REAL detail(s) from another position.";
         }
-        else
+        else if (step == Step.ReviewThird)
         {
-            holdoutError = FloorProjectionCalibration.Error(first, third, floor, scale, out _);
+            holdoutError = FloorProjectionCalibration.Error(Selected(first), Selected(third), floor, scale, out _);
             if (float.IsNaN(holdoutError) || float.IsInfinity(holdoutError) || holdoutError > 15)
-            { Cancel($"Independent view error {holdoutError:F1}px: correction rejected; native projection restored."); return; }
-            trace?.Log("holdout", $"RMS {holdoutError:F2}px");
-            trace?.Outcome("three-view correspondence passed; physical stability unverified");
-            step = Step.Verified;
-            message = $"Three-view check passed: zoom {scale:F3}, repeat {holdoutError:F1}px. Anchor A, then check movement.";
-            Debug.Log($"[Lead Mills Calibration Test] Three-view accepted; scale {scale:F5}; fit RMS {fitError:F2}px; holdout RMS {holdoutError:F2}px. Physical placement acceptance still required.");
+            {
+                holdoutRejected = true; ApplyProjection();
+                message = $"Independent view error {holdoutError:F1}px: native projection restored. Undo to replace the last tap, or Clear.";
+                trace?.Log("holdout-rejected", message); return;
+            }
+            trace?.Log("holdout", $"count {landmarkCount}; RMS {holdoutError:F2}px");
+            trace?.Outcome("three-view correspondence passed; landmark count " + landmarkCount + "; physical stability unverified");
+            step = Step.Verified; ApplyProjection();
+            message = $"{landmarkCount}-point check passed; zoom {scale:F3}, repeat {holdoutError:F1}px. Anchor A and check physical contact.";
         }
+    }
+    void Undo()
+    {
+        if (history.Count == 0) { message = "No accepted point to undo yet."; return; }
+        var tap = history[history.Count - 1]; history.RemoveAt(history.Count - 1);
+        step = tap.view; pointIndex = tap.index; repeatRetry = holdoutRejected = false;
+        if (step != Step.Third) { scale = 1; points = null; }
+        System.Array.Clear(first, 0, 3); System.Array.Clear(second, 0, 3); System.Array.Clear(third, 0, 3);
+        foreach (var saved in history)
+        {
+            var target = saved.view == Step.First ? first : saved.view == Step.Second ? second : third;
+            target[saved.index] = saved.observation;
+        }
+        if (history.Count == 0) plane = null;
+        if (placement) placement.RestartSurfaceCheck();
+        ApplyProjection();
+        if (!RebuildMarkers(step == Step.Third)) { Cancel("Marker rebuild unavailable after Undo. Rescan."); return; }
+        trace?.Outcome("in-progress after undo");
+        trace?.Log("undo", $"view {ViewNumber}; replace {(char)('A' + pointIndex)}");
+        message = $"Undid View {ViewNumber} {(char)('A' + pointIndex)}. Tap the intended REAL floor detail again; earlier points saved.";
+    }
+    bool RebuildMarkers(bool candidate)
+    {
+        ClearMarkers();
+        foreach (var tap in history)
+        {
+            if (tap.view == Step.Third) continue;
+            float zoom = candidate ? scale : 1;
+            if (!FloorProjectionCalibration.FloorPoint(tap.observation, floor, zoom, out var point)) return false;
+            if (tap.view == Step.First) initialPoints[tap.index] = point;
+            int marker = (tap.view == Step.Second ? 3 : 0) + tap.index;
+            if (!SetMarker(marker, point)) return false;
+        }
+        return true;
     }
     void ClearMarkers()
     {
@@ -288,7 +333,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             case FloorProjectionCalibration.Rejection.ScaleBoundary:
                 return "Fit needs zoom outside the tested range. Retry SAME real marks. If repeated, floor/tracking model needs checking; no correction applied.";
             case FloorProjectionCalibration.Rejection.SmallTriangle:
-                return "Fitted triangle too small. Clear and choose wider A/B/C (40-60 cm apart); avoid a line.";
+                return "Fitted landmarks too close. Clear; spread A/B at least 25 cm, or A/B/C in a wide triangle.";
             case FloorProjectionCalibration.Rejection.NoImprovement:
                 return "Zoom does not explain the mismatch. Retry real A/B/C; repeated failures need floor/tracking diagnosis.";
             default:
@@ -303,23 +348,25 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     string MovementGuide()
     {
         if (step == Step.Idle) return "View 1: red/yellow/green. View 2: purple/orange/bright blue. Circles confirm accepted taps.";
+        if (Reviewing) return "Compare the circle with the intended PHYSICAL detail. Undo to replace; Continue when satisfied. Retap physical details in later views, never the circles.";
         if (step == Step.Verified) return "Check A against the real floor from a low angle, then walk around it. Clear if it slips.";
         string next = ((char)('A' + pointIndex)).ToString();
-        if (step == Step.First) return "Tap real " + next + ". Spread A/B/C widely in a triangle; circles mark estimated floor positions.";
+        if (step == Step.First) return "Tap physical " + next + ". " + (landmarkCount == 1 ? "Use one distinct floor detail." : landmarkCount == 2 ? "Spread A/B at least 25 cm apart." : "Spread A/B/C in a wide triangle.") + " Circles are references, not targets.";
         var previous = step == Step.Second ? first : second;
         float moved = Vector3.ProjectOnPlane(arCamera.transform.position - MeanCamera(previous), floor.normal).magnitude;
         Vector3 forward = Vector3.zero;
-        foreach (var observation in previous) forward += observation.view.inverse.MultiplyVector(Vector3.back);
+        for (int i = 0; i < landmarkCount; i++) forward += previous[i].view.inverse.MultiplyVector(Vector3.back);
         float referenceTilt = DownTilt(forward);
         float currentTilt = DownTilt(arCamera.transform.forward);
         float tiltChange = Mathf.Abs(currentTilt - referenceTilt);
         string move = moved < movementTarget ? $"<-- move sideways --> {moved * 100:F0} / {movementTarget * 100:F0} cm" : $"Movement ready: {moved * 100:F0} cm";
         string tilt = tiltChange < tiltTarget ? (referenceTilt <= 45 ? "Tilt more down" : "Tilt more up") + $" (change {tiltChange:F0} / {tiltTarget:F0} deg)" : $"Tilt guide ready: change {tiltChange:F0} deg";
-        Vector3 center = (initialPoints[0] + initialPoints[1] + initialPoints[2]) / 3;
-        if (points != null) center = (points[0] + points[1] + points[2]) / 3;
+        Vector3 center = Vector3.zero;
+        for (int i = 0; i < landmarkCount; i++) center += points != null ? points[i] : initialPoints[i];
+        center /= landmarkCount;
         float distance = Vector3.ProjectOnPlane(arCamera.transform.position - center, floor.normal).magnitude;
         string range = distance < 0.6f ? $"Move away: floor distance {distance:F1} m (guide 0.6-2.5 m)" :
-            distance > 2.5f ? $"Move closer: floor distance {distance:F1} m (guide 0.6-2.5 m)" : "Keep all REAL marks visible; tap " + next + ".";
+            distance > 2.5f ? $"Move closer: floor distance {distance:F1} m (guide 0.6-2.5 m)" : "Tap SAME physical " + next + ", NOT colored circles.";
         return move + "\n" + tilt + "\n" + range;
     }
     void DrawMarkerLabels()
@@ -337,25 +384,39 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         }
     }
     float Scale => Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) / 600f);
-    Rect PanelRect() { var safe = Screen.safeArea; return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMin - 412 * Scale, safe.width - 16 * Scale, 238 * Scale); }
-    Rect StartRect() { var r = PanelRect(); return new Rect(r.x + 8 * Scale, r.y + 186 * Scale, (r.width - 24 * Scale) * 0.5f, 44 * Scale); }
-    Rect AnchorRect() { var r = StartRect(); r.x += r.width + 8 * Scale; return r; }
+    Rect PanelRect() { var safe = Screen.safeArea; return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMin - 478 * Scale, safe.width - 16 * Scale, 304 * Scale); }
+    Rect CountRect(int count) { var r = PanelRect(); return new Rect(r.x + (76 + (count - 1) * 108) * Scale, r.y + 30 * Scale, 100 * Scale, 42 * Scale); }
+    Rect ActionRect(int index) { var r = PanelRect(); float width = (r.width - 40 * Scale) / 4; return new Rect(r.x + 8 * Scale + index * (width + 8 * Scale), r.y + 252 * Scale, width, 44 * Scale); }
+    Rect StartRect() => ActionRect(0);
+    Rect UndoRect() => ActionRect(1);
+    Rect NextRect() => ActionRect(2);
+    Rect AnchorRect() => ActionRect(3);
     public bool ContainsScreenPoint(Vector2 point) => PanelRect().Contains(new Vector2(point.x, Screen.height - point.y));
+    void Button(Rect r, string title) => GUI.Button(new Rect(r.x / Scale, r.y / Scale, r.width / Scale, r.height / Scale), title, buttonStyle);
     void OnGUI()
     {
         if (textStyle == null) textStyle = new GUIStyle(GUI.skin.label) { fontSize = 16, wordWrap = true };
-        if (buttonStyle == null) buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 18 };
+        if (buttonStyle == null) buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 16 };
         DrawMarkerLabels();
         var previous = GUI.matrix; float s = Scale;
         GUI.matrix = Matrix4x4.Scale(new Vector3(s, s, 1));
         var r = PanelRect(); GUI.Box(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), GUIContent.none);
         GUI.Label(new Rect(r.x/s+8,r.y/s+4,r.width/s-16,22), TrialTrace.DisplayId, textStyle);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+26,r.width/s-16,76), message, textStyle);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+104,r.width/s-16,78), MovementGuide(), textStyle);
-        r = StartRect(); GUI.Button(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), step == Step.Idle ? "3-point calibration" : "Clear / restart", buttonStyle);
-        GUI.enabled = step == Step.Verified;
-        r = AnchorRect(); GUI.Button(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), "Anchor at A", buttonStyle);
+        GUI.Label(new Rect(r.x/s+8,r.y/s+38,64,24), "Points:", textStyle);
+        var oldBackground = GUI.backgroundColor;
+        for (int i = 1; i <= 3; i++)
+        {
+            GUI.backgroundColor = i == landmarkCount ? new Color(0.35f, 0.8f, 1f) : oldBackground;
+            Button(CountRect(i), i + (i == 1 ? " point" : " points"));
+        }
+        GUI.backgroundColor = oldBackground;
+        GUI.Label(new Rect(r.x/s+8,r.y/s+80,r.width/s-16,76), message, textStyle);
+        GUI.Label(new Rect(r.x/s+8,r.y/s+158,r.width/s-16,88), MovementGuide(), textStyle);
+        Button(StartRect(), step == Step.Idle ? "Start" : "Clear");
+        GUI.enabled = history.Count > 0; Button(UndoRect(), "Undo last");
+        GUI.enabled = Reviewing && !holdoutRejected; Button(NextRect(), "Continue");
+        GUI.enabled = step == Step.Verified; Button(AnchorRect(), "Anchor A");
         GUI.enabled = true; GUI.matrix = previous;
-        // All actions are dispatched once in Update; IMGUI is visual only.
+        // All actions dispatch once in Update; IMGUI is visual only.
     }
 }

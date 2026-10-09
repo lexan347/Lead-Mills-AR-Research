@@ -1,5 +1,5 @@
 {
-  "version": "0.3.2",
-  "protocol": "floor-calibration-3view-v3-feedback",
+  "version": "0.4.0",
+  "protocol": "floor-calibration-1to3-v4-undo",
   "configuration": "Portrait/CW90; Input System default; SRP ON; native projection until three-view trial"
 }
