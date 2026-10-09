@@ -342,6 +342,17 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         return false;
     }
 
+    public Material CalibrationMarkerMaterial => cubePrefab.GetComponentInChildren<LineRenderer>().sharedMaterial;
+
+    // Owned by the calibration wizard; no cube placement or reset side effects.
+    public ARAnchor CreateCalibrationMarkerAnchor(ARPlane surface, Vector3 point)
+    {
+        if (!surface || surface.trackingState != TrackingState.Tracking || surface.subsumedBy != null ||
+            anchorManager.subsystem == null || !anchorManager.subsystem.subsystemDescriptor.supportsTrackableAttachments)
+            return null;
+        return anchorManager.AttachAnchor(surface, new Pose(point, surface.transform.rotation));
+    }
+
     public bool PlaceCalibrationAnchor(ARPlane plane, Vector3 point)
     {
         if (!plane || plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null ||
