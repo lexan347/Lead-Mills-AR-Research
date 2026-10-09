@@ -16,7 +16,7 @@ Generated materials/prefabs are created by the setup menu. The repository preser
 
 ## Current local build evidence
 
-The saved scene was configured through the setup menu and the scripts compiled in Unity. The corrected development export `Builds/iOS_PlanePlacement_20261008_204644` succeeded. The Xcode Debug build succeeded after the user completed the macOS keychain prompt. The app was installed and launched on the physical iPhone 14 Pro at approximately 20:57 EDT. Runtime output showed the placement component starting and ARKit requesting horizontal Plane Tracking and Raycast, with no unsatisfied requested features. The detected surface, placed cube, stability, and reset still require the user’s physical-phone observations.
+The saved scene was configured through the setup menu and the scripts compiled in Unity. The corrected development export `Builds/iOS_PlanePlacement_20261008_204644` succeeded. The Xcode Debug build succeeded after the user completed the macOS keychain prompt. The app was installed and launched on the physical iPhone 14 Pro at approximately 20:57 EDT. Runtime output showed the placement component starting and ARKit requesting horizontal Plane Tracking and Raycast, with no unsatisfied requested features. The captured runtime console subsequently recorded **two cube placements with one reset between them**, demonstrating accepted tracked-horizontal-plane raycasts and the placement/reset handlers on the device. Blue-surface rendering, visible cube contact, and stability still require the user’s physical-phone observations.
 
 ## On-device procedure
 
