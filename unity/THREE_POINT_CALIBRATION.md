@@ -2,14 +2,14 @@
 
 Status: implemented; Unity math validation/export passed. Native deployment and physical calibration acceptance are recorded in the session checkpoint. This is a session-local experimental projection correction, not surveyed calibration or a persistent/geospatial anchor.
 
-## On the phone (v0.4.0)
+## On the phone (v0.4.1)
 
 1. Keep Portrait / CW90 / SRP ON and the same pose mode throughout a trial. Select **1 point**, **2 points** or **3 points**; changing count clears the current trial. One point is the simpler default; fewer points provide fewer spatial cross-checks.
 2. Choose that many distinct **physical floor details**, such as recognizable corners of a pattern. Remember A/B/C order. Two points must be at least 25 cm apart. Three must form a wide triangle. A virtual colored circle is an estimated reference and is not a calibration target.
 3. Press **Start**, then tap the real details. View 1 accepted taps create red/yellow/bright-green circles. The app pauses after all selected points are captured. Inspect the circles and press **Undo last** to remove/replace the last accepted point, or **Continue** when satisfied.
 4. For View 2, move at least 25 cm sideways and change downward angle. Retap the **same PHYSICAL details**, not the colored circles. Accepted taps create separate purple/orange/bright-blue rings. Inspect them, use Undo if needed, then Continue to fit. Live movement/tilt/distance hints remain available; they do not guarantee a valid fit.
 5. A failed fit keeps View 1 and shows the specific reason. Undo can replace the last repeat point; tapping a fresh A begins a new repeat set. Weak-view rejection requests 40 cm movement and suggests 25 degrees tilt change. If careful physical correspondences still fail, investigate the model/tracking rather than blindly retrying.
-6. A candidate previews the fitted virtual projection. Move to a third viewpoint (at least 25 cm from View 2), retap the same real details, inspect and Continue for the independent check. If rejected, native projection is restored; Undo reopens the last point for replacement and restores the temporary candidate preview, or Clear abandons the trial. A passed check enables **Anchor A**.
+6. A candidate previews the fitted virtual projection. Move to a third viewpoint (at least 25 cm from View 2), retap the same real details. Test 3 creates white/hot-pink/aqua rings labeled 3A/3B/3C (only the selected point count). Compare 1A/2A/3A against physical A, and likewise B/C; Undo replaces the latest circle. Inspect and Continue for the independent check. If rejected, native projection is restored; Undo reopens the last point for replacement and restores the temporary candidate preview, or Clear abandons the trial. A passed check enables **Anchor A**.
 7. Undo also works across completed views and candidate/verified transitions. It removes the last accepted observation, reopens its original view/index, clears later results/placement and rebuilds remaining marker anchors. Multiple Undo presses step backward. Undo/replacement events are logged; replay must honor them instead of simply taking the first N point events.
 8. After anchoring, walk/tilt for 30–60 seconds and check real-floor contact from a low angle. A low pixel residual is not a centimeter accuracy guarantee. The estimated plane is not a surveyed floor datum; world Y=0 is not the physical floor.
 9. Clear, tracking/plane/mode changes or app pause invalidate the session calibration. Reopening starts a fresh scan. Attempt numbering and records persist separately from session-local geometry.
@@ -49,3 +49,5 @@ User clarified that earlier repeats tapped the colored circles. Those trials are
 ## Proposed coarse-to-fine interaction
 
 Build0004/a004 reached a recorded independent-view pass and Anchor A after repeated retries. To reduce manual tap difficulty, the next proposed interface separates coarse floor/framing acquisition from fine landmark placement: dim/hide the mesh, magnify the camera detail, adjust a crosshair, then confirm or Undo. The magnifier must map input back to the original camera viewport, and trial results must retain independent-view validation. This proposal is not implemented; a passed pixel check does not establish physical anchor stability.
+
+Test 1/2/3 ring diameters are5/7/9cm, with separated labels to distinguish agreeing observations. Circles visualize accepted projected taps; their overlap alone is not independent proof of physical accuracy. Third-view rings participate in Undo/rebuild/cleanup just like the earlier sets.

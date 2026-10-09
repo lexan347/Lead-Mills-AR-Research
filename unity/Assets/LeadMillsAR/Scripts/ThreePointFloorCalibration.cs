@@ -29,10 +29,10 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     readonly FloorProjectionCalibration.Observation[] third = new FloorProjectionCalibration.Observation[3];
     Vector3[] points;
     readonly Vector3[] initialPoints = new Vector3[3];
-    readonly ARAnchor[] markerAnchors = new ARAnchor[6];
-    readonly Material[] markerMaterials = new Material[6];
-    readonly LineRenderer[] markerRings = new LineRenderer[6];
-    readonly Color[] markerColors = { Color.red, Color.yellow, new Color(0.1f, 1f, 0.05f), new Color(0.75f, 0.15f, 1f), new Color(1f, 0.45f, 0f), new Color(0f, 0.65f, 1f) };
+    readonly ARAnchor[] markerAnchors = new ARAnchor[9];
+    readonly Material[] markerMaterials = new Material[9];
+    readonly LineRenderer[] markerRings = new LineRenderer[9];
+    readonly Color[] markerColors = { Color.red, Color.yellow, new Color(0.1f, 1f, 0.05f), new Color(0.75f, 0.15f, 1f), new Color(1f, 0.45f, 0f), new Color(0f, 0.65f, 1f), Color.white, new Color(1f, 0.1f, 0.55f), new Color(0f, 1f, 0.85f) };
     GUIStyle markerStyle, textStyle, buttonStyle;
     string message = "Choose 1, 2 or 3 real floor details. Start with one.";
     TrialTrace trace;
@@ -54,7 +54,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (manager) manager.frameReceived += OnFrame;
         Application.onBeforeRender += ApplyProjection;
         RenderPipelineManager.beginCameraRendering += OnRendering;
-        Debug.Log("[Lead Mills Calibration Test] Ready: 1/2/3 real landmarks, Undo, review/Continue, independent third view and native anchor at A.");
+        Debug.Log("[Lead Mills Calibration Test] Ready: 1/2/3 real landmarks, Undo, review/Continue, independent third view with separate 3A/3B/3C markers and native anchor at A.");
     }
     void OnDisable()
     {
@@ -182,10 +182,12 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             { ClearRepeatMarkers(); history.RemoveAll(t => t.view != Step.First); repeatRetry = false; }
             if (!SetMarker(3 + pointIndex, floorPoint)) { message = "View 2 marker unavailable. Wait and retry."; return; }
         }
+        if (step == Step.Third && !SetMarker(6 + pointIndex, floorPoint))
+        { message = "Test 3 marker unavailable. Wait for tracking and retry."; return; }
         var target = step == Step.First ? first : step == Step.Second ? second : third;
         target[pointIndex] = observation;
         history.Add(new Tap { view = step, index = pointIndex, observation = observation });
-        int markerIndex = step == Step.Second ? 3 + pointIndex : pointIndex;
+        int markerIndex = (step == Step.Third ? 6 : step == Step.Second ? 3 : 0) + pointIndex;
         if (markerRings[markerIndex]) markerRings[markerIndex].widthMultiplier = 0.009f;
         pointIndex++;
         trace?.Log(step + " point " + pointIndex, "viewport " + observation.viewport.ToString("F6") + "; pixels " + observation.pixels.ToString("F0") + "; camera " + observation.cameraPosition.ToString("F5") + "; view " + observation.view.ToString("F5") + "; native projection " + observation.projection.ToString("F5"));
@@ -265,18 +267,17 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         ClearMarkers();
         foreach (var tap in history)
         {
-            if (tap.view == Step.Third) continue;
             float zoom = candidate ? scale : 1;
             if (!FloorProjectionCalibration.FloorPoint(tap.observation, floor, zoom, out var point)) return false;
             if (tap.view == Step.First) initialPoints[tap.index] = point;
-            int marker = (tap.view == Step.Second ? 3 : 0) + tap.index;
+            int marker = (tap.view == Step.Third ? 6 : tap.view == Step.Second ? 3 : 0) + tap.index;
             if (!SetMarker(marker, point)) return false;
         }
         return true;
     }
     void ClearMarkers()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < markerAnchors.Length; i++)
         {
             if (markerAnchors[i]) Destroy(markerAnchors[i].gameObject);
             if (markerMaterials[i]) Destroy(markerMaterials[i]);
@@ -306,8 +307,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         for (int i = 0; i < vertices.Length; i++)
         {
             float angle = i * Mathf.PI * 2 / vertices.Length;
-            float radius = index < 3 ? 0.025f : 0.035f;
-            vertices[i] = new Vector3(Mathf.Cos(angle) * radius, index < 3 ? 0.004f : 0.006f, Mathf.Sin(angle) * radius);
+            float radius = 0.025f + (index / 3) * 0.01f;
+            vertices[i] = new Vector3(Mathf.Cos(angle) * radius, 0.004f + (index / 3) * 0.002f, Mathf.Sin(angle) * radius);
         }
         ring.SetPositions(vertices); markerRings[index] = ring;
         trace?.Log("marker-view" + (index / 3 + 1) + "-" + (char)('A' + index % 3), "plane anchor world " + point.ToString("F5"));
@@ -315,7 +316,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     }
     void ClearRepeatMarkers()
     {
-        for (int i = 3; i < 6; i++)
+        for (int i = 3; i < markerAnchors.Length; i++)
         {
             if (markerAnchors[i]) Destroy(markerAnchors[i].gameObject);
             if (markerMaterials[i]) Destroy(markerMaterials[i]);
@@ -347,8 +348,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     float DownTilt(Vector3 forward) => Mathf.Asin(Mathf.Clamp(Vector3.Dot(forward.normalized, -floor.normal), -1, 1)) * Mathf.Rad2Deg;
     string MovementGuide()
     {
-        if (step == Step.Idle) return "View 1: red/yellow/green. View 2: purple/orange/bright blue. Circles confirm accepted taps.";
-        if (Reviewing) return "Compare the circle with the intended PHYSICAL detail. Undo to replace; Continue when satisfied. Retap physical details in later views, never the circles.";
+        if (step == Step.Idle) return "Tests 1/2/3 each confirm A/B/C. Test 3: white/hot pink/aqua. Retap the SAME real floor details.";
+        if (Reviewing) return "Check each new circle against its PHYSICAL target and earlier labeled circles (1A/2A/3A, etc.). Undo to replace; Continue confirms. Never retap virtual circles.";
         if (step == Step.Verified) return "Check A against the real floor from a low angle, then walk around it. Clear if it slips.";
         string next = ((char)('A' + pointIndex)).ToString();
         if (step == Step.First) return "Tap physical " + next + ". " + (landmarkCount == 1 ? "Use one distinct floor detail." : landmarkCount == 2 ? "Spread A/B at least 25 cm apart." : "Spread A/B/C in a wide triangle.") + " Circles are references, not targets.";
@@ -372,12 +373,16 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     void DrawMarkerLabels()
     {
         if (markerStyle == null) markerStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = Mathf.RoundToInt(22 * Scale), fontStyle = FontStyle.Bold };
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < markerAnchors.Length; i++)
         {
             if (!markerAnchors[i]) continue;
             var screen = arCamera.WorldToScreenPoint(markerAnchors[i].transform.position);
             if (screen.z <= 0 || screen.x < 0 || screen.x > Screen.width || screen.y < 0 || screen.y > Screen.height) continue;
-            var r = new Rect(screen.x + (i < 3 ? -36 : 0) * Scale, Screen.height - screen.y + (i < 3 ? -42 : 12) * Scale, 40 * Scale, 32 * Scale);
+            int view = i / 3;
+            // Separate label positions when all three observations agree at one physical target.
+            float xOffset = view == 0 ? -44 : view == 1 ? 0 : 28;
+            float yOffset = view == 1 ? 16 : -44;
+            var r = new Rect(screen.x + xOffset * Scale, Screen.height - screen.y + yOffset * Scale, 40 * Scale, 32 * Scale);
             GUI.Box(r, GUIContent.none);
             var oldColor = GUI.color; GUI.color = markerColors[i];
             GUI.Label(r, (i / 3 + 1).ToString() + (char)('A' + i % 3), markerStyle); GUI.color = oldColor;
