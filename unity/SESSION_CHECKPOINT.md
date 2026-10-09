@@ -6,8 +6,8 @@ Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not a
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
 - Last implementation: `6de57a9`, measured surface-readiness gate plus XR center-eye diagnostic.
-- Last exported/installed build: `Builds/iOS_PlanePlacement_20261008_223833`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Build log: that export's `readiness-xcodebuild.log`; console log: `readiness-device.log`. These are local files outside Git.
+- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_065219`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `comparison-xcodebuild.log`; console log: `comparison-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs` and `LiDARMeshPreview.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -45,3 +45,9 @@ See [Apple Device Hub guidance](https://developer.apple.com/documentation/xcode/
 October 9: GitHub authentication and push verified; Unity retained the correct scene; latest generated Xcode project opened; phone paired/Developer Mode/wired-connected. Installed app relaunched as a new session and logging restored to `recovery-device-20261009_0637.log`. Runtime again confirms mesh acquisition and plane-anchor placement. Original room registration failure remains unresolved. An old Xcode memory-termination alert was observed; date/build association unknown. Continue diagnosis from the 22:43 recording review, not from an assumption that the readiness gate fixed alignment.
 
 Latest follow-up: reviewed the 06:37 recording (29.96 s), confirming readiness and placement but not physical alignment. Device Hub screen sharing is stopped; the app and wired connection remain available. Recovery log captured ARKit error 102 “Required sensor failed” with retry/reset, then resumed current frames/mesh acquisition; cause unknown. Orientation later sampled LandscapeRight. Investigate orientation/registration and that separate sensor-reset episode next.
+
+## Active comparison work — October 9
+
+Added `CameraRegistrationComparison.cs` on the AR camera at runtime, with independent pose-source and SRP-batching controls; no guessed rotation correction. Unity export `Builds/iOS_PlanePlacement_20261009_065219` succeeded; Xcode build underway. The previously installed readiness build remains the device baseline until installation is confirmed below. Follow the one-variable comparison procedure in `PLANE_PLACEMENT_TEST.md`. Preserve the new export's `comparison-xcodebuild.log` and forthcoming timestamped device log.
+
+Latest active build: comparison export `20261009_065219` built/installed/launched successfully. Its console confirms ARKit/colorCamera available and matching baseline pose values (0°/0 m in samples). Pose Input System, batching ON, portrait at startup. Next pending user test: fixed-landmark slow pan with batching ON → OFF → ON, leaving pose unchanged. Comparison tool session 71973 is ephemeral; rediscover connection if interrupted. Physical registration remains failed until repeat evidence establishes otherwise.

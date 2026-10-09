@@ -52,13 +52,14 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Restore device/app console and review 22:43 trial; isolate camera/display registration before accepting surface readiness or anchors",
+    "nextAction": "Run independent SRP batching and available XR camera-pose comparisons against a fixed landmark; physical registration remains failed",
     "placement": "Cube/plane rendering and anchor creation observed; both stability trials failed",
     "lidarRevision": "Triangles/cube/footprint visibly verified by 21:55 recording; user reports mesh/plane misalignment and floor appearing vertical; acceptance failed",
     "alignmentDiagnostics": "22:15 recording/photo confirm unresolved physical mesh/plane alignment despite internally matching pose/projection; overlay hiding after placement visually verified",
     "surfaceReadiness": "Build 20261008_223833 installed; user reports a placement, but physical alignment remains failed",
     "meshRegistration": "22:43 trial: right pan makes triangles move down; downward camera movement makes them move left; plane/cube not level or fixed to physical floor",
-    "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored"
+    "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
+    "comparisonBuild": "20261009_065219 built, installed and launched; ARKit/colorCamera available with 0 deg/0 m sampled pose difference; physical SRP batching ON/OFF comparison pending"
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

@@ -45,3 +45,5 @@ Do not commit `Library`, `Temp`, `Logs`, `obj`, platform builds, credentials, ke
 - test model placement through the mock provider;
 - structured session log export;
 - Android and iOS builds from the same commit.
+
+The current diagnostic revision adds `CameraRegistrationComparison.cs`: independently compare Input System versus available tracked XR camera pose, and SRP batching ON/OFF, using a fixed physical landmark. These controls test hypotheses; they are not an accepted alignment fix. See the comparison procedure in [the test guide](PLANE_PLACEMENT_TEST.md).

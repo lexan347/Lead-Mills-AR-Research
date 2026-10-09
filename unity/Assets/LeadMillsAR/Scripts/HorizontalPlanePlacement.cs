@@ -24,6 +24,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     GUIStyle buttonStyle;
     int trackedPlanes;
     ARCameraManager cameraManager;
+    CameraRegistrationComparison comparison;
     Matrix4x4 frameProjection;
     bool hasFrameProjection;
     float lastCameraFrameTime;
@@ -109,6 +110,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             enabled = false;
             return;
         }
+        comparison = origin.Camera.GetComponent<CameraRegistrationComparison>();
+        if (!comparison) comparison = origin.Camera.gameObject.AddComponent<CameraRegistrationComparison>();
+        comparison.Configure(this);
         cameraManager = origin.Camera.GetComponent<ARCameraManager>();
         if (cameraManager) cameraManager.frameReceived += OnCameraFrame;
         RenderPipelineManager.beginCameraRendering += OnCameraRendering;
@@ -211,6 +215,8 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         else
             return;
 
+        if (comparison && comparison.ContainsScreenPoint(screenPoint)) return;
+
         // IMGUI uses top-left coordinates; touch input uses bottom-left.
         var guiPoint = new Vector2(screenPoint.x, Screen.height - screenPoint.y);
         if (HudRect().Contains(guiPoint))
@@ -290,6 +296,12 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         var hud = HudRect();
         return new Rect(hud.x + 12 * UiScale, hud.y + 126 * UiScale,
             hud.width - 24 * UiScale, 46 * UiScale);
+    }
+
+    public void RestartSurfaceCheck()
+    {
+        RemoveCube();
+        nextSurfaceCheck = 0;
     }
 
     void RemoveCube()
