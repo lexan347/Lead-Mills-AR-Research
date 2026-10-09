@@ -54,14 +54,14 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Audit shared camera image projection/display crop/timing and anchor refinement with new calibration diagnostics; pose-source switching did not resolve drift",
+    "nextAction": "Verify candidate projection/image-crop scale mismatch (~4/3) against shader/texture conventions and a landmark trial; no projection override applied",
     "placement": "User confirms slight mesh/cube shifting remains after stopping motion; plane-anchor is active, but steady registration is not accepted",
     "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
     "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
     "surfaceReadiness": "Readiness qualification and placement interaction verified; user confirms physical registration in corrected portrait view",
     "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
     "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
-    "comparisonBuild": "20261009_074548 built/installed/launched ~07:48 EDT; single-handler mobile comparison buttons, CW90/Portrait default. Startup confirmed; released-button verification and drift comparison pending."
+    "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",
