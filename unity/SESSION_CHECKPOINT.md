@@ -26,4 +26,20 @@ Updated: October 9, 2026, approximately 06:34 EDT. This is a resume guide, not a
 
 An agent credit reset does not undo files or commits. Unplugging ends a wired development connection and may end console/debugger access. The development app is installed on the phone; its scanning does not need laptop computation. This POC has session-local geometry and anchors: force-quitting/relaunching it loses that scan/placement. Keep private room recordings and full device logs local.
 
-The safe disconnect and optional wireless workflow will be added after checking current Xcode device state and official guidance.
+### Safe unplug between sessions
+
+1. Finish the movement trial and save the recording/observations. Commit changed source and update this checkpoint before pausing agent work.
+2. Finish any build/install first. For a planned break, end the test session deliberately, then unplug. If Xcode owns the debug session, its Stop button ends the app; launch the installed app again from the phone's Home Screen when needed.
+3. For untethered scanning, launch the installed app from the Home Screen, or launch it with `xcrun devicectl device process launch --device <device> com.alexanderangulo.leadmillsarpoc` **without `--console`**. The app then runs independently of a host console. Unplugging does not uninstall it or delete the Unity project.
+4. The current `devicectl --console` capture forwards catchable signals to the app: do not use Ctrl-C assuming it only detaches. Deliberately quit the phone app/end that test first, let the console end, and relaunch independently for a new untethered trial. A USB transport loss may end log capture; it is not a reason to delete/rebuild the project.
+5. On reconnect, unlock if necessary, confirm the device is connected, inspect whether the app is running and resume from the saved build/notes. Record any app relaunch as a new AR session. This POC does not preserve scans or anchors across app restarts; preserving a live scan through arbitrary interruptions is not implemented.
+
+### Optional wireless development
+
+Apple supports running on a paired physical device over Wi-Fi. Keep Mac/phone on the same compatible network; Apple's current Device Hub guidance calls for IPv6-enabled Wi-Fi. Verify the phone remains available after removing the cable before relying on wireless build/install/log capture. Current verification is wired only; no wireless success is claimed. Xcode 27 uses Device Hub, so do not assume an older “Connect via network” checkbox exists. Reconnect the cable if discovery fails; do not unpair or weaken security as a workaround.
+
+See [Apple Device Hub guidance](https://developer.apple.com/documentation/xcode/managing-your-simulated-and-physical-devices-in-device-hub) and [running an app on a wireless device](https://help.apple.com/xcode/mac/current/en.lproj/dev3e2f4ee6d.html).
+
+## Latest recovery verification
+
+October 9: GitHub authentication and push verified; Unity retained the correct scene; latest generated Xcode project opened; phone paired/Developer Mode/wired-connected. Installed app relaunched as a new session and logging restored to `recovery-device-20261009_0637.log`. Runtime again confirms mesh acquisition and plane-anchor placement. Original room registration failure remains unresolved. An old Xcode memory-termination alert was observed; date/build association unknown. Continue diagnosis from the 22:43 recording review, not from an assumption that the readiness gate fixed alignment.
