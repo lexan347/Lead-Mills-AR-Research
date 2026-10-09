@@ -62,7 +62,8 @@
     "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
     "recovery": "October 9: correct Unity scene/Xcode export restored; paired wired phone connected; installed app relaunched into a new session and private console logging restored",
     "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified.",
-    "threePointCalibration": "Implemented and synthetic-tested; Unity export083132 succeeded; native deployment and physical acceptance pending"
+    "threePointCalibration": "LMAR_v0.3.0_b0001 exported/native-built/installed/launched ~09:06 EDT; synthetic checks passed; runtime component startup confirmed. First physical trial and record persistence pending.",
+    "floorContact": "User reports cube/footprint above physical floor; latest photos reviewed. Estimated-plane height versus projection discrepancy unresolved; world Y=0 is not a measured floor datum."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

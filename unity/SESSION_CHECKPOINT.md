@@ -1,13 +1,13 @@
 # Session recovery checkpoint
 
-Updated: October 9, 2026. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
+Updated: October 9, 2026, approximately 09:06 EDT. Numbered three-point calibration build0001 installed/launched; physical calibration acceptance pending. User verified CW90 portrait alignment and a cube staying in place; default build installed/launched; fresh trial confirms orientation fix but reports small mesh/cube drift. Older entries below preserve the diagnostic sequence.
 
 ## Saved state
 
 - Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
-- Active implementation: calibration/anchor diagnostics (`3696be3`), deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
-- Last exported/installed build: `Builds/iOS_PlanePlacement_20261009_080133`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
-- Current build log: `calibration-xcodebuild.log`; console log: `calibration-device-20261009.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
+- Active installed implementation: three-point calibration and traceability (`0062284`), version 0.3.0/build0001; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
+- Last exported/installed build: `Builds/LMAR_v0.3.0_b0001_20261009T125016Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
+- Current build log: `LMAR_v0.3.0_b0001_native-build.log`; console log: `LMAR_v0.3.0_b0001_device-session_20261009T1306Z.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
 - Source subset: `Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs`, `LiDARMeshPreview.cs` and `CameraRegistrationComparison.cs`; setup/export menu in `Scripts/Editor/PlanePlacementSetup.cs`.
 - Exact local Unity editor/project paths and device identifier are saved in the laptop's private recovery note, outside synced `sources/` and outside the public repository.
 - Baseline: Unity 6000.3.25f1, AR Foundation/ARKit 6.3.5, iPhone 14 Pro / iOS 27.0.1.
@@ -117,3 +117,9 @@ At the user's request, added editable test version/protocol configuration, monot
 The unnumbered `083132` export completed native build, but was superseded before installation by the requested traceable-build revision. Last installed app remains calibration diagnostics `080133` until the new identity build is verified. Three-point physical acceptance is still pending.
 
 Latest pause checkpoint: source `0062284` contains three-point calibration plus version/build/attempt tracking and is pushed. Evidence-label helper functional checks passed (mapping, original preservation, overwrite/wrong-build refusal). Unnumbered export083132 native build succeeded but was not installed. The Mac locked before the numbered exporter could be invoked; user unlock requested. Numbered build0001 is not yet exported/installed and no attempt001 is claimed. Last installed app remains diagnostics080133; current device console session83940 is ephemeral. Resume: unlock Mac, invoke Unity Export (runs math validation and creates numbered identity), build/install/launch the generated versioned folder, verify manifest/startup ID, then test three-point interaction and copy private TestRuns records from the app. Source revision seed saved locally for stamping.
+
+## Numbered calibration export after unlock
+
+User unlocked Mac; Unity export `Builds/LMAR_v0.3.0_b0001_20261009T125016Z` succeeded with version 0.3.0/build 1, embedded source `0062284`, and passing synthetic calibration checks. Native Debug build, installation and launch succeeded at approximately 09:06 EDT. Manifest restored from the embedded identity after Unity cleared its prewritten copy; exporter fix `54a3d55` saves future manifests after export. Installed app version/build fields verified as 0.3.0/1; startup confirms the three-point component. No attempt001 or physical calibration acceptance is claimed.
+
+Latest photos establish an apparent floor-contact discrepancy in the older app. Cube bottom meets the estimated anchor plane by construction; physical plane height/image registration remain unmeasured. Do not force world Y=0 as a floor datum. First numbered calibration attempt and private record persistence are awaiting user trial.
