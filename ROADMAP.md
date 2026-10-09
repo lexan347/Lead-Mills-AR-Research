@@ -104,3 +104,5 @@ Compare at least GPS-only, VPS, and a surveyed visual-marker/reference method wh
 - Document service dependencies and a migration/offline plan.
 
 **Exit evidence:** tagged release, archived research package, deployment instructions, and final limitations statement.
+
+**October 9 next trial:** execute the [three-point multi-view calibration](unity/THREE_POINT_CALIBRATION.md), check independent-view residuals and then physical anchor-at-A contact/stability. Repeated real-room testing is required; passing synthetic math alone does not clear the site-asset gate.

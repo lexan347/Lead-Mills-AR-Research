@@ -113,3 +113,7 @@ Replace D-013's one-patch gate with tracked/level/size checks, local mesh covera
 **Status:** User-verified in diagnostic build; promoted default repeat pending
 
 Use clockwise 90° common-view registration in the portrait POC after the user's confirmations that it fixed mesh/plane alignment and the cube stays in place. Keep provider geometry/world gravity unchanged and use the displayed-camera world ray for placement. Fix app display to portrait until other orientations receive physical validation. Preserve rollback comparisons. This is an observed effective correction, without an independently established vendor-level cause, measured drift, persistent anchors or field accuracy. Repeat the default-build/contact trial before site assets.
+
+## D-016 — three-point multi-view calibration before stable-placement acceptance
+
+October 9: user requested repeated three-point calibration and anchor testing after both pose modes showed drift. Fit one projection focal scale from two views of three physical floor marks; require sufficient perspective change and a third-view holdout before allowing an anchor at A. Keep native projection as the default/fallback, retain portrait/CW90 and provider geometry, and clear calibration on interrupted tracking or configuration changes. No arbitrary smoothing or frozen world geometry. Device acceptance remains pending.

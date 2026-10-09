@@ -106,6 +106,7 @@ public static class PlanePlacementSetup
         EditorUtility.SetDirty(meshes);
         EditorUtility.SetDirty(preview);
         EditorSceneManager.MarkSceneDirty(scene);
+        FloorCalibrationMathValidation.Validate();
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
         Debug.Log("[Lead Mills Placement] Setup saved: LiDAR triangle scan, horizontal surface selection, plane anchor and contact outline.");
@@ -120,6 +121,7 @@ public static class PlanePlacementSetup
         if (scene.path != "Assets/Scenes/LeadMills_AR_POC.unity" ||
             !Object.FindFirstObjectByType<HorizontalPlanePlacement>())
             throw new System.InvalidOperationException("Set up the LeadMills_AR_POC plane test first.");
+        FloorCalibrationMathValidation.Validate();
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
         string output = "Builds/iOS_PlanePlacement_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss");

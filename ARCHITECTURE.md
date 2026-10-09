@@ -77,3 +77,5 @@ The shared cross-platform architecture remains the target. The local Mac impleme
 | `tools/` and `tests/` | Reproducibility and validation utilities |
 
 Large master models, raw drone imagery, VPS capture video, and signing assets are stored outside Git and referenced through manifests and checksums.
+
+The experimental three-point floor calibration captures real image correspondences and tracked poses across three views. It fits only a common projection focal multiplier, preserves native mesh/world poses and CW90, and rejects weak geometry or a failed third-view holdout. An accepted correspondence check enables native plane anchoring at A; it does not establish surveyed accuracy. Tracking loss, mode/plane changes or app pause invalidate the session-local calibration. See [calibration procedure](unity/THREE_POINT_CALIBRATION.md).

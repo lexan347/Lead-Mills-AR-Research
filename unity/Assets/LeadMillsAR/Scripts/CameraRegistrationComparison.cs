@@ -23,6 +23,10 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     float RollAngle => rollMode == 1 ? 90f : rollMode == 2 ? -90f : 0f;
     string poseSource = "Unavailable";
     float nextDiscovery, nextLog;
+    ThreePointFloorCalibration floorCalibration;
+    public int RegistrationRevision { get; private set; }
+    public bool PortraitCorrectionActive => rollMode == 1 && Screen.orientation == ScreenOrientation.Portrait;
+    public void SetFloorCalibration(ThreePointFloorCalibration calibration) { floorCalibration = calibration; }
     GUIStyle style;
 
     public void Configure(HorizontalPlanePlacement owner) { placement = owner; }
@@ -42,6 +46,8 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     void OnDisable()
     {
         Application.onBeforeRender -= ApplyCameraPose;
+        RegistrationRevision++;
+        if (floorCalibration) floorCalibration.Cancel("View controller disabled; calibration cleared.");
         rollMode = 0;
         restoreBaselineRotation = true;
         ApplyCameraPose();
@@ -88,6 +94,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         ReadCameraPose();
         if (useCameraPose && !poseAvailable)
         {
+            RegistrationRevision++;
             useCameraPose = false;
             if (driver) driver.enabled = true;
             if (placement) placement.RestartSurfaceCheck();
@@ -134,12 +141,14 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         // in the image. Recompute from the raw source every time: never accumulate.
         transform.localRotation = rawRotation.normalized * Quaternion.Euler(0, 0, RollAngle);
         restoreBaselineRotation = false;
+        if (floorCalibration) floorCalibration.ApplyProjection();
     }
 
     public void PrepareViewForRaycast() { ApplyCameraPose(); }
 
     void ToggleRoll()
     {
+        RegistrationRevision++;
         rollMode = (rollMode + 1) % 3;
         restoreBaselineRotation = rollMode == 0;
         ApplyCameraPose();
@@ -155,6 +164,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
             Debug.LogWarning("[Lead Mills Compare] Alternate camera pose unavailable; baseline retained.");
             return;
         }
+        RegistrationRevision++;
         useCameraPose = !useCameraPose;
         driver.enabled = !useCameraPose;
         if (placement) placement.RestartSurfaceCheck();
@@ -164,6 +174,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     void ToggleBatching()
     {
         if (!pipeline) return;
+        RegistrationRevision++;
         pipeline.useSRPBatcher = !pipeline.useSRPBatcher;
         GraphicsSettings.useScriptableRenderPipelineBatching = pipeline.useSRPBatcher;
         Debug.Log($"[Lead Mills Compare] SRP batching changed to {pipeline.useSRPBatcher}; pose mode unchanged.");

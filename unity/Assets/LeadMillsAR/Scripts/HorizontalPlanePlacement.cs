@@ -27,6 +27,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     int trackedPlanes;
     ARCameraManager cameraManager;
     CameraRegistrationComparison comparison;
+    ThreePointFloorCalibration calibration;
     Matrix4x4 frameProjection, frameDisplay;
     bool hasFrameDisplay;
     long frameTimestampNs;
@@ -119,6 +120,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         comparison.Configure(this);
         cameraManager = origin.Camera.GetComponent<ARCameraManager>();
         if (cameraManager) cameraManager.frameReceived += OnCameraFrame;
+        calibration = gameObject.AddComponent<ThreePointFloorCalibration>();
+        calibration.Configure(this, comparison, origin.Camera);
+        comparison.SetFloorCalibration(calibration);
         RenderPipelineManager.beginCameraRendering += OnCameraRendering;
         Debug.Log("[Lead Mills Placement] LiDAR readiness gate: level within 10 deg, 40 cm extent, 8 supported 10 cm cells, 3 s stability, 15 cm viewpoint change; cube size 0.20 m.");
     }
@@ -226,6 +230,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
                 $"session {ARSession.state}; reason {ARSession.notTrackingReason}.");
         }
 
+        if (calibration && (calibration.CapturesPlacement || calibration.ConsumedTouchThisFrame)) return;
         Vector2 screenPoint;
         var touch = Touchscreen.current;
         if (touch != null && touch.primaryTouch.press.wasPressedThisFrame)
@@ -255,6 +260,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             feedback = scanStatus;
             return;
         }
+        if (calibration && calibration.ContainsScreenPoint(screenPoint)) return;
         // The native viewport ray uses the provider's unmodified camera view.
         // During the opt-in roll test use the displayed camera's world ray so
         // the hit matches the visible surface rather than an unrotated viewport.
@@ -283,33 +289,67 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
                 return;
             }
 
-            if (anchorManager.subsystem == null ||
-                !anchorManager.subsystem.subsystemDescriptor.supportsTrackableAttachments)
-            {
-                feedback = "Plane anchors are unavailable. Placement was not created.";
-                Debug.LogWarning("[Lead Mills Placement] Plane anchor attachment unsupported.");
-                return;
-            }
-            placedAnchor = anchorManager.AttachAnchor(plane, hit.pose);
-            if (!placedAnchor)
-            {
-                feedback = "Anchor creation failed. Scan the surface and try again.";
-                Debug.LogWarning("[Lead Mills Placement] Plane anchor creation failed.");
-                return;
-            }
-            anchorStartLocalPosition = placedAnchor.transform.localPosition;
-            anchorStartLocalRotation = placedAnchor.transform.localRotation;
-            // Anchor sits on the surface; cube pivot is at its center.
-            placedCube = Instantiate(cubePrefab, placedAnchor.transform, false);
-            placedCube.transform.localPosition = Vector3.up * 0.10f;
-            placedCube.transform.localRotation = Quaternion.identity;
-            placedCube.name = "Lead Mills Test Cube (20 cm)";
-            feedback = "Keep cube in view. Move 20 cm sideways and back.";
-            Debug.Log($"[Lead Mills Placement] Cube attached to plane {hit.trackableId}; " +
-                $"anchor {placedAnchor.trackableId}; pose {hit.pose.position}.");
+            CreatePlacement(plane, hit.pose);
             return;
         }
         feedback = "Wait for a horizontal surface to finish tracking.";
+    }
+
+    bool CreatePlacement(ARPlane plane, Pose pose)
+    {
+        if (anchorManager.subsystem == null ||
+            !anchorManager.subsystem.subsystemDescriptor.supportsTrackableAttachments)
+        {
+            feedback = "Plane anchors are unavailable. Placement was not created.";
+            Debug.LogWarning("[Lead Mills Placement] Plane anchor attachment unsupported.");
+            return false;
+        }
+        placedAnchor = anchorManager.AttachAnchor(plane, pose);
+        if (!placedAnchor)
+        {
+            feedback = "Anchor creation failed. Scan the surface and try again.";
+            Debug.LogWarning("[Lead Mills Placement] Plane anchor creation failed.");
+            return false;
+        }
+        anchorStartLocalPosition = placedAnchor.transform.localPosition;
+        anchorStartLocalRotation = placedAnchor.transform.localRotation;
+        // Anchor sits on the surface; cube pivot is at its center.
+        placedCube = Instantiate(cubePrefab, placedAnchor.transform, false);
+        placedCube.transform.localPosition = Vector3.up * 0.10f;
+        placedCube.transform.localRotation = Quaternion.identity;
+        placedCube.name = "Lead Mills Test Cube (20 cm)";
+        feedback = "Keep cube in view. Move 20 cm sideways and back.";
+        Debug.Log($"[Lead Mills Placement] Cube attached to plane {plane.trackableId}; " +
+            $"anchor {placedAnchor.trackableId}; pose {pose.position}.");
+        return true;
+    }
+
+    public bool ContainsHudScreenPoint(Vector2 point) => HudRect().Contains(new Vector2(point.x, Screen.height - point.y));
+
+    public bool TryCalibrationPlane(Vector2 screen, out ARPlane plane)
+    {
+        plane = null;
+        CheckSurfaces();
+        comparison.PrepareViewForRaycast();
+        if (!raycastManager.Raycast(origin.Camera.ScreenPointToRay(screen), hits, TrackableType.PlaneWithinPolygon)) return false;
+        foreach (var hit in hits)
+        {
+            var candidate = planeManager.GetPlane(hit.trackableId);
+            if (candidate && surfaces.TryGetValue(candidate.trackableId, out var state) && state.ready &&
+                meshPreview.SupportedCells(candidate, hit.pose.position, 0.2f) >= 4)
+            { plane = candidate; return true; }
+        }
+        return false;
+    }
+
+    public bool PlaceCalibrationAnchor(ARPlane plane, Vector3 point)
+    {
+        if (!plane || plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null ||
+            ARSession.state != ARSessionState.SessionTracking || ARSession.notTrackingReason != NotTrackingReason.None ||
+            Vector3.Dot(plane.transform.up, Vector3.up) < 0.985f ||
+            meshPreview.SupportedCells(plane, point, 0.2f) < 4) return false;
+        RemoveCube();
+        return CreatePlacement(plane, new Pose(point, plane.transform.rotation));
     }
 
     float UiScale => Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) / 600f);
