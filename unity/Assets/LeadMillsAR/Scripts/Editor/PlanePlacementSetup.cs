@@ -122,9 +122,9 @@ public static class PlanePlacementSetup
             !Object.FindFirstObjectByType<HorizontalPlanePlacement>())
             throw new System.InvalidOperationException("Set up the LeadMills_AR_POC plane test first.");
         FloorCalibrationMathValidation.Validate();
+        string output = BuildTraceability.PrepareExport();
         EditorSceneManager.SaveScene(scene);
         AssetDatabase.SaveAssets();
-        string output = "Builds/iOS_PlanePlacement_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
         var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {
             scenes = new[] { scene.path },

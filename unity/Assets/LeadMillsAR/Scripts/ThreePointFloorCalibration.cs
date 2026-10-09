@@ -27,6 +27,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     Vector3[] points;
     string message = "Three real floor landmarks; recheck from two other views.";
     GUIStyle textStyle, buttonStyle;
+    TrialTrace trace;
     bool Capturing => step == Step.First || step == Step.Second || step == Step.Third;
     public bool CapturesPlacement => Capturing;
     public bool ConsumedTouchThisFrame { get; private set; }
@@ -71,6 +72,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         ApplyProjection();
         if (hadCalibration)
         {
+            if (trace != null) trace.Outcome("cleared: " + reason);
+            trace = null;
             if (placement) placement.RestartSurfaceCheck();
             Debug.Log("[Lead Mills Calibration Test] Cleared: " + reason);
         }
@@ -82,6 +85,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         { message = "Wait for tracking and select CW90/Portrait first."; return; }
         placement.RestartSurfaceCheck();
         revision = comparison.RegistrationRevision;
+        try { trace = TrialTrace.Begin(comparison.CurrentConfiguration); }
+        catch (System.Exception e) { message = "Could not save test record. Restart after checking storage."; Debug.LogError(e); return; }
         step = Step.First; pointIndex = 0;
         message = "View 1: tap A on a real floor mark. Then B and C, spread in a triangle.";
     }
@@ -109,6 +114,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         {
             if (step == Step.Verified && points != null && plane)
                 message = placement.PlaceCalibrationAnchor(plane, points[0]) ? "A anchored. Check contact and movement; calibration is session-local." : "A no longer has enough surface support; rescan/retry.";
+            trace?.Log("anchor-A", message);
             return;
         }
         if (!Capturing || PanelRect().Contains(gui) || comparison.ContainsScreenPoint(position) || placement.ContainsHudScreenPoint(position)) return;
@@ -139,6 +145,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         }
         var target = step == Step.First ? first : step == Step.Second ? second : third;
         target[pointIndex++] = observation;
+        trace?.Log(step + " point " + pointIndex, "viewport " + observation.viewport + "; camera " + observation.cameraPosition.ToString("F5") + "; view " + observation.view.ToString("F5") + "; native projection " + observation.projection.ToString("F5"));
         Debug.Log($"[Lead Mills Calibration Test] {step} point {pointIndex}; t {Time.unscaledTime:F3}; screen {observation.viewport}; camera {observation.cameraPosition.ToString("F5")}.");
         if (pointIndex < 3) { message = $"{step} view: tap {(step == Step.First ? "a different" : "the same")} real {(pointIndex == 1 ? "B" : "C")} floor mark."; return; }
         pointIndex = 0;
@@ -154,6 +161,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         {
             if (!FloorProjectionCalibration.Solve(first, second, floor, out scale, out fitError, out float baseline, out points))
             { Cancel("Fit is uncertain. Restart with clearer marks and a bigger viewpoint/tilt change."); return; }
+            trace?.Log("candidate", $"scale {scale:F5}; baseline {baseline:F2}px; fit {fitError:F2}px");
             step = Step.Third; ApplyProjection();
             message = $"Candidate zoom {scale:F3}; fit {fitError:F1}px. View 3: move/tilt again (25 cm); retap real A/B/C.";
             Debug.Log($"[Lead Mills Calibration Test] Candidate scale {scale:F5}; baseline RMS {baseline:F2}px; fit RMS {fitError:F2}px. Holdout pending.");
@@ -163,6 +171,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             holdoutError = FloorProjectionCalibration.Error(first, third, floor, scale, out _);
             if (float.IsNaN(holdoutError) || float.IsInfinity(holdoutError) || holdoutError > 15)
             { Cancel($"Independent view error {holdoutError:F1}px: correction rejected; native projection restored."); return; }
+            trace?.Log("holdout", $"RMS {holdoutError:F2}px");
+            trace?.Outcome("three-view correspondence passed; physical stability unverified");
             step = Step.Verified;
             message = $"Three-view check passed: zoom {scale:F3}, repeat {holdoutError:F1}px. Anchor A, then check movement.";
             Debug.Log($"[Lead Mills Calibration Test] Three-view accepted; scale {scale:F5}; fit RMS {fitError:F2}px; holdout RMS {holdoutError:F2}px. Physical placement acceptance still required.");
@@ -180,7 +190,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         var previous = GUI.matrix; float s = Scale;
         GUI.matrix = Matrix4x4.Scale(new Vector3(s, s, 1));
         var r = PanelRect(); GUI.Box(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), GUIContent.none);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+4,r.width/s-16,78), message, textStyle);
+        GUI.Label(new Rect(r.x/s+8,r.y/s+4,r.width/s-16,22), TrialTrace.DisplayId, textStyle);
+        GUI.Label(new Rect(r.x/s+8,r.y/s+26,r.width/s-16,56), message, textStyle);
         r = StartRect(); GUI.Button(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), step == Step.Idle ? "3-point calibration" : "Clear / restart", buttonStyle);
         GUI.enabled = step == Step.Verified;
         r = AnchorRect(); GUI.Button(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), "Anchor at A", buttonStyle);

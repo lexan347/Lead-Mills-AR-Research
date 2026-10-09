@@ -24,6 +24,8 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     string poseSource = "Unavailable";
     float nextDiscovery, nextLog;
     ThreePointFloorCalibration floorCalibration;
+    public string CurrentPoseLabel => useCameraPose ? "XR camera" : "Input System";
+    public string CurrentConfiguration => $"Pose {CurrentPoseLabel}; view roll {RollAngle:F0}; orientation {Screen.orientation}; SRP {(pipeline ? pipeline.useSRPBatcher.ToString() : "Unavailable")}";
     public int RegistrationRevision { get; private set; }
     public bool PortraitCorrectionActive => rollMode == 1 && Screen.orientation == ScreenOrientation.Portrait;
     public void SetFloorCalibration(ThreePointFloorCalibration calibration) { floorCalibration = calibration; }
