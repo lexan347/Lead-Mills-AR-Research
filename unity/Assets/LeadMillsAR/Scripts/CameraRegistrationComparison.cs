@@ -188,6 +188,10 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     void OnGUI()
     {
         if (style == null) style = new GUIStyle(GUI.skin.button) { fontSize = 20, wordWrap = true };
+        // Mobile touches are handled once, on press, in Update. IMGUI also
+        // emits a click on release; consuming both would toggle straight back.
+        // Keep IMGUI click handling for desktop/editor mouse interaction only.
+        bool handleGuiClicks = !Application.isMobilePlatform;
         var previous = GUI.matrix;
         float scale = Scale;
         GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1));
@@ -196,15 +200,15 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         var pose = PoseRect(); var batch = BatchRect();
         GUI.enabled = driver && (poseAvailable || useCameraPose);
         if (GUI.Button(new Rect(pose.x / scale, pose.y / scale, pose.width / scale, pose.height / scale),
-            poseAvailable ? "Pose: " + (useCameraPose ? "XR camera" : "Input System") : "XR camera pose unavailable", style)) TogglePose();
+            poseAvailable ? "Pose: " + (useCameraPose ? "XR camera" : "Input System") : "XR camera pose unavailable", style) && handleGuiClicks) TogglePose();
         GUI.enabled = pipeline;
         if (GUI.Button(new Rect(batch.x / scale, batch.y / scale, batch.width / scale, batch.height / scale),
-            "Render test — SRP batching: " + (pipeline && pipeline.useSRPBatcher ? "ON" : "OFF"), style)) ToggleBatching();
+            "Render test — SRP batching: " + (pipeline && pipeline.useSRPBatcher ? "ON" : "OFF"), style) && handleGuiClicks) ToggleBatching();
         GUI.enabled = driver || (useCameraPose && poseAvailable);
         var roll = RollRect();
         string rollLabel = rollMode == 0 ? "BASELINE" : rollMode == 1 ? "PORTRAIT FIX (CW90)" : "90 deg COUNTERCLOCKWISE";
         if (GUI.Button(new Rect(roll.x / scale, roll.y / scale, roll.width / scale, roll.height / scale),
-            "View registration: " + rollLabel, style)) ToggleRoll();
+            "View registration: " + rollLabel, style) && handleGuiClicks) ToggleRoll();
         GUI.enabled = true;
         GUI.matrix = previous;
     }
