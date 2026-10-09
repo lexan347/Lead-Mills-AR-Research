@@ -34,7 +34,7 @@
             <a class="button primary" href="#roadmap">View the research plan</a>
             <a class="button secondary" href="https://github.com/lexan347/Lead-Mills-AR-Research">Open the repository</a>
           </div>
-          <p class="status-line"><span class="pulse" aria-hidden="true"></span><span id="project-status">Loading project status…</span></p>
+          <p class="status-line"><span class="pulse" aria-hidden="true"></span><span id="project-status">First native AR POC verified: iPhone 14 Pro / iOS 27.0.1 camera permission and live feed working. Next: horizontal-plane detection and simple test-object placement.</span></p>
         </div>
         <div class="hero-visual" role="img" aria-label="Abstract diagram of a phone aligning a transparent historical structure with a shoreline landscape">
           <div class="shoreline"></div>
@@ -105,7 +105,7 @@
         <div class="roadmap" id="roadmap-list">
           <article class="phase"><span>0</span><div><h3>Repository and governance</h3><p>Public repository and project dashboard deployed.</p></div></article>
           <article class="phase"><span>1</span><div><h3>Browser demonstration</h3><p>One GLB asset on iPhone Safari and Android Chrome.</p></div></article>
-          <article class="phase active"><span>2</span><div><h3>Unity baseline — in progress</h3><p>URP POC configured; validation: 0 issues; Unity iOS export succeeded. Personal Team signing configured; physical iPhone 14 Pro recognized. Deployment paused for iOS 26.6.2 → 26.7.1 update; first device launch and Android build pending.</p></div></article>
+          <article class="phase active"><span>2</span><div><h3>Unity baseline — in progress</h3><p>First native AR POC confirmed October 8: iPhone 14 Pro / iOS 27.0.1 installs, launches, requests camera permission, and shows the live feed. Unity 6000.3.25f1; AR Foundation / ARKit 6.3.5; validation: 0 issues. Next: horizontal-plane detection and one test object. Android and cross-platform acceptance remain pending.</p></div></article>
           <article class="phase"><span>3</span><div><h3>Geospatial providers</h3><p>GPS baseline, Google, and Niantic behind common diagnostics.</p></div></article>
           <article class="phase"><span>4</span><div><h3>Site and asset pipeline</h3><p>Survey control, documented transformations, and mobile LODs.</p></div></article>
           <article class="phase"><span>5</span><div><h3>Field validation</h3><p>Position, heading, drift, timing, failure, and repeatability.</p></div></article>
@@ -128,15 +128,15 @@
         </div>
         <aside class="integrity-note">
           <strong>Current evidence boundary</strong>
-          <p>October 6 stopping point: wait for the iPhone update to finish, then select the physical device in Xcode, check signing/provisioning, and verify installation, launch, camera permission, and the live AR camera feed. The user is unsure whether iOS 27 is available; no iOS 27 upgrade was selected. No deployed app, surveyed anchor, or successful Lead Mills field localization is claimed.</p>
-          <p><a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/docs/SOFTWARE_BASELINE.md">Software baseline</a> · <a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/iterations/2026-10-04/Daily_Log_2026-10-06.md">Daily log</a> · <a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/unity/IOS_SETUP.md">Unity/iOS resume checklist</a></p>
+          <p>October 8 milestone: the live camera feed works on the physical iPhone after enabling Scenes/LeadMills_AR_POC, unchecking SampleScene, and making a fresh iOS export. Earlier builds showed the template sky/ground because the edited AR scene was not running. Plane detection, object placement, historical site assets, surveyed anchors, and Lead Mills field localization remain pending.</p>
+          <p><a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/docs/SOFTWARE_BASELINE.md">Software baseline</a> · <a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/iterations/2026-10-04/Daily_Log_2026-10-08.md">October 8 log</a> · <a href="https://github.com/lexan347/Lead-Mills-AR-Research/blob/main/unity/IOS_SETUP.md">Unity/iOS setup and troubleshooting</a></p>
         </aside>
       </section>
     </main>
 
     <footer>
       <p>Lead Mills AR Research · documentation-first academic prototype</p>
-      <p>Updated <span id="updated-date">October 6, 2026</span></p>
+      <p>Updated <span id="updated-date">October 8, 2026</span></p>
     </footer>
   </body>
 </html>

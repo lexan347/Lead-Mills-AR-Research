@@ -2,10 +2,14 @@
 
 Status: IN PROGRESS.
 
-This first iteration established the repository and architecture, reviewed Linux/Mac inventories, and completed the Mac iPhone POC setup through a successful Unity iOS export. October 6 work is paused while the recognized physical iPhone 14 Pro updates from iOS 26.6.2 to 26.7.1; signing is configured and first on-device deployment remains pending. No geospatial scene or field test at Lead Mills is claimed.
+This first iteration established the repository and architecture, completed the Mac iPhone POC setup on October 6, verified device installation/launch and investigated the missing camera on October 7, and reached the **first successful native AR POC** on October 8. Correcting the Build Profiles Scene List and making a fresh export produced camera permission and a live camera feed on the iPhone 14 Pro / iOS 27.0.1. Next: horizontal-plane detection and simple test-object placement before importing site assets. The cross-platform baseline and geospatial/field testing remain open.
 
 - [Software baseline](../../docs/SOFTWARE_BASELINE.md)
 - [Unity/iOS resume checklist](../../unity/IOS_SETUP.md)
 
 - [Initial plan](Plan_2026-10-06.md)
-- [Daily log](Daily_Log_2026-10-06.md)
+- [October 6 daily log](Daily_Log_2026-10-06.md)
+- [October 7 daily log — device deployment and debugging](Daily_Log_2026-10-07.md)
+- [October 8 daily log — first native AR POC](Daily_Log_2026-10-08.md)
+
+Logs retain each date’s stopping point; current configuration and next steps are consolidated in the setup guide. October 7–8 entries were backfilled from the conversation timestamps in America/New_York (EDT).

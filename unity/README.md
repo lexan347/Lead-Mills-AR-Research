@@ -1,8 +1,8 @@
 # Unity application starter
 
-This directory contains provider-neutral interfaces and data objects, not the complete local Unity project. On October 6, the Mac POC `LeadMills_AR_POC` was created in Universal 3D / URP using Unity 6.3 LTS `6000.3.25f1` for Apple Silicon with iOS Build Support. AR Foundation / ARKit are configured, Project Validation has 0 issues, and the minimal AR scene exported successfully to Xcode with no Unity build errors.
+This directory contains provider-neutral interfaces and data objects, not the complete local Unity project. The Mac POC `LeadMills_AR_POC` was created October 6 in Universal 3D / URP with Unity 6.3 LTS `6000.3.25f1` Apple Silicon and iOS Build Support. AR Foundation **6.3.5** and Apple ARKit XR Plugin **6.3.5** are installed; ARKit is enabled and Project Validation has 0 issues.
 
-Personal Team signing and bundle ID `com.alexanderangulo.leadmillsarpoc` are configured. The physical iPhone 14 Pro is recognized; deployment is paused while it updates from iOS 26.6.2 to 26.7.1. First on-device launch remains pending. See [iOS setup and resume checklist](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Exact AR package versions, matching Linux editor installation, and cross-platform builds remain unconfirmed.
+The **first successful native AR POC** was confirmed October 8 on the physical iPhone 14 Pro / iOS **27.0.1**, using Personal Team signing and `com.alexanderangulo.leadmillsarpoc`. Camera permission and the live feed worked after selecting the actual AR scene instead of `SampleScene` and making a fresh iOS export. See [iOS setup and troubleshooting](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Next: horizontal-plane detection and simple test-object placement before site-asset import. Local Unity source/package locks, matching Linux editor, and cross-platform builds remain pending.
 
 ## Planned project layout
 

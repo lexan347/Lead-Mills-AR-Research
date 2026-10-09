@@ -6,9 +6,9 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 ## Start here — repository overview
 
-Updated October 6, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
+Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** Mac iPhone POC setup completed through a clean Unity iOS Xcode export. Signing is configured and the physical iPhone 14 Pro is recognized; device setup/deployment is paused while the phone updates from iOS 26.6.2 to 26.7.1. First on-device launch remains pending. No field localization result, surveyed anchor, reconstructed mill model, or deployed application is claimed yet.
+**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Next: detect a real horizontal plane and place one simple test object before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
 
 | Section | What you will find |
 |---|---|
@@ -18,9 +18,9 @@ Updated October 6, 2026. This repository follows the documentation-first and evi
 | [Site and anchor data](SITE_DATA.md) | Coordinate policy, reference frames, survey requirements, and public-data rules |
 | [Security and privacy](SECURITY_AND_PRIVACY.md) | Camera/location notices, secrets, field data, and publishing controls |
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
-| [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, installed Mac versions, and pending iPhone update |
+| [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
-| [Unity / iOS setup](unity/IOS_SETUP.md) | Completed POC setup and exact physical-device resume checklist |
+| [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |
 | [GitHub Pages dashboard](docs/index.html) | Static public project overview prepared for deployment |

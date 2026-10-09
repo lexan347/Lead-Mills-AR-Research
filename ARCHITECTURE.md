@@ -60,9 +60,9 @@ Historical/model coordinates
 
 Every transformation must be documented. Terrain height, orthometric height, and WGS84 ellipsoid height must not be silently interchanged.
 
-## Implementation status — October 6, 2026
+## Implementation status — October 8, 2026
 
-The shared cross-platform architecture remains the target. The first local Mac implementation is `LeadMills_AR_POC` (URP, Unity `6000.3.25f1`, AR Foundation / ARKit), with 0 validation issues and a successful Unity iOS Xcode export. Device signing is configured; the recognized physical iPhone 14 Pro is updating to iOS 26.7.1, so first deployment remains pending. The local project is not yet incorporated into `unity/`; Android builds, source handoff, provider integration, and field validation remain pending. See [Unity/iOS setup](unity/IOS_SETUP.md).
+The shared cross-platform architecture remains the target. The local Mac implementation is `LeadMills_AR_POC` (URP, Unity `6000.3.25f1`, AR Foundation / Apple ARKit XR Plugin **6.3.5**), with 0 Project Validation issues. Personal Team signing and deployment work on the iPhone 14 Pro / **iOS 27.0.1**. The first native AR POC camera permission/live feed was verified October 8 after correcting the startup Scene List and making a fresh export. The active camera uses `Mobile_RPAsset` / `Mobile_Renderer` with AR Background Renderer Feature; XR Origin uses Device tracking and Y offset 0. Next: horizontal-plane detection and one simple test object before site assets. The local project is not yet incorporated into `unity/`; source handoff, Android, provider integration, and field validation remain pending. See [Unity/iOS setup](unity/IOS_SETUP.md).
 
 ## Repository boundaries
 

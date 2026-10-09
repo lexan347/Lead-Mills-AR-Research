@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-06",
-  "stage": "Mac iPhone POC \u2014 Unity iOS export complete",
-  "status": "Unity iOS export succeeded; iPhone 14 Pro deployment paused for iOS 26.7.1 update",
+  "updated": "2026-10-08",
+  "stage": "First successful native AR proof of concept",
+  "status": "First native AR POC verified: iPhone 14 Pro / iOS 27.0.1 camera permission and live feed working. Next: horizontal-plane detection and simple test-object placement.",
   "phases": [
     {
       "name": "Repository",
@@ -29,18 +29,37 @@
     }
   ],
   "claims": {
-    "deployedApp": false,
+    "deployedApp": true,
     "surveyedAnchor": false,
-    "fieldValidated": false
+    "fieldValidated": false,
+    "deploymentScope": "Personal Team development install on physical iPhone only; no public release",
+    "planeDetection": false,
+    "objectPlacement": false
   },
   "stoppingPoint": {
-    "date": "2026-10-06",
+    "date": "2026-10-08",
     "unityValidationIssues": 0,
-    "unityIOSExport": "succeeded with no errors",
-    "signing": "Personal Team; com.alexanderangulo.leadmillsarpoc",
-    "device": "Physical iPhone 14 Pro recognized in Xcode",
-    "iosUpdate": "26.6.2 to 26.7.1 in progress; completion unconfirmed",
-    "ios27Availability": "User unsure; unresolved; no upgrade selected",
-    "nextAction": "Confirm update, select physical iPhone, check signing/provisioning, and verify first install/launch/camera feed"
+    "unityIOSExport": "succeeded; fresh export after Scene List correction",
+    "signing": "Alexander Angulo (Personal Team); com.alexanderangulo.leadmillsarpoc",
+    "device": "Physical iPhone 14 Pro; developer certificate trusted; app installed and running",
+    "iosUpdate": "iOS 27.0.1 confirmed October 7; supersedes October 6 planned 26.7.1 update",
+    "startupScene": "Assets/Scenes/LeadMills_AR_POC.unity enabled; SampleScene unchecked",
+    "cameraPermission": "requested successfully October 8",
+    "liveCameraFeed": "working; user confirmed October 8",
+    "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
+    "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
+    "nextAction": "Detect a real horizontal plane and place one simple test object; verify placement/tracking before importing Lead Mills site assets"
+  },
+  "softwareBaseline": {
+    "xcode": "27.0 (27A266a)",
+    "homebrew": "7.0.8",
+    "gitLFS": "3.8.0",
+    "githubCLI": "2.102.0",
+    "unityHub": "3.22.2",
+    "unityEditor": "6.3 LTS 6000.3.25f1 Apple Silicon",
+    "unityModule": "iOS Build Support",
+    "arFoundation": "6.3.5",
+    "appleARKitXRPlugin": "6.3.5",
+    "urp": "Mobile_RPAsset / Mobile_Renderer; AR Background Renderer Feature"
   }
 }

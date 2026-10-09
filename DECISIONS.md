@@ -47,26 +47,40 @@ The public repository begins with null coordinates. Surveyed coordinates are pub
 **Date:** 2026-10-06<br>
 **Status:** Accepted for POC
 
-Use Unity 6.3 LTS `6000.3.25f1` for Apple Silicon with iOS Build Support and the Universal 3D / URP template for `LeadMills_AR_POC`. First verify a minimal AR Foundation / ARKit camera session on the physical iPhone before importing historical models or adding geospatial SDKs. The longer-term shared Android/iOS project remains the objective; matching Linux editor and package-version capture are pending. Do not upgrade the editor merely because a newer release is available; record any required baseline change.
+Use Unity 6.3 LTS `6000.3.25f1` for Apple Silicon with iOS Build Support and the Universal 3D / URP template for `LeadMills_AR_POC`. First verify a minimal AR Foundation / ARKit camera session on the physical iPhone before importing historical models or adding geospatial SDKs. The longer-term shared Android/iOS project remains the objective; matching Linux editor and source/package-lock capture are pending. AR Foundation and Apple ARKit XR Plugin **6.3.5** were confirmed October 7. Do not upgrade the editor merely because a newer release is available; record any required baseline change.
 
 ## D-008 — direct physical-device signing for the first test
 
 **Date:** 2026-10-06<br>
-**Status:** Configured; deployment pending
+**Status:** Verified for initial POC (October 8)
 
-Use Xcode automatic signing with the user's Personal Team and bundle ID `com.alexanderangulo.leadmillsarpoc` for the initial iPhone 14 Pro test. Recognition of the device and signing configuration do not establish successful provisioning or installation. The first acceptance gate is install, launch, camera permission, and a live AR camera feed without crashing.
+Use Xcode automatic signing with the user's Personal Team and bundle ID `com.alexanderangulo.leadmillsarpoc` for the initial iPhone 14 Pro test. Provisioning/build/install/launch succeeded October 7 after device update and certificate trust. Camera permission and the live camera feed were confirmed October 8, completing the first camera POC gate; release distribution remains outside this result.
 
 ## D-009 — pause for the chosen iOS update
 
 **Date:** 2026-10-06<br>
-**Status:** Accepted; update completion pending
+**Status:** Superseded by observed device version (October 7)
 
-Wait for the physical iPhone 14 Pro to update from iOS 26.6.2 to 26.7.1, then resume device setup/deployment next session. The user is unsure whether iOS 27 is available; availability remains unresolved and no iOS 27 upgrade was selected. Record the actual installed iOS version when work resumes.
+Wait for the physical iPhone 14 Pro to update from iOS 26.6.2 to 26.7.1, then resume device setup/deployment next session. The user is unsure whether iOS 27 is available; availability remains unresolved and no iOS 27 upgrade was selected. When work resumed October 7 at 00:52 EDT, the user confirmed **iOS 27.0.1**, which is now the actual device baseline. The preceding text preserves the October 6 decision rather than asserting 26.7.1 was installed.
+
+## D-010 — verify the exported startup scene and use a fresh export
+
+**Date:** 2026-10-08<br>
+**Status:** Accepted; camera test successful
+
+Enable only `Assets/Scenes/LeadMills_AR_POC.unity` in iOS Build Profiles and uncheck SampleScene. Save scene/project and export into a new folder such as `Builds/iOS_Diagnostic`, then open that export's Xcode project. The missing diagnostic marker and default sky/ground exposed the wrong startup scene; correcting it and making a fresh export yielded camera permission/live feed. Fresh output guards against stale generated files without claiming a separate stale-file defect was proven.
+
+## D-011 — horizontal-plane placement before historical assets
+
+**Date:** 2026-10-08<br>
+**Status:** Accepted; implementation pending
+
+With the native camera pipeline working, next detect a real horizontal surface and place one simple test object. Establish stable placement/tracking before importing Lead Mills site assets or integrating geospatial providers. This camera milestone does not close Android, WebAR, or field-validation gates.
 
 ## Open decisions
 
 - License and any future visibility/ownership changes for the existing public `lexan347/Lead-Mills-AR-Research` repository.
-- Matching Linux Unity `6000.3.25f1` baseline and exact Unity package versions.
+- Matching Linux Unity `6000.3.25f1` baseline and source/package-lock capture; AR Foundation / ARKit 6.3.5 are session-confirmed.
 - Google versus Niantic primary provider after onsite tests.
 - Historical reconstruction source and uncertainty notation.
 - License for original code, models, and documentation.

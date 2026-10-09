@@ -1,6 +1,6 @@
-# Software baseline — October 6, 2026
+# Software baseline — October 8, 2026
 
-Status: Mac iPhone POC toolchain configured; first physical-device deployment pending.
+Status: first native AR POC verified on the physical iPhone 14 Pro; camera permission and live feed confirmed October 8.
 
 This entry records the user's completed setup and the [Plan software downloads conversation](https://chatgpt.com/c/6ac57c84-40c0-83ea-b2bc-0246fbbf10f3). Versions are session records, not claims about the latest available releases. Raw inventories, screenshots, Unity project files, package locks, and generated builds are not archived in this repository by this update.
 
@@ -22,18 +22,22 @@ The Mac inventory and storage audit/cleanup were completed before toolchain inst
 | Unity Editor | Unity 6.3 LTS, `6000.3.25f1`, Apple Silicon | Installed and selected for this POC |
 | Unity module | iOS Build Support | Installed and loaded after editor restart |
 | Unity project | `LeadMills_AR_POC`, Universal 3D / URP | Created locally on Mac |
-| AR Foundation / ARKit XR Plugin | Exact package versions not yet recorded | Installed/configured; ARKit enabled for iOS |
+| AR Foundation | 6.3.5 | Installed; version confirmed October 7 |
+| Apple ARKit XR Plugin | 6.3.5 | Installed; version confirmed October 7; ARKit enabled for iOS |
+| URP assets | `Mobile_RPAsset` / `Mobile_Renderer` | iOS quality pipeline and camera renderer configured; AR Background Renderer Feature added October 7 |
 | XR Plug-in Management | Exact version not yet recorded | Initialize XR on Startup enabled; Project Validation: **0 issues** |
 
 The first native test is iPhone-only. Additional Android/platform modules and positioning SDKs are not established as installed by this entry. Record `ProjectVersion.txt`, `Packages/manifest.json`, and `Packages/packages-lock.json` when the local project is prepared for source handoff.
 
 ## Physical test device
 
-| Component | Recorded state at stopping point |
+| Component | Recorded state as of October 8 |
 |---|---|
-| Device | Physical iPhone 14 Pro, recognized in Xcode |
-| iOS | Updating from 26.6.2 to 26.7.1; update completion not confirmed |
-| Signing | Automatically manage signing; Personal Team; bundle ID `com.alexanderangulo.leadmillsarpoc` |
-| Deployment | Paused during phone update; successful provisioning, install, launch, camera permission, and live AR camera feed not yet confirmed |
+| Device | Physical iPhone 14 Pro, selected in Xcode |
+| iOS | **27.0.1**, user confirmed October 7 at 00:52 EDT; supersedes the October 6 planned 26.7.1 update |
+| Signing | Automatically manage signing; Alexander Angulo (Personal Team); bundle ID `com.alexanderangulo.leadmillsarpoc`; developer certificate trusted |
+| Deployment | Build/install/launch succeeded October 7; camera permission and live camera feed succeeded October 8 after Scene List correction and clean export |
+| Startup scene | Only `Assets/Scenes/LeadMills_AR_POC.unity` enabled in iOS Build Profiles; `SampleScene` unchecked |
+| Export procedure | New folder such as `Builds/iOS_Diagnostic`; open its generated `Unity-iPhone.xcodeproj` |
 
-The user is unsure whether iOS 27 is available. Availability is unresolved; no iOS 27 upgrade was selected. The recorded decision is to wait for 26.7.1 and resume physical-device deployment next session. See the [iOS setup and resume checklist](../unity/IOS_SETUP.md).
+The earlier iOS 26.7.1 target is retained in the October 6 historical log; the actual installed device baseline is iOS 27.0.1. This is a session-recorded camera/AR pipeline success, not plane-placement, geospatial, or cross-platform validation. See the [iOS setup and troubleshooting](../unity/IOS_SETUP.md).
