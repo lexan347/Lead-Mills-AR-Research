@@ -2,7 +2,7 @@
 
 This directory contains provider-neutral interfaces and data objects, not the complete local Unity project. The Mac POC `LeadMills_AR_POC` was created October 6 in Universal 3D / URP with Unity 6.3 LTS `6000.3.25f1` Apple Silicon and iOS Build Support. AR Foundation **6.3.5** and Apple ARKit XR Plugin **6.3.5** are installed; ARKit is enabled and Project Validation has 0 issues.
 
-The **first successful native AR POC** was confirmed October 8 on the physical iPhone 14 Pro / iOS **27.0.1**, using Personal Team signing and `com.alexanderangulo.leadmillsarpoc`. Camera permission and the live feed worked after selecting the actual AR scene instead of `SampleScene` and making a fresh iOS export. See [iOS setup and troubleshooting](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Next: horizontal-plane detection and simple test-object placement before site-asset import. Local Unity source/package locks, matching Linux editor, and cross-platform builds remain pending.
+The **first successful native AR POC** was confirmed October 8 on the physical iPhone 14 Pro / iOS **27.0.1**, using Personal Team signing and `com.alexanderangulo.leadmillsarpoc`. Camera permission and the live feed worked after selecting the actual AR scene instead of `SampleScene` and making a fresh iOS export. See [iOS setup and troubleshooting](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). October11: three-point indoor calibration and user-confirmed stable test-object placement accepted on0.4.3/build0007/a002 after99.2seconds. Next: one simple Lead Mills asset with documented units/origin/provenance. Local Unity source/package locks, matching Linux editor, and cross-platform builds remain pending.
 
 ## Horizontal-plane test implementation
 
@@ -51,3 +51,5 @@ The current diagnostic revision adds `CameraRegistrationComparison.cs`: independ
 ### Selectable 1–3-point calibration trial
 
 Both pose modes still show small lasting drift. The new [three-point procedure](THREE_POINT_CALIBRATION.md) fits one common projection zoom correction from real floor marks, requires an independent third-view check, and can anchor the cube at A. It is experimental and session-local; physical acceptance is pending.
+
+Latest local milestone: three-point calibration → native anchor at A → user-confirmed stable indoor placement in the tested iPhone14Pro portrait/CW90/Input System/SRP ON configuration. Evidence combines the user's observation, six accepted-state views and persisted verdict. Pixel residuals are correspondence checks, not centimeter accuracy. This is one successful session-local indoor trial, not persistent/geospatial anchoring, surveyed floor height, repeatability across launches/devices or onsite field validation. See [October11 log](../iterations/2026-10-04/Daily_Log_2026-10-11.md).

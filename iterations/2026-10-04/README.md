@@ -21,3 +21,5 @@ October 9 recovery is recorded in [the daily log](Daily_Log_2026-10-09.md) and [
 October 9 also records the user's confirmed clockwise 90° view-registration fix and a cube staying in place. The prior failed trials are retained as historical evidence; corrected portrait default/repeat validation is the next step.
 
 [October11 interruption recovery](Daily_Log_2026-10-11.md): build0005 reconnected; saved third-marker/Undo trial retrieved; screen-recording review pending local transfer.
+
+October11 continuation: **three-point indoor POC accepted**, build0007/a002; user-confirmed stable after99.2seconds, verdict preserved through pause. See [daily log](Daily_Log_2026-10-11.md). Next: simple Lead Mills asset and reproducible handoff; cross-platform/geospatial work remains open.

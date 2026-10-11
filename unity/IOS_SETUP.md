@@ -72,7 +72,9 @@ The recorded Xcode warnings (including generated Unity/ARKit debug symbols and m
 
 ## Next milestone and evidence boundary
 
-Subsequent device trials confirmed horizontal-plane rendering, visible cube placement, and plane-anchor creation, but both trials failed stability relative to a floor landmark. Following the user’s Polycam reference, the next trial is **LiDAR triangles → horizontal-surface selection → plane anchor**. See [the setup and acceptance guide](PLANE_PLACEMENT_TEST.md). Verify scan rendering, reset, floor contact and stable alignment before importing Lead Mills site assets. Historical models, Android, geospatial localization, and field validation remain pending.
+October11 indoor three-point test-object milestone is accepted on0.4.3/build0007/a002: independent checks passed and user confirmed stable after99.2seconds; six screenshots show retained placement and Stable saved. Choose points before Start; Guide expands instructions; contextual controls retain Undo, Anchor A and Confirm stable/Reject. Verdict records persist after app pause, but live calibration/anchors do not. See [test evidence](PLANE_PLACEMENT_TEST.md).
+
+Next: one small Lead Mills asset with recorded provenance, meter units and origin, followed by repeat physical stability/contact testing. Complete Unity source/package locks for reproducible handoff. Native-marker lifecycle and thermal/performance follow-up remain open. This acceptance covers the tested indoor portrait session, not historical-model accuracy, surveyed floor elevation, Android, geospatial localization or field validation.
 
 This setup is recorded from the [Plan software downloads conversation](https://chatgpt.com/c/6ac57c84-40c0-83ea-b2bc-0246fbbf10f3). Dates follow America/New_York (EDT): October 6 setup, October 7 early-morning deployment/debugging, October 8 evening Scene List fix and success. The local Unity project, screenshots, dependency locks, build manifests, and generated Xcode output are not archived by this documentation update. Capture those for reproducibility before source handoff.
 

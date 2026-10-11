@@ -1,6 +1,6 @@
 # Session recovery checkpoint
 
-Updated: October11,2026,15:51 EDT. Compact-controls0.4.3/build0007 installed and launched after unlock; startup confirmed. Latest physical verdict remains build0006/a026 two-point confirmation after8.7seconds, preserved through pause. Longer three-point observation and lifecycle/performance repair remain pending.
+Updated: October11,2026, after final three-point review. Installed0.4.3/build0007; a002 passed three-point calibration/independent holdout and saved user-confirmed-stable after99.2seconds. All six accepted-state screenshots reviewed; verdict survived app pause. Indoor session-local milestone accepted. Next: simple Lead Mills asset and reproducible source handoff; lifecycle/performance and broader validation remain open.
 
 ## Saved state
 
@@ -232,3 +232,13 @@ User requested more unobstructed camera space for three-point testing. Settings 
 Unity script compilation, existing synthetic1/2/3-point fit/holdout checks and fresh export succeeded. Editor Play preview verified compact idle layout, Guide→Less expansion/collapse and optional Settings expansion. Signed native Debug build succeeded; version-specific app snapshot, codesign verification and installed-device inventory0.4.3/7 verified.90 private trial JSON files backed up before replacement. iOS denied automatic launch because the device is locked; unlock/open-app requested. Physical active-trial layout/control usability remains to be checked on the phone. No physical three-point acceptance claimed.
 
 At15:51 EDT, after user unlocked the phone, build0007 launched successfully. Startup confirms calibration controls and Input System / Portrait / CW90 / SRP ON. Fresh private unlocked-session console is recording. Three-point physical testing remains pending.
+
+## Successful three-point indoor POC — October 11, build0007/a002
+
+User reports success and authorizes finalization. Reviewed six screenshots IMG_7697–7702; all show LMAR_v0.4.3_b0007_a002, Anchor Tracking, Stable saved and the retained orange cube/green footprint plus all Test1/2/3 A/B/C labels from close, oblique and wider viewpoints. The compact camera-space interface is visible without the former diagnostic overlays. Retrieved the matching private trial record and registered the six originals against the exact attempt ID.
+
+Three real landmarks across three views: two rejected fits (21.39px and14.90px) preceded candidate focal scale0.67898, fit RMS11.91px versus native139.56px. Independent third-view holdout RMS13.91px passed the15px gate. Anchor A succeeded15:56:16 EDT; user-confirmed-stable was recorded15:57:55,99.2seconds after anchoring. App pause15:59:06 cleared live geometry while preserving outcome and physicalStability=user-confirmed-stable. Earlier build0007/a001 failed fit14.41px and was manually cleared; preserve it as a failed attempt rather than counting it as success.
+
+Milestone accepted: three-point calibration → native anchor at A → user-confirmed stable indoor placement in the tested iPhone14Pro portrait/CW90/Input System/SRP ON configuration. Evidence combines the user's observation, six accepted-state views and persisted verdict. Pixel residuals are correspondence checks, not centimeter accuracy. This is one successful session-local indoor trial, not persistent/geospatial anchoring, surveyed floor height, repeatability across launches/devices or onsite field validation.
+
+Installed baseline0.4.3/build0007, source12b4b09. No new source changes or reinstall required to process this success. Raw room media, precise pose records and device identifiers remain private. Existing managed-marker cleanup risk and thermal/performance refinement remain open; hiding debug overlays is not an exception repair. Next milestone: one small provenance-documented Lead Mills asset at the tested local anchor, with units/scale/origin recorded. Complete source/package-lock handoff and repeat stability testing alongside that work; geospatial/cross-platform/field acceptance stays open.

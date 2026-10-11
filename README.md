@@ -6,9 +6,9 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 ## Start here — repository overview
 
-Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
+Updated October 11, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** native camera POC confirmed October 8 on iPhone 14 Pro / iOS 27.0.1 after correcting the Build Profiles scene and making a fresh export. On October 9, the user confirmed that clockwise 90° camera-view registration fixed mesh/plane alignment and that the anchored cube stayed in place. This is the first user-verified stable portrait scan → surface → anchor trial. The readiness gate checks level, local LiDAR coverage, temporal stability and viewpoint change. The tested portrait view is now the installed startup default. The fresh trial confirms the orientation fix but reports small residual mesh/cube drift during tilt and movement. Refine steady registration and verify surface contact before a simple Lead Mills asset. Other orientations/devices, persistent/geospatial anchors, surveyed accuracy and field validation remain pending.
+**Current stage:** successful native camera POC October8, followed by accepted three-point indoor calibration and stable native-anchor placement October11. On iPhone14Pro/iOS27.0.1, v0.4.3/build0007/a002 passed fit11.91px and independent holdout13.91px; the user confirmed stability after99.2seconds. Six screenshots show Stable saved, Anchor Tracking and retained cube/A/B/C markers across viewpoints. The accepted configuration is portrait/CW90/Input System/SRP ON. This clears the local indoor test-object milestone. Next: one simple Lead Mills asset with documented provenance, units and origin. Persistent/geospatial anchors, surveyed accuracy, cross-platform/field validation and source-project handoff remain pending; lifecycle/performance repair is tracked separately. See the [October11 evidence](iterations/2026-10-04/Daily_Log_2026-10-11.md).
 
 | Section | What you will find |
 |---|---|

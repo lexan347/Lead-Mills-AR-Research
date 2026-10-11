@@ -44,4 +44,8 @@ The earlier iOS 26.7.1 target is retained in the October 6 historical log; the a
 
 ## Phone scanning reference
 
-Polycam is present on the iPhone: October 8 user pictures show live room capture with a triangle mesh overlay. Its exact version/license and a completed scan/export are not established. It is an interaction reference for the local Unity LiDAR scan-first trial, not a Unity dependency or imported room asset. The Unity trial uses the existing AR Foundation / ARKit 6.3.5 baseline; mesh-preview rendering is verified; physical alignment failed.
+Polycam is present on the iPhone: October 8 user pictures show live room capture with a triangle mesh overlay. Its exact version/license and a completed scan/export are not established. It is an interaction reference for the local Unity LiDAR scan-first trial, not a Unity dependency or imported room asset. The Unity trial uses the existing AR Foundation / ARKit 6.3.5 baseline; initial mesh-preview rendering was verified but physical alignment failed; the later portrait/CW90 trial supersedes that stopping point.
+
+## October11 accepted test build
+
+Unity/AR package versions above remain the tested baseline. Installed signed development app **0.4.3/build0007**, source12b4b09, compact-controls protocol. Physical iPhone14Pro/iOS27.0.1, Portrait/CW90/Input System/SRP ON. Three-point a002 passed independent calibration checks and recorded user-confirmed-stable after99.2seconds. See [October11 log](../iterations/2026-10-04/Daily_Log_2026-10-11.md); no cross-platform or surveyed-accuracy claim.
