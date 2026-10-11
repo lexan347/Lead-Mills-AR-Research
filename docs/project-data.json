@@ -1,7 +1,7 @@
 {
   "updated": "2026-10-11",
-  "stage": "Three-point indoor calibration and native-anchor POC accepted",
-  "status": "v0.4.3/build0007/a002 passed three-point independent calibration checks; user confirmed stable after99.2seconds. Six accepted-state screenshots reviewed; verdict preserved through app pause. Next: simple Lead Mills asset, source handoff and lifecycle/performance refinement.",
+  "stage": "Accepted three-point indoor calibration; life-size vending asset test",
+  "status": "Three-point indoor calibration accepted on build0007. Original life-size vending-machine0.5.0/build0009 installed/launched18:47EDT; runtime asset and zero floor offset verified. Physical full-size size/contact/stability test pending; no georeferencing.",
   "phases": [
     {
       "name": "Repository",
@@ -54,7 +54,7 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Introduce one small Lead Mills asset at the tested local anchor with documented provenance, meter units/scale/origin; repeat physical stability/contact, finish source/package-lock handoff and repair marker lifecycle/performance concerns.",
+    "nextAction": "Test installed0.5.0/build0009 vending surrogate indoors at fixed1.2\u00d70.85\u00d72m scale. A is base center; B/C outside footprint. Check scale/contact/stability and save verdict. No georeferencing; site building later.",
     "placement": "User confirms slight mesh/cube shifting remains after stopping motion; plane-anchor is active, but steady registration is not accepted",
     "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
     "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
@@ -66,7 +66,8 @@
     "floorContact": "User reports successful three-point placement; screenshot cube/green footprint appears supported at the estimated floor across views. No independently surveyed elevation or quantitative floor-height measurement.",
     "testRecords": "Fresh private backup includes build0007/a001 failed/manual-clear and a002 three-point user-confirmed-stable. Verdict preservation after pause verified; raw pose/media stay private.",
     "calibrationCorrespondences": "User clarified earlier repeats tapped virtual circles; those trials cannot establish independent physical zoom/floor-height calibration. New prompts explicitly target real floor details.",
-    "compactTestControls": "0.4.3/build0007 signed, installed and launched15:51EDT after unlock; startup confirms Input System/Portrait/CW90/SRP ON. Editor preview verifies compact layout, Guide and optional settings. Active three-point usability awaits trial. Debug overlays hidden; logs retained. Existing marker lifecycle/thermal concerns unresolved."
+    "compactTestControls": "0.4.3/build0007 signed, installed and launched15:51EDT after unlock; startup confirms Input System/Portrait/CW90/SRP ON. Editor preview verifies compact layout, Guide and optional settings. Active three-point usability awaits trial. Debug overlays hidden; logs retained. Existing marker lifecycle/thermal concerns unresolved.",
+    "vendingAsset": "0.5.0/build0009/source6630d66 installed/launched; runtime Active prefab VendingMachine, pivot offset0.000m. Original1.2\u00d70.85\u00d72m model,30400triangles/11mesh renderers; prefab/OBJ/MTL/checksum/preview archived. Dimension/render/compilation/synthetic/native/signature/inventory/startup checks passed. Physical large-object verdict pending."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

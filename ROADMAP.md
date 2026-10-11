@@ -42,7 +42,7 @@ Dates are planning targets, not claims of completed work. Each phase closes only
 
 **October11 local milestone accepted:** v0.4.3/build0007/a002 completed three-real-landmark calibration, independent-view checks and Anchor A; the user confirmed stability after99.2seconds. Six accepted-state screenshots and the private saved verdict support this indoor session-local result. The verdict survived app pause; live anchors remain session-local. See the [October11 log](iterations/2026-10-04/Daily_Log_2026-10-11.md).
 
-**Next gate:** introduce one simple Lead Mills asset at the tested local anchor, recording source/provenance, meter units, scale and origin. Repeat the physical-landmark stability/contact trial with that asset. Finish complete Unity source/package-lock handoff; fix managed-marker cleanup and assess thermal/performance behavior. Android/Linux parity, other devices/orientations, persistent/geospatial anchoring and surveyed onsite accuracy remain open; Phase2 cross-platform exit is not complete.
+**Next gate:** user selected an original modern vending-machine surrogate for the room before a full building. The1.2×0.85×2.0m model and floor-center origin are implemented; test physical size/contact/stability at the local anchor. Then use the site-plan/KMZ references to prepare a sourced building footprint/model. No georeferencing is part of this indoor stage. Finish complete Unity source/package-lock handoff; fix managed-marker cleanup and assess thermal/performance behavior. Android/Linux parity, other devices/orientations, persistent/geospatial anchoring and surveyed onsite accuracy remain open; Phase2 cross-platform exit is not complete.
 
 ## Phase 3 — geospatial-provider integration
 

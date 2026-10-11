@@ -49,3 +49,5 @@ Polycam is present on the iPhone: October 8 user pictures show live room capture
 ## October11 accepted test build
 
 Unity/AR package versions above remain the tested baseline. Installed signed development app **0.4.3/build0007**, source12b4b09, compact-controls protocol. Physical iPhone14Pro/iOS27.0.1, Portrait/CW90/Input System/SRP ON. Three-point a002 passed independent calibration checks and recorded user-confirmed-stable after99.2seconds. See [October11 log](../iterations/2026-10-04/Daily_Log_2026-10-11.md); no cross-platform or surveyed-accuracy claim.
+
+October11,18:47EDT: **0.5.0/build0009** vending-machine surrogate installed/launched with the same editor/AR/iOS baseline. Source6630d66; runtime VendingMachine prefab and0floor pivot offset verified. [Model/test procedure](../unity/VENDING_MACHINE_TEST.md). Full-size physical acceptance pending; the earlier build0007 calibration verdict remains historical evidence.
