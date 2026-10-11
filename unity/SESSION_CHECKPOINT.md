@@ -4,7 +4,7 @@ Updated: October11,2026, after final three-point review. Installed0.4.3/build000
 
 ## Saved state
 
-- Repository branch: `plane-placement-poc`; draft PR [#1](https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
+- Repository branch: `plane-placement-poc`; PR [#1] (ready for review)(https://github.com/lexan347/Lead-Mills-AR-Research/pull/1).
 - Active installed implementation: compact controls (`12b4b09`), version0.4.3/build0007, retaining physical verdicts, exact reset diagnostics and native-anchor validity from `84b43f9`; exporter manifest preservation fix `54a3d55` applies to future exports. Previous calibration/anchor diagnostics (`3696be3`) were deployed in export `20261009_080133`; single-handler mobile controls from `4327d6c`; default portrait CW90 correction from `2af2717`. User-verified opt-in trial: `78dbaca` / `20261009_070358`. Earlier pose/render comparison: `6a4dd69`; readiness baseline: `6de57a9`.
 - Last exported/installed build: `Builds/LMAR_v0.4.2_b0006_20261011T153602Z`, Debug, bundle `com.alexanderangulo.leadmillsarpoc`.
 - Current build log: `LMAR_v0.4.2_b0006_native-build.log`; console log: `LMAR_v0.4.2_b0006_device-session.log` in the latest export. Previous readiness/recovery logs are preserved in the October 8 export. These are local files outside Git.
@@ -242,3 +242,5 @@ Three real landmarks across three views: two rejected fits (21.39px and14.90px) 
 Milestone accepted: three-point calibration → native anchor at A → user-confirmed stable indoor placement in the tested iPhone14Pro portrait/CW90/Input System/SRP ON configuration. Evidence combines the user's observation, six accepted-state views and persisted verdict. Pixel residuals are correspondence checks, not centimeter accuracy. This is one successful session-local indoor trial, not persistent/geospatial anchoring, surveyed floor height, repeatability across launches/devices or onsite field validation.
 
 Installed baseline0.4.3/build0007, source12b4b09. No new source changes or reinstall required to process this success. Raw room media, precise pose records and device identifiers remain private. Existing managed-marker cleanup risk and thermal/performance refinement remain open; hiding debug overlays is not an exception repair. Next milestone: one small provenance-documented Lead Mills asset at the tested local anchor, with units/scale/origin recorded. Complete source/package-lock handoff and repeat stability testing alongside that work; geospatial/cross-platform/field acceptance stays open.
+
+Finalization: evidence/status commit1482d2d pushed; repository CI passed. PR1 description updated to the accepted three-point result and marked ready for review. PR remains open; no merge or release was performed.
