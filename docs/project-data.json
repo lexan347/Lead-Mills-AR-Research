@@ -54,7 +54,7 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Unlock/open installed0.4.3/build0007; select3 points before Start and complete physical-landmark calibration using compact controls, then observe30\u201360seconds and Confirm stable/Reject. Guide expands full cues; Settings closes during trial.",
+    "nextAction": "On running0.4.3/build0007, select3 points before Start and complete physical-landmark calibration using compact controls, then observe30\u201360seconds and Confirm stable/Reject. Guide expands full cues; Settings closes during trial.",
     "placement": "User confirms slight mesh/cube shifting remains after stopping motion; plane-anchor is active, but steady registration is not accepted",
     "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
     "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
@@ -66,7 +66,7 @@
     "floorContact": "User reports cube/footprint above physical floor; latest photos reviewed. Estimated-plane height versus projection discrepancy unresolved; world Y=0 is not a measured floor datum.",
     "testRecords": "19 build0001 attempts recovered privately: record creation/update/retrieval verified; include 4 small-triangle and 3 uncertain-fit rejections.",
     "calibrationCorrespondences": "User clarified earlier repeats tapped virtual circles; those trials cannot establish independent physical zoom/floor-height calibration. New prompts explicitly target real floor details.",
-    "compactTestControls": "0.4.3/build0007 signed and installed; editor preview verifies compact layout, Guide and optional settings. Phone launch blocked by device lock; active three-point usability awaits trial. Debug overlays hidden; logs retained. Existing marker lifecycle/thermal concerns unresolved."
+    "compactTestControls": "0.4.3/build0007 signed, installed and launched15:51EDT after unlock; startup confirms Input System/Portrait/CW90/SRP ON. Editor preview verifies compact layout, Guide and optional settings. Active three-point usability awaits trial. Debug overlays hidden; logs retained. Existing marker lifecycle/thermal concerns unresolved."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

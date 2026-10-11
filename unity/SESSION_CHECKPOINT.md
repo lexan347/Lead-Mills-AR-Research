@@ -1,6 +1,6 @@
 # Session recovery checkpoint
 
-Updated: October11,2026,15:47 EDT. Compact-controls0.4.3/build0007 installed; automatic launch blocked by phone lock. Unlock/open-app requested. Latest physical verdict remains build0006/a026 two-point confirmation after8.7seconds, preserved through pause. Longer three-point observation and lifecycle/performance repair remain pending.
+Updated: October11,2026,15:51 EDT. Compact-controls0.4.3/build0007 installed and launched after unlock; startup confirmed. Latest physical verdict remains build0006/a026 two-point confirmation after8.7seconds, preserved through pause. Longer three-point observation and lifecycle/performance repair remain pending.
 
 ## Saved state
 
@@ -230,3 +230,5 @@ Both screenshots still show NullReferenceException development-console entries. 
 User requested more unobstructed camera space for three-point testing. Settings default collapsed and lock during active calibration. Active top status44scaled units; bottom trial strip190scaled units instead of the former184top +304calibration +158settings. Guide temporarily expands full instructions; compact mode retains current message, priority movement cue, build/attempt ID and contextual Clear/Undo/Continue→Anchor A→Confirm stable/Stable saved actions; Reject remains available after placement. Point count appears only before Start. Hit testing uses the visible bounds and skips hidden selectors/settings, preserving floor-target tapping in the reclaimed area. Development console/render-debug overlays disabled visually while diagnostic logging continues. Native geometry, camera mapping, calibration thresholds, marker colors and physical-verdict persistence unchanged. Existing lifecycle/performance issues remain open. Implementation12b4b09 copied to LIVE; fresh export/deployment verification follows.
 
 Unity script compilation, existing synthetic1/2/3-point fit/holdout checks and fresh export succeeded. Editor Play preview verified compact idle layout, Guide→Less expansion/collapse and optional Settings expansion. Signed native Debug build succeeded; version-specific app snapshot, codesign verification and installed-device inventory0.4.3/7 verified.90 private trial JSON files backed up before replacement. iOS denied automatic launch because the device is locked; unlock/open-app requested. Physical active-trial layout/control usability remains to be checked on the phone. No physical three-point acceptance claimed.
+
+At15:51 EDT, after user unlocked the phone, build0007 launched successfully. Startup confirms calibration controls and Input System / Portrait / CW90 / SRP ON. Fresh private unlocked-session console is recording. Three-point physical testing remains pending.
