@@ -20,6 +20,17 @@ public static class FloorCalibrationMathValidation
     [MenuItem("Lead Mills/Validate Three Point Calibration Math")]
     public static void Validate()
     {
+        var intrinsics = new UnityEngine.XR.ARSubsystems.XRCameraIntrinsics(new Vector2(1326.749f,1326.749f),new Vector2(960.498f,722.767f),new Vector2Int(1920,1440));
+        var display=Matrix4x4.identity;display.m00=display.m11=0;display.m01=-.61502f;display.m10=-1;
+        var optical=Matrix4x4.identity;optical.m00=3.99488f;optical.m11=1.84271f;
+        Require(AutomaticCameraAlignment.TryScale(optical,display,intrinsics,out var automatic) && Mathf.Abs(automatic-.75f)<.001f,"recorded sensor/display focal derivation");
+        optical.m00*=.75f;optical.m11*=.75f;
+        Require(AutomaticCameraAlignment.TryScale(optical,display,intrinsics,out automatic) && Mathf.Abs(automatic-1)<.001f,"already matched focal derivation");
+        display.m00=.3f;
+        Require(!AutomaticCameraAlignment.TryScale(optical,display,intrinsics,out automatic),"unsupported display transform rejection");
+        display.m00=0;optical.m00*=1.2f;
+        Require(!AutomaticCameraAlignment.TryScale(optical,display,intrinsics,out automatic),"inconsistent axes rejection");
+
         var native = Matrix4x4.Perspective(45, 1179f / 2556, 0.1f, 20);
         var floor = new Plane(Vector3.up, Vector3.zero);
         var points = new[] { new Vector3(-0.3f, 0, 0.8f), new Vector3(0.3f, 0, 0.8f), new Vector3(0, 0, 1.5f) };

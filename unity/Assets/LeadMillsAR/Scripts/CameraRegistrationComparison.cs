@@ -122,7 +122,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         Vector2 point = pressed ? touch.primaryTouch.position.ReadValue() : Vector2.zero;
         if (!pressed && !Application.isMobilePlatform && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         { pressed = true; point = Mouse.current.position.ReadValue(); }
-        if (!pressed) return;
+        if (!pressed || (placement && placement.GuidedMode)) return;
         point.y = Screen.height - point.y;
         if (SettingsRect().Contains(point))
         {
@@ -202,7 +202,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     Rect SettingsRect()
     {
         var safe = Screen.safeArea;
-        return new Rect(safe.xMax - 108 * Scale, Screen.height - safe.yMax + 8 * Scale, 100 * Scale, 40 * Scale);
+        return new Rect(safe.xMax - 108 * Scale, Screen.height - safe.yMax + 58 * Scale, 100 * Scale, 40 * Scale);
     }
     Rect PanelRect()
     {
@@ -216,11 +216,12 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     public bool ContainsScreenPoint(Vector2 point)
     {
         point.y = Screen.height - point.y;
-        return SettingsRect().Contains(point) || (settingsOpen && PanelRect().Contains(point));
+        return (!placement || !placement.GuidedMode) && (SettingsRect().Contains(point) || (settingsOpen && PanelRect().Contains(point)));
     }
 
     void OnGUI()
     {
+        if (placement && placement.GuidedMode) return;
         if (style == null) style = new GUIStyle(GUI.skin.button) { fontSize = 20, wordWrap = true };
         // Mobile touches are handled once, on press, in Update. IMGUI also
         // emits a click on release; consuming both would toggle straight back.

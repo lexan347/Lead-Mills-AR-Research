@@ -42,6 +42,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     bool Capturing => step == Step.First || step == Step.Second || step == Step.Third;
     bool Reviewing => step == Step.ReviewFirst || step == Step.ReviewSecond || step == Step.ReviewThird;
     bool Preview => step == Step.Third || (step == Step.ReviewThird && !holdoutRejected) || step == Step.Verified || Placed;
+    public bool DiagnosticsVisible { get; set; }
     public bool CapturesPlacement => step != Step.Idle;
     public bool ConsumedTouchThisFrame { get; private set; }
     int ViewNumber => step == Step.First || step == Step.ReviewFirst ? 1 : step == Step.Second || step == Step.ReviewSecond ? 2 : 3;
@@ -78,6 +79,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     [BeforeRenderOrder(200)]
     public void ApplyProjection()
     {
+        if (!DiagnosticsVisible) { if (placement) placement.ApplyAutomaticProjection(); return; }
         if (arCamera && hasProjection)
             arCamera.projectionMatrix = Preview ? FloorProjectionCalibration.Scaled(nativeProjection, scale) : nativeProjection;
     }
@@ -117,7 +119,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     void Update()
     {
         ConsumedTouchThisFrame = false;
-        if (!placement || !comparison) return;
+        if (!DiagnosticsVisible || !placement || !comparison) return;
         if (step != Step.Idle)
         {
             string invalid = InvalidationReason();
@@ -476,10 +478,11 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (Placed) return step == Step.Accepted ? "Stable saved. Reject if it slips." : "Observe 30–60 s; check floor contact.";
         return "Choose real floor landmarks, then Start.";
     }
-    public bool ContainsScreenPoint(Vector2 point) => PanelRect().Contains(new Vector2(point.x, Screen.height - point.y));
+    public bool ContainsScreenPoint(Vector2 point) => DiagnosticsVisible && PanelRect().Contains(new Vector2(point.x, Screen.height - point.y));
     void Button(Rect r, string title) => GUI.Button(new Rect(r.x / Scale, r.y / Scale, r.width / Scale, r.height / Scale), title, buttonStyle);
     void OnGUI()
     {
+        if (!DiagnosticsVisible) return;
         if (textStyle == null) textStyle = new GUIStyle(GUI.skin.label) { fontSize = 16, wordWrap = true };
         if (buttonStyle == null) buttonStyle = new GUIStyle(GUI.skin.button) { fontSize = 16 };
         DrawMarkerLabels();
