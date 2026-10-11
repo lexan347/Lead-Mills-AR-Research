@@ -21,7 +21,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     Plane floor;
     Vector3 planeStart;
     Matrix4x4 nativeProjection;
-    bool hasProjection, repeatRetry, holdoutRejected;
+    bool hasProjection, repeatRetry, holdoutRejected, showDetails;
     float frameTime, scale = 1, fitError, holdoutError;
     float movementTarget = 0.25f, tiltTarget = 15;
     readonly FloorProjectionCalibration.Observation[] first = new FloorProjectionCalibration.Observation[3];
@@ -137,7 +137,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         { pressed = true; position = Mouse.current.position.ReadValue(); }
         if (!pressed) return;
         var gui = new Vector2(position.x, Screen.height - position.y);
-        for (int i = 1; i <= 3; i++)
+        if (DetailsRect().Contains(gui)) { ConsumedTouchThisFrame = true; showDetails = !showDetails; return; }
+        for (int i = 1; step == Step.Idle && i <= 3; i++)
             if (CountRect(i).Contains(gui))
             {
                 ConsumedTouchThisFrame = true;
@@ -146,8 +147,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             }
         if (StartRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Idle) Begin(); else Cancel("Trial cleared; native projection restored."); return; }
         if (UndoRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (Placed) RecordStability(false); else Undo(); return; }
-        if (NextRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Anchored) RecordStability(true); else if (Reviewing && !holdoutRejected) Continue(); return; }
-        if (AnchorRect().Contains(gui))
+        if (step != Step.Verified && NextRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Anchored) RecordStability(true); else if (Reviewing && !holdoutRejected) Continue(); return; }
+        if (step == Step.Verified && AnchorRect().Contains(gui))
         {
             ConsumedTouchThisFrame = true;
             if (step == Step.Verified && points != null && plane)
@@ -444,13 +445,34 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         }
     }
     float Scale => Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) / 600f);
-    Rect PanelRect() { var safe = Screen.safeArea; return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMin - 478 * Scale, safe.width - 16 * Scale, 304 * Scale); }
-    Rect CountRect(int count) { var r = PanelRect(); return new Rect(r.x + (76 + (count - 1) * 108) * Scale, r.y + 30 * Scale, 100 * Scale, 42 * Scale); }
-    Rect ActionRect(int index) { var r = PanelRect(); float width = (r.width - 40 * Scale) / 4; return new Rect(r.x + 8 * Scale + index * (width + 8 * Scale), r.y + 252 * Scale, width, 44 * Scale); }
+    float PanelHeight => (step == Step.Idle ? 238 : 190) + (showDetails ? 94 : 0);
+    Rect PanelRect()
+    {
+        var safe = Screen.safeArea;
+        return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMin - (PanelHeight + 8) * Scale,
+            safe.width - 16 * Scale, PanelHeight * Scale);
+    }
+    Rect DetailsRect() { var r = PanelRect(); return new Rect(r.xMax - 86 * Scale, r.y + 4 * Scale, 78 * Scale, 28 * Scale); }
+    Rect CountRect(int count) { var r = PanelRect(); float w = (r.width - 32 * Scale) / 3; return new Rect(r.x + 8 * Scale + (count - 1) * (w + 8 * Scale), r.y + 36 * Scale, w, 40 * Scale); }
+    Rect ActionRect(int index) { var r = PanelRect(); float w = (r.width - 32 * Scale) / 3; return new Rect(r.x + 8 * Scale + index * (w + 8 * Scale), r.yMax - 52 * Scale, w, 44 * Scale); }
     Rect StartRect() => ActionRect(0);
     Rect UndoRect() => ActionRect(1);
     Rect NextRect() => ActionRect(2);
-    Rect AnchorRect() => ActionRect(3);
+    Rect AnchorRect() => ActionRect(2);
+    string CompactGuide()
+    {
+        if (Capturing && step != Step.First)
+        {
+            string guide = MovementGuide();
+            foreach (var line in guide.Split('\n'))
+                if (!line.StartsWith("Movement ready") && !line.StartsWith("Tilt guide ready")) return line;
+        }
+        if (Capturing) return "Tap REAL " + (char)('A' + pointIndex) + " | View " + ViewNumber + "/3";
+        if (Reviewing) return "Check real targets; Undo corrects the last tap.";
+        if (step == Step.Verified) return "Independent check passed. Anchor at physical A.";
+        if (Placed) return step == Step.Accepted ? "Stable saved. Reject if it slips." : "Observe 30–60 s; check floor contact.";
+        return "Choose real floor landmarks, then Start.";
+    }
     public bool ContainsScreenPoint(Vector2 point) => PanelRect().Contains(new Vector2(point.x, Screen.height - point.y));
     void Button(Rect r, string title) => GUI.Button(new Rect(r.x / Scale, r.y / Scale, r.width / Scale, r.height / Scale), title, buttonStyle);
     void OnGUI()
@@ -461,21 +483,25 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         var previous = GUI.matrix; float s = Scale;
         GUI.matrix = Matrix4x4.Scale(new Vector3(s, s, 1));
         var r = PanelRect(); GUI.Box(new Rect(r.x/s,r.y/s,r.width/s,r.height/s), GUIContent.none);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+4,r.width/s-16,22), TrialTrace.DisplayId, textStyle);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+38,64,24), "Points:", textStyle);
-        var oldBackground = GUI.backgroundColor;
-        for (int i = 1; i <= 3; i++)
+        GUI.Label(new Rect(r.x/s+8,r.y/s+4,r.width/s-104,28), TrialTrace.DisplayId, textStyle);
+        Button(DetailsRect(), showDetails ? "Less" : "Guide");
+        if (step == Step.Idle)
         {
-            GUI.backgroundColor = i == landmarkCount ? new Color(0.35f, 0.8f, 1f) : oldBackground;
-            Button(CountRect(i), i + (i == 1 ? " point" : " points"));
+            var oldBackground = GUI.backgroundColor;
+            for (int i = 1; i <= 3; i++)
+            {
+                GUI.backgroundColor = i == landmarkCount ? new Color(0.35f, 0.8f, 1f) : oldBackground;
+                Button(CountRect(i), i + (i == 1 ? " point" : " points"));
+            }
+            GUI.backgroundColor = oldBackground;
         }
-        GUI.backgroundColor = oldBackground;
-        GUI.Label(new Rect(r.x/s+8,r.y/s+80,r.width/s-16,76), message, textStyle);
-        GUI.Label(new Rect(r.x/s+8,r.y/s+158,r.width/s-16,88), MovementGuide(), textStyle);
+        float contentY = step == Step.Idle ? 82 : 36;
+        GUI.Label(new Rect(r.x/s+8,r.y/s+contentY,r.width/s-16,showDetails ? 98 : 72), message, textStyle);
+        GUI.Label(new Rect(r.x/s+8,r.y/s+contentY+(showDetails ? 100 : 74),r.width/s-16,showDetails ? 66 : 28), showDetails ? MovementGuide() : CompactGuide(), textStyle);
         Button(StartRect(), step == Step.Idle ? "Start" : "Clear");
-        GUI.enabled = history.Count > 0; Button(UndoRect(), Placed ? "Reject" : "Undo last");
-        GUI.enabled = step == Step.Anchored || (Reviewing && !holdoutRejected); Button(NextRect(), Placed ? (step == Step.Accepted ? "Stable saved" : "Confirm stable") : "Continue");
-        GUI.enabled = step == Step.Verified; Button(AnchorRect(), "Anchor A");
+        GUI.enabled = history.Count > 0; Button(UndoRect(), Placed ? "Reject" : "Undo");
+        GUI.enabled = step == Step.Verified || step == Step.Anchored || (Reviewing && !holdoutRejected);
+        Button(NextRect(), step == Step.Verified ? "Anchor A" : Placed ? (step == Step.Accepted ? "Stable saved" : "Confirm stable") : "Continue");
         GUI.enabled = true; GUI.matrix = previous;
         // All actions dispatch once in Update; IMGUI is visual only.
     }

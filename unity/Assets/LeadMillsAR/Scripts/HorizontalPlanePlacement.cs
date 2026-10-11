@@ -372,13 +372,13 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     {
         var safe = Screen.safeArea;
         return new Rect(safe.x + 8 * UiScale, Screen.height - safe.yMax + 8 * UiScale,
-            safe.width - 16 * UiScale, 184 * UiScale);
+            safe.width - 124 * UiScale, (calibration && calibration.CapturesPlacement ? 44 : placedCube ? 148 : 98) * UiScale);
     }
 
     Rect ResetRect()
     {
         var hud = HudRect();
-        return new Rect(hud.x + 12 * UiScale, hud.y + 126 * UiScale,
+        return new Rect(hud.x + 12 * UiScale, hud.y + 96 * UiScale,
             hud.width - 24 * UiScale, 46 * UiScale);
     }
 
@@ -415,14 +415,16 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         var hud = HudRect();
         hud = new Rect(hud.x / scale, hud.y / scale, hud.width / scale, hud.height / scale);
         GUI.Box(hud, GUIContent.none);
-        GUI.Label(new Rect(hud.x + 12, hud.y + 8, hud.width - 24, 30),
-            $"Meshes: {meshPreview.MeshCount} | Ready: {readyPlanes}/{trackedPlanes} | {ARSession.state}", labelStyle);
+        GUI.Label(new Rect(hud.x + 8, hud.y + 6, hud.width - 16, 32),
+            placedCube ? "Anchor: " + CalibrationAnchorState : $"{ARSession.state} | Floor {readyPlanes}/{trackedPlanes}", labelStyle);
+        if (calibration && calibration.CapturesPlacement) { GUI.matrix = previousMatrix; return; }
         string instruction = ARSession.state != ARSessionState.SessionTracking
             ? "Tracking is starting or limited. Move slowly in good light."
             : placedCube ? $"Anchor: {(placedAnchor ? placedAnchor.trackingState.ToString() : "Missing")}. {feedback}" : scanStatus + (feedback.StartsWith("That spot") ? " " + feedback : "");
-        GUI.Label(new Rect(hud.x + 12, hud.y + 42, hud.width - 24, 76), instruction, labelStyle);
+        GUI.Label(new Rect(hud.x + 12, hud.y + 42, hud.width - 24, 50), instruction, labelStyle);
+        if (!placedCube) { GUI.matrix = previousMatrix; return; }
         GUI.enabled = placedCube != null;
-        if (GUI.Button(new Rect(hud.x + 12, hud.y + 126, hud.width - 24, 46),
+        if (GUI.Button(new Rect(hud.x + 12, hud.y + 96, hud.width - 24, 46),
             "Remove cube and place again", buttonStyle))
             RemoveCube();
         GUI.enabled = true;

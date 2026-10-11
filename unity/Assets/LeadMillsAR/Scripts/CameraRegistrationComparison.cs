@@ -14,7 +14,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     TrackedPoseDriver driver;
     HorizontalPlanePlacement placement;
     UniversalRenderPipelineAsset pipeline;
-    bool originalBatching, useCameraPose, poseAvailable;
+    bool originalBatching, useCameraPose, poseAvailable, settingsOpen;
     Pose cameraPose;
     int rollMode = 1;
     ScreenOrientation originalOrientation;
@@ -35,6 +35,11 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
 
     void Awake()
     {
+        // Keep development logs available without covering physical test targets.
+        Debug.developerConsoleEnabled = false;
+        DebugManager.instance.displayRuntimeUI = false;
+        DebugManager.instance.displayPersistentRuntimeUI = false;
+        DebugManager.instance.enableRuntimeUI = false;
         originalOrientation = Screen.orientation;
         // Only portrait has physical acceptance. Keep display orientation fixed
         // until other orientations receive a separate registration trial.
@@ -110,10 +115,20 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
                 "no alternate camera pose";
             Debug.Log($"[Lead Mills Compare] Mode {(useCameraPose ? "XR camera" : "Input System")}; source {poseSource}; {difference}; SRP batching {(pipeline ? pipeline.useSRPBatcher.ToString() : "Unavailable")}; view roll {RollAngle:F0} deg; orientation {Screen.orientation}.");
         }
+        if (floorCalibration && floorCalibration.CapturesPlacement) settingsOpen = false;
         var touch = Touchscreen.current;
-        if (touch == null || !touch.primaryTouch.press.wasPressedThisFrame) return;
-        var point = touch.primaryTouch.position.ReadValue();
+        bool pressed = touch != null && touch.primaryTouch.press.wasPressedThisFrame;
+        Vector2 point = pressed ? touch.primaryTouch.position.ReadValue() : Vector2.zero;
+        if (!pressed && !Application.isMobilePlatform && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        { pressed = true; point = Mouse.current.position.ReadValue(); }
+        if (!pressed) return;
         point.y = Screen.height - point.y;
+        if (SettingsRect().Contains(point))
+        {
+            if (!floorCalibration || !floorCalibration.CapturesPlacement) settingsOpen = !settingsOpen;
+            return;
+        }
+        if (!settingsOpen) return;
         if (PoseRect().Contains(point)) TogglePose();
         else if (BatchRect().Contains(point)) ToggleBatching();
         else if (RollRect().Contains(point)) ToggleRoll();
@@ -183,10 +198,15 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     }
 
     float Scale => Mathf.Max(1f, Mathf.Min(Screen.width, Screen.height) / 600f);
+    Rect SettingsRect()
+    {
+        var safe = Screen.safeArea;
+        return new Rect(safe.xMax - 108 * Scale, Screen.height - safe.yMax + 8 * Scale, 100 * Scale, 40 * Scale);
+    }
     Rect PanelRect()
     {
         var safe = Screen.safeArea;
-        return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMin - 166 * Scale,
+        return new Rect(safe.x + 8 * Scale, Screen.height - safe.yMax + 160 * Scale,
             safe.width - 16 * Scale, 158 * Scale);
     }
     Rect PoseRect() { var r = PanelRect(); return new Rect(r.x + 8 * Scale, r.y + 8 * Scale, r.width - 16 * Scale, 42 * Scale); }
@@ -195,7 +215,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     public bool ContainsScreenPoint(Vector2 point)
     {
         point.y = Screen.height - point.y;
-        return PanelRect().Contains(point);
+        return SettingsRect().Contains(point) || (settingsOpen && PanelRect().Contains(point));
     }
 
     void OnGUI()
@@ -204,10 +224,15 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
         // Mobile touches are handled once, on press, in Update. IMGUI also
         // emits a click on release; consuming both would toggle straight back.
         // Keep IMGUI click handling for desktop/editor mouse interaction only.
-        bool handleGuiClicks = !Application.isMobilePlatform;
+        bool handleGuiClicks = false; // Update dispatches mouse and touch once.
         var previous = GUI.matrix;
         float scale = Scale;
         GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1));
+        var settings = SettingsRect();
+        GUI.enabled = !floorCalibration || !floorCalibration.CapturesPlacement;
+        GUI.Button(new Rect(settings.x/scale, settings.y/scale, settings.width/scale, settings.height/scale), settingsOpen ? "Close" : "Settings", style);
+        GUI.enabled = true;
+        if (!settingsOpen) { GUI.matrix = previous; return; }
         var panel = PanelRect();
         GUI.Box(new Rect(panel.x / scale, panel.y / scale, panel.width / scale, panel.height / scale), GUIContent.none);
         var pose = PoseRect(); var batch = BatchRect();
