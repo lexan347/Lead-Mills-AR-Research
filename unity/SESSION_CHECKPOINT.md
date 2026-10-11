@@ -167,3 +167,7 @@ Added independent Test 3 native-plane marker anchors: 3A white, 3B hot pink, 3C 
 ### 13:33 EDT — Test 3 marker build0005 deployed
 
 Unity compilation, export and existing 1/2/3-point synthetic validation passed; native Debug BUILD SUCCEEDED. Saved signed version-specific app; codesign, embedded build ID and phone inventory0.4.1/5 verified. Installed/launched source1ab00fb; startup confirms separate3A/3B/3C markers. Latest export `LMAR_v0.4.1_b0005_20261009T171630Z`; build-ID native/device logs remain private. Test 3 visual confirmation/Undo usability await a new user trial; no new physical stability acceptance claimed. Coarse/fine interaction remains proposed.
+
+## October11 recovery — current state
+
+Connected phone/app inventory0.4.1/5 verified; all46 retained attempt records copied privately before app launch. Build0005/a001 confirms3A creation, Undo/replacement and independent-view rejection16.9px; no Anchor A pass. App was not running, so launched installed build as new session; startup confirmed. No rebuild or new build ID. Computer-control timeouts blocked new recording import and Xcode export switch; Xcode remains on older080133 in Open dialog, so do not Run it. See [October11 daily log](../iterations/2026-10-04/Daily_Log_2026-10-11.md). Additional Photos recordings and coarse/fine UI remain pending.

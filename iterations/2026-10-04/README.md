@@ -19,3 +19,5 @@ Device trials verified horizontal-plane rendering and anchor creation but failed
 October 9 recovery is recorded in [the daily log](Daily_Log_2026-10-09.md) and [the session checkpoint](../../unity/SESSION_CHECKPOINT.md), including safe unplug/reconnect steps and the latest failed registration trial.
 
 October 9 also records the user's confirmed clockwise 90° view-registration fix and a cube staying in place. The prior failed trials are retained as historical evidence; corrected portrait default/repeat validation is the next step.
+
+[October11 interruption recovery](Daily_Log_2026-10-11.md): build0005 reconnected; saved third-marker/Undo trial retrieved; screen-recording review pending local transfer.
