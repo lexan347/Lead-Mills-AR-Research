@@ -1,5 +1,5 @@
 {
-  "version": "0.4.1",
-  "protocol": "floor-calibration-1to3-v5-third-markers",
+  "version": "0.4.2",
+  "protocol": "floor-calibration-v6-physical-verdict",
   "configuration": "Portrait/CW90; Input System default; SRP ON; native projection until three-view trial"
 }

@@ -17,6 +17,9 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     [SerializeField] GameObject cubePrefab;
     readonly List<ARRaycastHit> hits = new List<ARRaycastHit>();
     GameObject placedCube;
+    public bool HasPlacedCube => placedCube != null;
+    public bool CalibrationAnchorTracking => placedAnchor && placedAnchor.trackingState == TrackingState.Tracking;
+    public string CalibrationAnchorState => placedAnchor ? placedAnchor.trackingState.ToString() : "Missing";
     ARAnchor placedAnchor;
     float nextPoseLog;
     Vector3 anchorStartLocalPosition;

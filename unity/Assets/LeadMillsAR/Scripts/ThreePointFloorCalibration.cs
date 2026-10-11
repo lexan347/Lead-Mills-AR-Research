@@ -8,7 +8,7 @@ using UnityEngine.XR.ARSubsystems;
 [DefaultExecutionOrder(-50)]
 public sealed class ThreePointFloorCalibration : MonoBehaviour
 {
-    enum Step { Idle, First, ReviewFirst, Second, ReviewSecond, Third, ReviewThird, Verified }
+    enum Step { Idle, First, ReviewFirst, Second, ReviewSecond, Third, ReviewThird, Verified, Anchored, Accepted }
     struct Tap { public Step view; public int index; public FloorProjectionCalibration.Observation observation; }
     Step step;
     readonly List<Tap> history = new List<Tap>();
@@ -36,10 +36,13 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     GUIStyle markerStyle, textStyle, buttonStyle;
     string message = "Choose 1, 2 or 3 real floor details. Start with one.";
     TrialTrace trace;
+    float anchoredAt;
+    string savedVerdict;
+    bool Placed => step == Step.Anchored || step == Step.Accepted;
     bool Capturing => step == Step.First || step == Step.Second || step == Step.Third;
     bool Reviewing => step == Step.ReviewFirst || step == Step.ReviewSecond || step == Step.ReviewThird;
-    bool Preview => step == Step.Third || (step == Step.ReviewThird && !holdoutRejected) || step == Step.Verified;
-    public bool CapturesPlacement => step != Step.Idle && step != Step.Verified;
+    bool Preview => step == Step.Third || (step == Step.ReviewThird && !holdoutRejected) || step == Step.Verified || Placed;
+    public bool CapturesPlacement => step != Step.Idle;
     public bool ConsumedTouchThisFrame { get; private set; }
     int ViewNumber => step == Step.First || step == Step.ReviewFirst ? 1 : step == Step.Second || step == Step.ReviewSecond ? 2 : 3;
     FloorProjectionCalibration.Observation[] Selected(FloorProjectionCalibration.Observation[] source)
@@ -54,7 +57,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (manager) manager.frameReceived += OnFrame;
         Application.onBeforeRender += ApplyProjection;
         RenderPipelineManager.beginCameraRendering += OnRendering;
-        Debug.Log("[Lead Mills Calibration Test] Ready: 1/2/3 real landmarks, Undo, review/Continue, independent third view with separate 3A/3B/3C markers and native anchor at A.");
+        Debug.Log("[Lead Mills Calibration Test] Ready: 1/2/3 real landmarks, Undo, review/Continue, independent third view with separate 3A/3B/3C markers, Confirm stable / Reject and native anchor at A.");
     }
     void OnDisable()
     {
@@ -83,10 +86,12 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         bool active = step != Step.Idle;
         ClearMarkers(); history.Clear(); points = null; repeatRetry = holdoutRejected = false;
         movementTarget = 0.25f; tiltTarget = 15; step = Step.Idle; scale = 1; pointIndex = 0; plane = null;
-        message = reason; ApplyProjection();
+        message = reason + (string.IsNullOrEmpty(savedVerdict) ? "" : " Saved result: " + savedVerdict + "."); ApplyProjection();
         if (active)
         {
-            trace?.Outcome("cleared: " + reason); trace = null;
+            trace?.Log("session-invalidated", reason);
+            if (trace != null && !trace.HasPhysicalVerdict) trace.Outcome("cleared: " + reason);
+            trace = null;
             if (placement) placement.RestartSurfaceCheck();
             Debug.Log("[Lead Mills Calibration Test] Cleared: " + reason);
         }
@@ -96,7 +101,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         Cancel("Starting a new trial.");
         if (!comparison.PortraitCorrectionActive || !Steady())
         { message = "Wait for tracking and select CW90/Portrait first."; return; }
-        placement.RestartSurfaceCheck(); revision = comparison.RegistrationRevision;
+        savedVerdict = null; placement.RestartSurfaceCheck(); revision = comparison.RegistrationRevision;
         try { trace = TrialTrace.Begin(comparison.CurrentConfiguration + "; real landmark count " + landmarkCount); }
         catch (System.Exception e) { message = "Could not save test record. Check storage and retry."; Debug.LogError(e); return; }
         step = Step.First; message = $"View 1: tap {landmarkCount} REAL floor detail(s). Circles show your taps; Undo replaces the last point.";
@@ -113,10 +118,18 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     {
         ConsumedTouchThisFrame = false;
         if (!placement || !comparison) return;
-        if (step != Step.Idle && (revision != comparison.RegistrationRevision || !Steady() ||
-            (plane && (plane.trackingState != TrackingState.Tracking || plane.subsumedBy != null ||
-            Vector3.Distance(plane.transform.position, planeStart) > 0.02f))))
-        { Cancel("Tracking/plane/mode changed: restart this trial."); return; }
+        if (step != Step.Idle)
+        {
+            string invalid = InvalidationReason();
+            if (invalid != null) { Cancel(invalid); return; }
+            // A native anchor can remain valid while ARKit refines/subsumes its original plane.
+            // Record refinement; do not use a plane-origin translation as anchor failure after placement.
+            if (Placed && plane && Vector3.Distance(plane.transform.position, planeStart) > 0.02f)
+            {
+                trace?.Log("plane-refined-after-anchor", "origin delta " + Vector3.Distance(plane.transform.position, planeStart).ToString("F5") + " m; native anchor Tracking");
+                planeStart = plane.transform.position;
+            }
+        }
         var touch = Touchscreen.current;
         bool pressed = touch != null && touch.primaryTouch.press.wasPressedThisFrame;
         Vector2 position = pressed ? touch.primaryTouch.position.ReadValue() : Vector2.zero;
@@ -132,17 +145,58 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
                 return;
             }
         if (StartRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Idle) Begin(); else Cancel("Trial cleared; native projection restored."); return; }
-        if (UndoRect().Contains(gui)) { ConsumedTouchThisFrame = true; Undo(); return; }
-        if (NextRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (Reviewing && !holdoutRejected) Continue(); return; }
+        if (UndoRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (Placed) RecordStability(false); else Undo(); return; }
+        if (NextRect().Contains(gui)) { ConsumedTouchThisFrame = true; if (step == Step.Anchored) RecordStability(true); else if (Reviewing && !holdoutRejected) Continue(); return; }
         if (AnchorRect().Contains(gui))
         {
             ConsumedTouchThisFrame = true;
             if (step == Step.Verified && points != null && plane)
-                message = placement.PlaceCalibrationAnchor(plane, points[0]) ? "A anchored. Check real-floor contact and movement." : "A lacks current surface support. Rescan or retry.";
-            trace?.Log("anchor-A", message); return;
+            {
+                if (placement.PlaceCalibrationAnchor(plane, points[0]))
+                {
+                    step = Step.Anchored; anchoredAt = Time.unscaledTime;
+                    message = "A anchored. Move around the REAL target, then Confirm stable or Reject.";
+                    trace?.Log("anchor-A", message);
+                }
+                else message = "A lacks current surface support. Rescan or retry.";
+            }
+            return;
         }
         if (!Capturing || PanelRect().Contains(gui) || comparison.ContainsScreenPoint(position) || placement.ContainsHudScreenPoint(position)) return;
         ConsumedTouchThisFrame = true; Capture(position);
+    }
+    string InvalidationReason()
+    {
+        if (revision != comparison.RegistrationRevision) return "View/pose configuration changed. Restart trial.";
+        if (!hasProjection) return "Camera projection unavailable. Rescan.";
+        if (Time.unscaledTime - frameTime >= 0.25f) return "Camera frames stopped (age " + (Time.unscaledTime - frameTime).ToString("F2") + " s). Rescan.";
+        if (ARSession.state != ARSessionState.SessionTracking || ARSession.notTrackingReason != NotTrackingReason.None)
+            return "AR session " + ARSession.state + ": " + ARSession.notTrackingReason + ". Rescan.";
+        if (Placed)
+        {
+            if (!placement.HasPlacedCube) return "Test cube removed. Start another trial.";
+            if (Time.unscaledTime - anchoredAt > 1f && !placement.CalibrationAnchorTracking)
+                return "Native anchor " + placement.CalibrationAnchorState + ". Rescan.";
+            return null;
+        }
+        if (history.Count > 0 && !plane) return "Reference plane removed. Rescan.";
+        if (!plane) return null;
+        if (plane.trackingState != TrackingState.Tracking) return "Reference plane " + plane.trackingState + ". Rescan.";
+        if (plane.subsumedBy != null) return "Reference plane merged before anchor. Restart trial.";
+        float delta = Vector3.Distance(plane.transform.position, planeStart);
+        return delta > 0.02f ? "Reference plane origin shifted " + (delta * 100).ToString("F1") + " cm before anchor. Restart trial." : null;
+    }
+    void RecordStability(bool stable)
+    {
+        if (!Placed || (stable && step != Step.Anchored)) return;
+        savedVerdict = stable ? "user confirmed stable" : "user rejected: drifting/contact incorrect";
+        trace?.PhysicalVerdict(stable, "User observation; elapsed since Anchor A " + (Time.unscaledTime - anchoredAt).ToString("F1") + " s; no surveyed accuracy claim");
+        if (stable)
+        {
+            step = Step.Accepted;
+            message = "STABLE confirmed and saved. Cube remains visible. Keep observing, Reject if it slips, or Clear for a new trial.";
+        }
+        else Cancel("Rejected and saved. Cube removed; Start for adjustment/retry.");
     }
     void Capture(Vector2 screen)
     {
@@ -350,6 +404,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
     {
         if (step == Step.Idle) return "Tests 1/2/3 each confirm A/B/C. Test 3: white/hot pink/aqua. Retap the SAME real floor details.";
         if (Reviewing) return "Check each new circle against its PHYSICAL target and earlier labeled circles (1A/2A/3A, etc.). Undo to replace; Continue confirms. Never retap virtual circles.";
+        if (Placed) return step == Step.Accepted ? "Result saved. Continue observing the same physical target. Reject if it drifts; Clear starts over." : "Walk sideways and back, then check floor contact. Confirm stable saves acceptance; Reject saves failure.";
         if (step == Step.Verified) return "Check A against the real floor from a low angle, then walk around it. Clear if it slips.";
         string next = ((char)('A' + pointIndex)).ToString();
         if (step == Step.First) return "Tap physical " + next + ". " + (landmarkCount == 1 ? "Use one distinct floor detail." : landmarkCount == 2 ? "Spread A/B at least 25 cm apart." : "Spread A/B/C in a wide triangle.") + " Circles are references, not targets.";
@@ -418,8 +473,8 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         GUI.Label(new Rect(r.x/s+8,r.y/s+80,r.width/s-16,76), message, textStyle);
         GUI.Label(new Rect(r.x/s+8,r.y/s+158,r.width/s-16,88), MovementGuide(), textStyle);
         Button(StartRect(), step == Step.Idle ? "Start" : "Clear");
-        GUI.enabled = history.Count > 0; Button(UndoRect(), "Undo last");
-        GUI.enabled = Reviewing && !holdoutRejected; Button(NextRect(), "Continue");
+        GUI.enabled = history.Count > 0; Button(UndoRect(), Placed ? "Reject" : "Undo last");
+        GUI.enabled = step == Step.Anchored || (Reviewing && !holdoutRejected); Button(NextRect(), Placed ? (step == Step.Accepted ? "Stable saved" : "Confirm stable") : "Continue");
         GUI.enabled = step == Step.Verified; Button(AnchorRect(), "Anchor A");
         GUI.enabled = true; GUI.matrix = previous;
         // All actions dispatch once in Update; IMGUI is visual only.

@@ -18,7 +18,7 @@ public sealed class TrialTrace
     [Serializable] sealed class Record
     {
         public LeadMillsBuildIdentity build;
-        public string testId, startedAtUtc, outcome;
+        public string testId, startedAtUtc, outcome, physicalStability;
         public int attempt;
         public List<Event> events = new List<Event>();
     }
@@ -68,6 +68,13 @@ public sealed class TrialTrace
         File.WriteAllText(temporary, content);
         if (File.Exists(destination)) File.Replace(temporary, destination, null);
         else File.Move(temporary, destination);
+    }
+    public bool HasPhysicalVerdict => !string.IsNullOrEmpty(record.physicalStability);
+    public void PhysicalVerdict(bool stable, string details)
+    {
+        record.physicalStability = stable ? "user-confirmed-stable" : "user-rejected";
+        record.outcome = record.physicalStability;
+        Log("physical-stability-verdict", record.physicalStability + "; " + details);
     }
     public void Outcome(string result) { record.outcome = result; Log("outcome", result); }
 }
