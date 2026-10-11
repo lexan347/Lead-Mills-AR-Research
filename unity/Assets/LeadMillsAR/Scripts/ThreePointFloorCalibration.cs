@@ -354,6 +354,9 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         // URP Unlit need not consume LineRenderer vertex colors; tint each owned material.
         var material = new Material(placement.CalibrationMarkerMaterial);
         material.SetColor("_BaseColor", markerColors[index]);
+        // A lit/emissive asset footprint must not leak its green tint into A/B/C markers.
+        if (material.IsKeywordEnabled("_EMISSION") && material.HasProperty("_EmissionColor"))
+            material.SetColor("_EmissionColor", markerColors[index] * .7f);
         material.color = markerColors[index];
         markerMaterials[index] = material; ring.sharedMaterial = material;
         ring.startColor = ring.endColor = Color.white;

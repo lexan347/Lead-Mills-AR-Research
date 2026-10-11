@@ -121,6 +121,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
             enabled = false;
             return;
         }
+        Debug.Log("[Lead Mills Asset] Active prefab: " + cubePrefab.name + "; floor pivot offset " + assetPivotHeight.ToString("F3") + " m.");
         comparison = origin.Camera.GetComponent<CameraRegistrationComparison>();
         if (!comparison) comparison = origin.Camera.gameObject.AddComponent<CameraRegistrationComparison>();
         comparison.Configure(this);
@@ -130,7 +131,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         calibration.Configure(this, comparison, origin.Camera);
         comparison.SetFloorCalibration(calibration);
         RenderPipelineManager.beginCameraRendering += OnCameraRendering;
-        Debug.Log("[Lead Mills Placement] LiDAR readiness gate: level within 10 deg, 40 cm extent, 8 supported 10 cm cells, 3 s stability, 15 cm viewpoint change; cube size 0.20 m.");
+        Debug.Log("[Lead Mills Placement] LiDAR readiness gate: level within 10 deg, 40 cm extent, 8 supported 10 cm cells, 3 s stability, 15 cm viewpoint change.");
     }
 
     void OnCameraFrame(ARCameraFrameEventArgs frame)
