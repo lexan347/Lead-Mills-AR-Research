@@ -171,3 +171,21 @@ Unity compilation, export and existing 1/2/3-point synthetic validation passed; 
 ## October11 recovery — current state
 
 Connected phone/app inventory0.4.1/5 verified; all46 retained attempt records copied privately before app launch. Build0005/a001 confirms3A creation, Undo/replacement and independent-view rejection16.9px; no Anchor A pass. App was not running, so launched installed build as new session; startup confirmed. No rebuild or new build ID. Computer-control timeouts blocked new recording import and Xcode export switch; Xcode remains on older080133 in Open dialog, so do not Run it. See [October11 daily log](../iterations/2026-10-04/Daily_Log_2026-10-11.md). Additional Photos recordings and coarse/fine UI remain pending.
+
+## New October11 media and trial review
+
+Reviewed supplied77.58-second11:08:50 recording (10-second samples) and six private screenshotsIMG_7646–7651; copied updated app TestRuns,58 total retained attempts. Build0005 now contains13 attempts (12 new October11), so the earlier46-record recovery is an earlier snapshot, not the final count. Three October11 attempts reached recorded independent-view acceptance and Anchor A:
+
+| Attempt | Points | Candidate focal scale | Fit RMS | Third-view RMS |
+| --- | --- | --- | --- | --- |
+| a008 | 1 | 0.74848 | 4.36px | 11.87px |
+| a012 | 2 | 0.80659 | 10.29px | 9.84px |
+| a013 | 2 | 0.79253 | 10.58px | 14.15px |
+
+These are workflow/correspondence passes, not measured physical stability. a012's initial third-view residuals48.2/27.6/17.2px were rejected before Undo/replacement reached9.84px; a013 initially rejected15.4px before replacement reached14.15px. Preserve this retry history when interpreting accuracy. Third-view rings and Undo are now visible in real-device evidence: screenshots show1A/2A/3A and1B/2B/3B; white3A labels and hot-pink3B rings distinguish Test 3. No C required in these two-point trials.
+
+Screenshots7647–7650 show the a013 cube/green footprint from several viewpoints with Anchor Tracking. Screenshot7651 at11:20:16 shows calibration cleared; app record agrees on the combined tracking/plane/mode-change reason. a008 also cleared on this combined reason after placement; a012 cleared on app pause. Current code conflates registration revision, non-steady AR session, plane tracking/subsumption, and more than2cm plane-origin displacement; evidence does not identify the triggering condition. Do not call every reset a tracking failure or relax the guard without isolating the reason.
+
+The11:08 recording concerns a008/a009, not the latera013 screenshot trial. It starts after calibration pause/clear, shows a large Display Stats overlay and later ordinary cube placement with calibration idle/point count changed. It does not independently verify calibrated a013 stability. Screenshots visibly contain a NullReferenceException in the development console; available saved text console has no matching exception stack, so offending code/cause remains unidentified. Do not claim a specific fix from the message alone.
+
+Next: obtain user observation of registration against physical carpet details; reduce mesh/debug clutter for fine point review; split cancellation diagnostics to distinguish session/plane/subsumption/revision reasons; capture the exception stack before fixing its source. Keep the coarse-to-fine interaction and independent-view check. Installed build remains0.4.1/0005; no player source changes or deployment in this review. Raw room media/pose records stay local.
