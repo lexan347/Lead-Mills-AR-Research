@@ -226,3 +226,9 @@ Fresh Unity export `Builds/iOS_PlanePlacement_20261009_083132` succeeded; native
 ### Latest capture controls — v0.4.0/build0004
 
 Select 1/2/3 real landmark points; default one. Each view pauses for inspection, Undo last replacement and Continue. Undo works across view/fitted/verified transitions and invalidates dependent results/placement. Retap the same physical floor details in subsequent views, not the virtual colored circles. Fit/independent-view checks remain required. Startup/installation and synthetic math checks passed; physical Undo/selector usability and stable contact remain unverified. See the [updated procedure](THREE_POINT_CALIBRATION.md).
+
+## 11:38 EDT — physical-verdict build0006 deployed
+
+Unity compilation and existing synthetic calibration checks passed; fresh export `LMAR_v0.4.2_b0006_20261011T153602Z` and native Debug build succeeded. Saved version-specific signed app; codesign verification, embedded identity, manifest/source84b43f9 and physical-phone inventory0.4.2/6 verified. Installed/launched; startup confirms Confirm stable/Reject and separate Test 3 markers. Existing58 private trial records were copied before replacement. Runtime verdict-button operation and persisted acceptance/rejection after reset still require a user trial; no new physical stability or exception-root-cause fix claimed. Native/display background and calibration thresholds unchanged. Build-ID native/device logs remain local.
+
+Next phone trial: complete one-/two-point calibration, Anchor A, observe30–60seconds, then Confirm stable if aligned. Verify Stable saved and cube retention. A separate rejected trial should remove the cube and allow Start/retry. If invalidated, capture the specific reason and verify the existing verdict is still retained in the app's private JSON record. Coarse/fine magnifier UI remains pending.
