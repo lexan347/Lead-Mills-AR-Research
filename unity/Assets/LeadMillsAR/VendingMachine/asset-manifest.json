@@ -1,0 +1,18 @@
+{
+  "asset": "Original indoor vending-machine surrogate",
+  "dimensionsMetres": {
+    "width": 1.2,
+    "depth": 0.85,
+    "height": 2.0
+  },
+  "pivot": "floor-center (0,0,0)",
+  "front": "local -Z; faces viewer once at placement",
+  "units": "metres",
+  "triangles": 30400,
+  "meshRenderers": 11,
+  "objSHA256": "7ece574f5d4c733f50592275bddfb2978df37c324416dd94b0e70f40cc7117a2",
+  "provenance": "Original procedural geometry; invented product colours/branding; no historical reconstruction or surveyed dimensions",
+  "georeferenced": false,
+  "unityLabels": "TextMesh labels are included in prefab; portable OBJ contains geometry/materials only",
+  "source": "VendingMachineAssetBuilder.cs; exact Unity/AR versions retain existing baseline"
+}

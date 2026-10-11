@@ -175,7 +175,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
             return "AR session " + ARSession.state + ": " + ARSession.notTrackingReason + ". Rescan.";
         if (Placed)
         {
-            if (!placement.HasPlacedCube) return "Test cube removed. Start another trial.";
+            if (!placement.HasPlacedCube) return "Test object removed. Start another trial.";
             if (Time.unscaledTime - anchoredAt > 1f && !placement.CalibrationAnchorTracking)
                 return "Native anchor " + placement.CalibrationAnchorState + ". Rescan.";
             return null;
@@ -195,7 +195,7 @@ public sealed class ThreePointFloorCalibration : MonoBehaviour
         if (stable)
         {
             step = Step.Accepted;
-            message = "STABLE confirmed and saved. Cube remains visible. Keep observing, Reject if it slips, or Clear for a new trial.";
+            message = "STABLE confirmed and saved. Object remains visible. Keep observing, Reject if it slips, or Clear for a new trial.";
         }
         else Cancel("Rejected and saved. Cube removed; Start for adjustment/retry.");
     }

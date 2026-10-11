@@ -15,6 +15,8 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
     [SerializeField] LiDARMeshPreview meshPreview;
     [SerializeField] XROrigin origin;
     [SerializeField] GameObject cubePrefab;
+    [SerializeField] float assetPivotHeight = 0.10f;
+    public void SetPlacementAsset(GameObject prefab, float pivotHeight) { cubePrefab = prefab; assetPivotHeight = pivotHeight; }
     readonly List<ARRaycastHit> hits = new List<ARRaycastHit>();
     GameObject placedCube;
     public bool HasPlacedCube => placedCube != null;
@@ -108,6 +110,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         meshPreview = preview;
         origin = xrOrigin;
         cubePrefab = cube;
+        assetPivotHeight = .10f; // Original setup selects the center-pivot 20 cm cube.
     }
 
     void Start()
@@ -316,12 +319,13 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         }
         anchorStartLocalPosition = placedAnchor.transform.localPosition;
         anchorStartLocalRotation = placedAnchor.transform.localRotation;
-        // Anchor sits on the surface; cube pivot is at its center.
+        // Cube uses a center pivot; the vending asset uses a floor-center pivot.
         placedCube = Instantiate(cubePrefab, placedAnchor.transform, false);
-        placedCube.transform.localPosition = Vector3.up * 0.10f;
-        placedCube.transform.localRotation = Quaternion.identity;
-        placedCube.name = "Lead Mills Test Cube (20 cm)";
-        feedback = "Keep cube in view. Move 20 cm sideways and back.";
+        placedCube.transform.localPosition = Vector3.up * assetPivotHeight;
+        var forward = Vector3.ProjectOnPlane(pose.position - origin.Camera.transform.position, plane.transform.up);
+        placedCube.transform.rotation = forward.sqrMagnitude > .001f ? Quaternion.LookRotation(forward, plane.transform.up) : placedAnchor.transform.rotation;
+        placedCube.name = cubePrefab.name;
+        feedback = "Keep the object in view. Move sideways and back.";
         Debug.Log($"[Lead Mills Placement] Cube attached to plane {plane.trackableId}; " +
             $"anchor {placedAnchor.trackableId}; pose {pose.position}.");
         return true;
@@ -425,7 +429,7 @@ public sealed class HorizontalPlanePlacement : MonoBehaviour
         if (!placedCube) { GUI.matrix = previousMatrix; return; }
         GUI.enabled = placedCube != null;
         if (GUI.Button(new Rect(hud.x + 12, hud.y + 96, hud.width - 24, 46),
-            "Remove cube and place again", buttonStyle))
+            "Remove object", buttonStyle))
             RemoveCube();
         GUI.enabled = true;
         GUI.matrix = previousMatrix;

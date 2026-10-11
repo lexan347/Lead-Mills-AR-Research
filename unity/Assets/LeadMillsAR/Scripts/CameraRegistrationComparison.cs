@@ -36,6 +36,7 @@ public sealed class CameraRegistrationComparison : MonoBehaviour
     void Awake()
     {
         // Keep development logs available without covering physical test targets.
+        DebugManager.instance.Reset(); // Restore normal material lighting for the realistic asset.
         Debug.developerConsoleEnabled = false;
         DebugManager.instance.displayRuntimeUI = false;
         DebugManager.instance.displayPersistentRuntimeUI = false;
