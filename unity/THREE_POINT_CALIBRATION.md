@@ -2,7 +2,11 @@
 
 Status: implemented; Unity math validation/export passed. Native deployment and physical calibration acceptance are recorded in the session checkpoint. This is a session-local experimental projection correction, not surveyed calibration or a persistent/geospatial anchor.
 
-## On the phone (v0.4.2)
+## Compact controls (v0.4.3)
+
+The Settings button expands pose/SRP/rotation controls before a trial; these controls close and lock while a trial is active. Choose1/2/3 points before Start; Clear returns to point selection. The bottom strip retains the build/attempt ID, current message and one priority movement cue. Guide expands full instructions; Less restores the compact view. Clear and Undo stay available; the third action changes from Continue to Anchor A to Confirm stable, then Stable saved. After anchoring, Undo becomes Reject. Hidden panels and point selectors no longer block camera-space taps. The top bar shows tracking/floor readiness or anchor state. Development console and render-debug overlays are hidden; logs remain available for diagnosis. This change does not repair the existing native-marker lifecycle risk or establish lower thermal load.
+
+## On the phone (v0.4.3)
 
 1. Keep Portrait / CW90 / SRP ON and the same pose mode throughout a trial. Select **1 point**, **2 points** or **3 points**; changing count clears the current trial. One point is the simpler default; fewer points provide fewer spatial cross-checks.
 2. Choose that many distinct **physical floor details**, such as recognizable corners of a pattern. Remember A/B/C order. Two points must be at least 25 cm apart. Three must form a wide triangle. A virtual colored circle is an estimated reference and is not a calibration target.
