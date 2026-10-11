@@ -1,6 +1,6 @@
 # Session recovery checkpoint
 
-Updated: October11,2026,11:38 EDT. Physical-verdict build0006 installed/launched. Build0005/a013 had user-confirmed carpet registration until calibration reset; new Confirm stable/Reject behavior awaits physical trial. Older entries retain diagnostic history.
+Updated: October11,2026, after two-point review. Installed0.4.2/build0006. a026 passed two-point independent-view checks and saved user-confirmed-stable after8.7seconds; verdict survived app pause. a002 previously confirmed one-point stability. Longer physical observation, Reject validation and lifecycle/performance repair remain pending. Older entries retain diagnostic history.
 
 ## Saved state
 
@@ -213,3 +213,14 @@ Subsequent two-point a003/a004 invalidated before anchoring due to measured refe
 Recovered exception stack from the private console: AR Foundation TrackableSpawner.SetSessionRelativeDataAndPose → CreateOrUpdateTrackable → ARTrackableManager.Update accessing a destroyed Component transform. Two exception occurrences in the approximately5MB saved console, not established as continuous flooding or thermal cause. Source review identifies a credible cleanup suspect: wizard directly Destroy()s native marker-anchor GameObjects while those anchors were created through ARAnchorManager.AttachAnchor; cube removal already uses TryRemoveAnchor. Next repair should route marker cleanup/replacement/Undo through the manager and verify exceptions cease. This is an identified lifecycle risk, not proof of which runtime trackable caused these two errors.
 
 User-reported heat/jitter not instrumentally measured. Continue with one point after cooling; postpone larger trials. Inspection did not start another AR session or rebuild/reinstall. Performance follow-up should examine mesh preview generation while hidden, scanning workload, diagnostic output and device thermal state before choosing throttling. Raw photos/poses/logs remain private.
+
+## Two-point review — IMG_7694 and IMG_7696, October 11
+
+Reconnected to the physical phone and copied a fresh private TestRuns backup containing27 build0006 attempts. Installed version remains0.4.2/build0006; this review did not rebuild, install or launch another scanning session. The screenshots show different attempts, not one continuous movement trial.
+
+- IMG_7694 is a018: two landmarks, candidate scale0.83833, fit RMS3.66px and independent third-view holdout8.57px after two rejected fits. Anchor A succeeded at15:00:32 EDT. Screenshot shows Anchor Tracking, cube/footprint and Confirm stable/Reject controls; no physical verdict was saved before app pause cleared the trial at15:00:55.
+- IMG_7696 is a026: two landmarks, candidate scale0.93173, fit RMS4.52px and independent holdout8.21px after12 rejected fits. Anchor A succeeded at15:15:59 EDT. The user pressed Confirm stable at15:16:07; trace reports8.7seconds since anchoring. Screenshot shows Stable saved, retained cube/footprint and Anchor Tracking. App pause at15:16:20 invalidated the live session, while both outcome and physicalStability remained user-confirmed-stable in the retrieved record.
+
+This verifies two-point calibration acceptance, explicit physical confirmation, retained placement in the accepted UI and saved-verdict preservation through app pause. The8.7-second observation is shorter than the requested30–60seconds; still images and user confirmation do not measure drift, prove floor contact or establish sustained field accuracy. The12 failed fit attempts before a026 acceptance reinforce the need for clearer coarse/fine capture guidance rather than weaker acceptance thresholds.
+
+Both screenshots still show NullReferenceException development-console entries. IMG_7694's stats show average29.3FPS, CPU main36.04ms and GPU2.85ms, with substantial frame-time variation; these values do not establish thermal causality. Marker-anchor lifecycle cleanup and scanning/preview performance remain pending. Keep raw room images, full poses and device identifiers private. Next: repair managed-anchor cleanup, verify the exception stops, reduce diagnostic obstruction/workload, then repeat an accepted two-point physical-landmark observation for30–60seconds after the phone cools. Reject behavior remains separately unverified.
