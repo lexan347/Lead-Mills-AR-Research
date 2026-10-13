@@ -72,6 +72,16 @@ The recorded Xcode warnings (including generated Unity/ARKit debug symbols and m
 
 ## Next milestone and evidence boundary
 
-Detect a **real horizontal surface** and place **one simple test object** on it. Verify placement and tracking on the physical phone before importing Lead Mills site assets. Plane detection, object placement, historical models, Android, geospatial localization, and field validation are not yet confirmed.
+October11 indoor three-point test-object milestone is accepted on0.4.3/build0007/a002: independent checks passed and user confirmed stable after99.2seconds; six screenshots show retained placement and Stable saved. Choose points before Start; Guide expands instructions; contextual controls retain Undo, Anchor A and Confirm stable/Reject. Verdict records persist after app pause, but live calibration/anchors do not. See [test evidence](PLANE_PLACEMENT_TEST.md).
+
+Next: one small Lead Mills asset with recorded provenance, meter units and origin, followed by repeat physical stability/contact testing. Complete Unity source/package locks for reproducible handoff. Native-marker lifecycle and thermal/performance follow-up remain open. This acceptance covers the tested indoor portrait session, not historical-model accuracy, surveyed floor elevation, Android, geospatial localization or field validation.
 
 This setup is recorded from the [Plan software downloads conversation](https://chatgpt.com/c/6ac57c84-40c0-83ea-b2bc-0246fbbf10f3). Dates follow America/New_York (EDT): October 6 setup, October 7 early-morning deployment/debugging, October 8 evening Scene List fix and success. The local Unity project, screenshots, dependency locks, build manifests, and generated Xcode output are not archived by this documentation update. Capture those for reproducibility before source handoff.
+
+## October 9: shared geometry/image orientation correction
+
+Symptom: LiDAR mesh/blue plane did not match the real floor; a right pan moved the overlay downward, and downward phone motion moved it sideways. Raw Input System and XR color-camera pose values matched, camera projection matched the AR frame, and trackable normals/scales were correct internally. Those checks did not validate registration with the camera image.
+
+The user proposed a clockwise 90° reorientation. A common-camera-view test (not a mesh-only transform) corrected the visible alignment, and the user confirmed the cube stays in place. The tested configuration is iPhone 14 Pro, portrait, Input System pose and SRP batching ON. The POC now defaults to CW90 common-view registration and explicitly fixes display orientation to portrait. Placement uses a ray from that displayed view. This preserves native geometry and gravity; do not rotate each mesh/plane independently. The practical view mismatch is resolved in that reported trial; a vendor-level cause and behavior on other devices/display orientations remain unestablished.
+
+Fresh-launch/default-build and fixed-landmark/contact repeat evidence belongs in [the test guide](PLANE_PLACEMENT_TEST.md). Preserve historical failed trials, do not confuse this issue with the earlier wrong Scene List, and do not infer persistent anchors or field accuracy from a stable session-local cube.

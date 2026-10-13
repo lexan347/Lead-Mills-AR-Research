@@ -1,0 +1,5 @@
+{
+  "version": "0.6.0",
+  "protocol": "guided-placement-v9-intrinsics-display",
+  "configuration": "Portrait/CW90; Input System default; SRP ON; automatic sensor/display focal derivation; manual three-view diagnostics under Advanced"
+}

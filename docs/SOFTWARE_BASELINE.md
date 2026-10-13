@@ -41,3 +41,15 @@ The first native test is iPhone-only. Additional Android/platform modules and po
 | Export procedure | New folder such as `Builds/iOS_Diagnostic`; open its generated `Unity-iPhone.xcodeproj` |
 
 The earlier iOS 26.7.1 target is retained in the October 6 historical log; the actual installed device baseline is iOS 27.0.1. This is a session-recorded camera/AR pipeline success, not plane-placement, geospatial, or cross-platform validation. See the [iOS setup and troubleshooting](../unity/IOS_SETUP.md).
+
+## Phone scanning reference
+
+Polycam is present on the iPhone: October 8 user pictures show live room capture with a triangle mesh overlay. Its exact version/license and a completed scan/export are not established. It is an interaction reference for the local Unity LiDAR scan-first trial, not a Unity dependency or imported room asset. The Unity trial uses the existing AR Foundation / ARKit 6.3.5 baseline; initial mesh-preview rendering was verified but physical alignment failed; the later portrait/CW90 trial supersedes that stopping point.
+
+## October11 accepted test build
+
+Unity/AR package versions above remain the tested baseline. Installed signed development app **0.4.3/build0007**, source12b4b09, compact-controls protocol. Physical iPhone14Pro/iOS27.0.1, Portrait/CW90/Input System/SRP ON. Three-point a002 passed independent calibration checks and recorded user-confirmed-stable after99.2seconds. See [October11 log](../iterations/2026-10-04/Daily_Log_2026-10-11.md); no cross-platform or surveyed-accuracy claim.
+
+October11,18:47EDT: **0.5.0/build0009** vending-machine surrogate installed/launched with the same editor/AR/iOS baseline. Source6630d66; runtime VendingMachine prefab and0floor pivot offset verified. [Model/test procedure](../unity/VENDING_MACHINE_TEST.md). Full-size physical acceptance pending; the earlier build0007 calibration verdict remains historical evidence.
+
+October11,19:20EDT: **0.6.0/build0010**, sourceec06d8d, installed/launched with the same Unity/AR/iOS baseline. Guided scan/center-target/Place plus automatic live intrinsics/display focal derivation; manual controls under Advanced. [Guided test](../unity/GUIDED_PLACEMENT_TEST.md). Signed build, startup and calculation tests pass; guided physical alignment/repeatability pending.

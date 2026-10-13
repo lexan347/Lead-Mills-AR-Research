@@ -43,3 +43,6 @@ private-data/
 *.mcap
 *.bag
 *.ulg
+
+# Generated per-export identity; manifests stay with local native builds.
+unity/Assets/LeadMillsAR/Resources/LeadMillsBuildIdentity.json*

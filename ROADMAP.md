@@ -40,7 +40,9 @@ Dates are planning targets, not claims of completed work. Each phase closes only
 
 **October 8 progress (phase remains open):** the Mac baseline is Unity 6.3 LTS `6000.3.25f1` Apple Silicon with iOS Build Support, AR Foundation **6.3.5**, and Apple ARKit XR Plugin **6.3.5**. `LeadMills_AR_POC` (URP) has ARKit enabled and 0 Project Validation issues. Personal Team signing uses `com.alexanderangulo.leadmillsarpoc`. The physical iPhone 14 Pro updated to **iOS 27.0.1**; the October 7 install/launch worked but displayed the template sky/ground. On October 8, selecting only `Scenes/LeadMills_AR_POC` in the iOS Scene List and exporting to a fresh folder produced a camera permission prompt and working live camera feed: the **first successful native AR proof-of-concept milestone**. See the [October 7 log](iterations/2026-10-04/Daily_Log_2026-10-07.md) and [October 8 log](iterations/2026-10-04/Daily_Log_2026-10-08.md).
 
-**Next gate:** detect a real horizontal surface and place one simple test object; verify placement/tracking before importing Lead Mills site assets. Capture the local project source, package locks, build manifest, and test evidence for reproducibility. Matching Linux editor, Android build, anchor catalog/model rendering on both platforms, and the WebAR demonstration remain pending. The working iPhone camera feed does not close the cross-platform acceptance gate.
+**October11 local milestone accepted:** v0.4.3/build0007/a002 completed three-real-landmark calibration, independent-view checks and Anchor A; the user confirmed stability after99.2seconds. Six accepted-state screenshots and the private saved verdict support this indoor session-local result. The verdict survived app pause; live anchors remain session-local. See the [October11 log](iterations/2026-10-04/Daily_Log_2026-10-11.md).
+
+**Next gate:** simplify audience startup and verify it physically. Guided0.6.0/build0010 (installed) derives virtual focal scale from current camera intrinsics/display transform, qualifies a center floor footprint and enables one Place action. Manual tests remain under Advanced. Validate physical alignment, recovery and repeatability across fresh launches before audience release. The full-size vending surrogate has manual one-point stability evidence; automated guided placement is not yet accepted. Complete source handoff and lifecycle/performance refinement. Site-plan/KMZ building reconstruction and georeferencing follow this indoor usability stage.
 
 ## Phase 3 — geospatial-provider integration
 
@@ -104,3 +106,7 @@ Compare at least GPS-only, VPS, and a surveyed visual-marker/reference method wh
 - Document service dependencies and a migration/offline plan.
 
 **Exit evidence:** tagged release, archived research package, deployment instructions, and final limitations statement.
+
+**October 9 next trial:** start with one real floor detail using the [selectable multi-view calibration](unity/THREE_POINT_CALIBRATION.md), verify Undo/review/Continue, retap the same physical detail instead of virtual circles, check independent-view residuals and then physical anchor-at-A contact/stability. Repeated real-room testing is required; passing synthetic math alone does not clear the site-asset gate.
+
+**October 9 calibration usability follow-up:** build0004/a004 reached Anchor A after repeated retries; physical stability remains open. Next design separates coarse floor/framing guidance from fine tap placement (mesh dimming, camera-detail magnifier, adjustable crosshair, confirm/Undo). Keep independent-view acceptance and original camera-coordinate mapping; proposed UI is not yet deployed.

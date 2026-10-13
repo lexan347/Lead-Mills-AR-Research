@@ -6,9 +6,9 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 ## Start here — repository overview
 
-Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
+Updated October 11, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Next: detect a real horizontal plane and place one simple test object before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
+**Current stage:** successful native camera POC October8, followed by accepted three-point indoor calibration and stable native-anchor placement October11. On iPhone14Pro/iOS27.0.1, v0.4.3/build0007/a002 passed fit11.91px and independent holdout13.91px; the user confirmed stability after99.2seconds. Six screenshots show Stable saved, Anchor Tracking and retained cube/A/B/C markers across viewpoints. The accepted configuration is portrait/CW90/Input System/SRP ON. This clears the local indoor test-object milestone. Latest indoor trial: guided0.6.0/build0010 offers scan→green footprint→Place for the original1.2×0.85×2.0m vending machine, with live optical focal derivation and manual tests under Advanced. Installed/startup verified; guided physical alignment and fresh-launch repeatability remain pending. Previous manual one-point vending trial saved stability after96.9seconds. See the [guided test](unity/GUIDED_PLACEMENT_TEST.md). Persistent/geospatial anchors, surveyed accuracy, cross-platform/field validation and source-project handoff remain pending; lifecycle/performance repair is tracked separately. See the [October11 evidence](iterations/2026-10-04/Daily_Log_2026-10-11.md).
 
 | Section | What you will find |
 |---|---|
@@ -20,6 +20,7 @@ Updated October 8, 2026. This repository follows the documentation-first and evi
 | [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
 | [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
 | [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
+| [Horizontal-plane test](unity/PLANE_PLACEMENT_TEST.md) | LiDAR scan → surface → anchor POC, failed stability trials and acceptance procedure |
 | [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |

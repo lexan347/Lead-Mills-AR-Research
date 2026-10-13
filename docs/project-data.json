@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-08",
-  "stage": "First successful native AR proof of concept",
-  "status": "First native AR POC verified: iPhone 14 Pro / iOS 27.0.1 camera permission and live feed working. Next: horizontal-plane detection and simple test-object placement.",
+  "updated": "2026-10-11",
+  "stage": "Guided scan-and-place prototype; physical automatic-alignment validation pending",
+  "status": "Guided0.6.0/build0010 installed/launched19:20EDT. Simple uses live intrinsics/display focal derivation, center footprint and Place; Advanced retains manual calibration. Build/startup checks passed; guided physical alignment/repeatability pending. Manual vending one-point build0009/a001 confirmed stable96.9seconds.",
   "phases": [
     {
       "name": "Repository",
@@ -33,11 +33,19 @@
     "surveyedAnchor": false,
     "fieldValidated": false,
     "deploymentScope": "Personal Team development install on physical iPhone only; no public release",
-    "planeDetection": false,
-    "objectPlacement": false
+    "planeDetection": true,
+    "objectPlacement": true,
+    "stablePlacement": true,
+    "lidarPreviewDeviceVerified": true,
+    "surfaceReadinessDeviceVerified": false,
+    "surfaceReadinessInteractionDeviceVerified": true,
+    "stablePlacementScope": "User-confirmed indoor session-local stability in build0007/a002 after99.2seconds, iPhone14Pro portrait/CW90/Input System/SRP ON. Six still views and saved verdict support this trial; no measured drift, surveyed elevation, persistent/geospatial or cross-device field accuracy.",
+    "meshPlaneAlignmentUserVerified": true,
+    "guidedPlacementDeviceVerified": false,
+    "guidedStartupDeviceVerified": true
   },
   "stoppingPoint": {
-    "date": "2026-10-08",
+    "date": "2026-10-11",
     "unityValidationIssues": 0,
     "unityIOSExport": "succeeded; fresh export after Scene List correction",
     "signing": "Alexander Angulo (Personal Team); com.alexanderangulo.leadmillsarpoc",
@@ -48,7 +56,21 @@
     "liveCameraFeed": "working; user confirmed October 8",
     "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
     "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Detect a real horizontal plane and place one simple test object; verify placement/tracking before importing Lead Mills site assets"
+    "nextAction": "Test guided Simple startup: point at textured floor, move sideways, wait green, Place; check physical floor/landmark registration and save Stable after30\u201360seconds. Repeat fresh launch; Advanced retains manual comparison.",
+    "placement": "User confirms slight mesh/cube shifting remains after stopping motion; plane-anchor is active, but steady registration is not accepted",
+    "lidarRevision": "Historical October 8 trial: triangles/cube/footprint visible, but user reported mesh/plane misalignment and floor appearing vertical; superseded by corrected portrait trial",
+    "alignmentDiagnostics": "Historical 22:15 trial: unresolved physical alignment despite matching raw pose/projection; overlay hiding verified. October 9 CW90 trial resolved reported alignment.",
+    "surfaceReadiness": "Readiness qualification and placement interaction verified; user confirms physical registration in corrected portrait view",
+    "meshRegistration": "User verified CW90 portrait alignment; automatic correction deployed and confirmed at startup",
+    "recovery": "October 9 12:02 EDT: physical iPhone reconnected by cable; saved signed build0003 installed without re-export, launched as a fresh AR session and private console logging restored.",
+    "comparisonBuild": "20261009_080133 built/installed/launched ~08:06 EDT; current frame/intrinsics/projection/display diagnostics confirmed. Both pose modes show drift; toggle persistence verified.",
+    "threePointCalibration": "Build0007/a002:3 real landmarks; scale0.67898; fit11.91px versus native139.56px; independent holdout13.91px; Anchor A15:56:16EDT; confirmed stable15:57:55 after99.2seconds; app pause15:59:06 preserved saved verdict. Six IMG7697\u20137702 accepted-state images reviewed. Indoor POC milestone accepted.",
+    "floorContact": "User reports successful three-point placement; screenshot cube/green footprint appears supported at the estimated floor across views. No independently surveyed elevation or quantitative floor-height measurement.",
+    "testRecords": "Fresh private backup includes build0007/a001 failed/manual-clear and a002 three-point user-confirmed-stable. Verdict preservation after pause verified; raw pose/media stay private.",
+    "calibrationCorrespondences": "User clarified earlier repeats tapped virtual circles; those trials cannot establish independent physical zoom/floor-height calibration. New prompts explicitly target real floor details.",
+    "compactTestControls": "0.4.3/build0007 signed, installed and launched15:51EDT after unlock; startup confirms Input System/Portrait/CW90/SRP ON. Editor preview verifies compact layout, Guide and optional settings. Active three-point usability awaits trial. Debug overlays hidden; logs retained. Existing marker lifecycle/thermal concerns unresolved.",
+    "vendingAsset": "0.5.0/build0009/source6630d66 installed/launched; runtime Active prefab VendingMachine, pivot offset0.000m. Original1.2\u00d70.85\u00d72m model,30400triangles/11mesh renderers; prefab/OBJ/MTL/checksum/preview archived. Dimension/render/compilation/synthetic/native/signature/inventory/startup checks passed. Physical large-object verdict pending.",
+    "guidedPlacement": "0.6.0/build0010/sourceec06d8d signed, installed and launched; guided startup/VendingMachine/zero floor offset/Portrait CW90 Input System SRP ON verified. New derivation/rejection and existing manual math checks pass. Green/Place targets internal readiness; physical optical alignment and usability across fresh launches pending."
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",
