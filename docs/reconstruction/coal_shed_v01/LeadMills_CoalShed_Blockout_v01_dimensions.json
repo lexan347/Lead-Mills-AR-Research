@@ -1,0 +1,29 @@
+{
+  "model": "LeadMills_CoalShed_Blockout_v01",
+  "units_model": "meters",
+  "target_interpretation": "small roadside building labeled COAL SHED on the 1890 property plan",
+  "dimensions_ft": {
+    "length": 24.0,
+    "width": 12.0,
+    "eave_height": 8.5,
+    "ridge_height": 11.5,
+    "roof_pitch": "6:12"
+  },
+  "dimensions_m": {
+    "length": 7.3152,
+    "width": 3.6576,
+    "eave_height": 2.5908,
+    "ridge_height": 3.5052
+  },
+  "confidence": {
+    "footprint_aspect_ratio": "medium",
+    "absolute_length_width": "low-medium",
+    "height": "low",
+    "roof_pitch": "low-medium"
+  },
+  "notes": [
+    "Blank massing model only; no doors, windows, framing, siding, or foundation details.",
+    "Dimensions are provisional because the supplied plan does not show explicit dimensions for the shed.",
+    "Model is scaled in meters for direct Unity import (1 Unity unit = 1 meter)."
+  ]
+}
