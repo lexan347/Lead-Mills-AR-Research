@@ -1,0 +1,74 @@
+{
+  "milestone": "Full-size coal shed local AR placement",
+  "date": "2026-10-14",
+  "build": "LMAR_v0.7.0_b0016",
+  "photos": [
+    {
+      "source_filename": "IMG_7729.HEIC",
+      "source_sha256": "d27fe81d614bf0686a3f21fb1d16dc5fa8f9a4c2cb328f7f79211ac13002f865",
+      "public_file": "photos/IMG_7729.jpg",
+      "public_sha256": "7274bcbeaa28c15d2f2d801f306ae8ac5bd7e6992c28950f45675eb850075268",
+      "caption": "Indoor full-scale check; this is not a grade-accuracy measurement.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7730.HEIC",
+      "source_sha256": "0bf1b2ecff72ea8664cda6e879e33b9d0756629e256df05c43438618867c0255",
+      "public_file": "photos/IMG_7730.jpg",
+      "public_sha256": "8cc39fec5b62fa676234f34a92eae30ddeecc0fcf40ac4c45ac41f41c103482a",
+      "caption": "Outdoor grass placement, front view; phone assistant overlay visible.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7731.HEIC",
+      "source_sha256": "3e5974a3605d5aaf4c7f4b9139e0f50bcd5a555ca4d84efead50dec344d0d571",
+      "public_file": "photos/IMG_7731.jpg",
+      "public_sha256": "3d2877008f4779acb79a85e9262a68ae82d0aa736af0b66010467c83ee5c2c54",
+      "caption": "Outdoor front-corner view, anchor a003 shown tracking.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7732.HEIC",
+      "source_sha256": "a37eb65bbb3adc74312183793c7d811208acfb2ae9ced55b5010d1f537df8e0c",
+      "public_file": "photos/IMG_7732.jpg",
+      "public_sha256": "09f1f1aa6990c4914cdccf90beea4ca6502ce43739beb79c05d835a073f00fd6",
+      "caption": "Outdoor long-side view of the full-size shed on grass.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7733.HEIC",
+      "source_sha256": "6be58acc480126b8a5d6fe70384d90f6a811c60e567b919d4b9e73edb6b97db3",
+      "public_file": "photos/IMG_7733.jpg",
+      "public_sha256": "c229e9640bf34517ac870fa54e9f15a514a5b45753304fec8294bfdf73923784",
+      "caption": "Outdoor oblique side/rear view of the placed shed.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7734.HEIC",
+      "source_sha256": "87200b996082084322357e626848e8370bd555f29056242ebe08d82cb2eb2a87",
+      "public_file": "photos/IMG_7734.jpg",
+      "public_sha256": "2ef74aecd5e8a13b9b55f2d65f7fb23eb69cdd5beda9a676b60a3f72ab23b5fd",
+      "caption": "Outdoor rear-corner view of the shed on grass.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    },
+    {
+      "source_filename": "IMG_7736.HEIC",
+      "source_sha256": "ac54a4ac9ef72c26a21e6eb77873466b39c22c07009b848930bb1eaa58f5d12f",
+      "public_file": "photos/IMG_7736.jpg",
+      "public_sha256": "ca78452cfaa6f136e5b4c489d80e98e8430fadbe5bfb35e78f560ea33a6119d6",
+      "caption": "Outdoor front/side view; placed state and scan-off indicator visible.",
+      "processing": "HEIC converted to JPEG, maximum edge 1400 px; re-encoded without EXIF/GPS metadata; no visual retouching."
+    }
+  ],
+  "excluded": [
+    {
+      "source_filename": "IMG_7735.HEIC",
+      "source_sha256": "8b04ab775b66d1f0171555fcc63cdc394844b4f26c806555405d03800a92f32a",
+      "reason": "Unrelated passerby visible; original retained locally, no public derivative."
+    }
+  ],
+  "limitations": [
+    "Photos and user report establish a qualitative local AR demonstration, not surveyed geospatial accuracy.",
+    "No temperature, power, drift, repeatability, or relaunch persistence measurements were made."
+  ]
+}

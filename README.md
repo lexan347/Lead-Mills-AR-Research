@@ -6,9 +6,9 @@ The project will evaluate a low-friction WebAR demonstration and a research-grad
 
 ## Start here — repository overview
 
-Updated October 8, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
+Updated October 14, 2026. This repository follows the documentation-first and evidence-preserving structure used by [DronePi Research](https://github.com/lexan347/DronePi-Research).
 
-**Current stage:** first successful native AR proof of concept confirmed on October 8, 2026: the app installs and launches on the physical iPhone 14 Pro (iOS 27.0.1), requests camera permission, and displays the live camera feed. The breakthrough was correcting the iOS Build Profiles Scene List from `SampleScene` to `Scenes/LeadMills_AR_POC` and rebuilding into a fresh export folder. Next: detect a real horizontal plane and place one simple test object before importing Lead Mills site assets. Android, geospatial localization, surveyed anchors, historical reconstruction, and field validation remain pending.
+**Current stage:** full-size coal shed local AR milestone reached October 14, 2026. Build **0.7.0 / b0016** displays the textured 1:1 shed on the iPhone, with successful tile-floor placement reported and outdoor grass views documented. [Milestone report and photos](docs/milestones/2026-10-14-full-size-coal-shed/README.md) · [Daily log](iterations/2026-10-11/Daily_Log_2026-10-14.md) · [Working Unity source](unity/LeadMills_AR_POC/README.md). Next: establish site coordinates/control in QGIS, assemble terrain and the model in BlenderGIS, then implement and measure geographic registration. Current anchors are session-local; surveyed placement, Android parity and formal field validation remain pending.
 
 | Section | What you will find |
 |---|---|
@@ -17,9 +17,9 @@ Updated October 8, 2026. This repository follows the documentation-first and evi
 | [Decision record](DECISIONS.md) | Technology choices, rationale, assumptions, and open decisions |
 | [Site and anchor data](SITE_DATA.md) | Coordinate policy, reference frames, survey requirements, and public-data rules |
 | [Security and privacy](SECURITY_AND_PRIVACY.md) | Camera/location notices, secrets, field data, and publishing controls |
-| [Current iteration](iterations/2026-10-04/README.md) | Week of October 4–10, 2026 |
+| [Current iteration](iterations/2026-10-11/README.md) | Week of October 11–17, 2026 |
 | [Software baseline](docs/SOFTWARE_BASELINE.md) | Linux inventory status, pinned Mac/AR versions, and verified iPhone camera test |
-| [Unity starter](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
+| [Unity project and interfaces](unity/README.md) | Cross-platform source layout and Linux/macOS build workflow |
 | [Unity / iOS setup](unity/IOS_SETUP.md) | Verified POC configuration, clean-build checklist, and troubleshooting |
 | [WebAR demonstration](webar/README.md) | Browser-first demonstration procedure and evidence checklist |
 | [Research notes](Research_Notes_Template.md) | Source review and independent reasoning template |

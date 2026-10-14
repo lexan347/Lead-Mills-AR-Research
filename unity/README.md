@@ -1,8 +1,8 @@
 # Unity application starter
 
-This directory contains provider-neutral interfaces and data objects, not the complete local Unity project. The Mac POC `LeadMills_AR_POC` was created October 6 in Universal 3D / URP with Unity 6.3 LTS `6000.3.25f1` Apple Silicon and iOS Build Support. AR Foundation **6.3.5** and Apple ARKit XR Plugin **6.3.5** are installed; ARKit is enabled and Project Validation has 0 issues.
+The tested **[LeadMills_AR_POC project](LeadMills_AR_POC/README.md)** is now included alongside the provider-neutral starter interfaces in `Assets/LeadMillsAR/Scripts/Core/`. Open the nested POC directory as the Unity project; these are separate projects, not one combined Assets tree.
 
-The **first successful native AR POC** was confirmed October 8 on the physical iPhone 14 Pro / iOS **27.0.1**, using Personal Team signing and `com.alexanderangulo.leadmillsarpoc`. Camera permission and the live feed worked after selecting the actual AR scene instead of `SampleScene` and making a fresh iOS export. See [iOS setup and troubleshooting](IOS_SETUP.md) and [software baseline](../docs/SOFTWARE_BASELINE.md). Next: horizontal-plane detection and simple test-object placement before site-asset import. Local Unity source/package locks, matching Linux editor, and cross-platform builds remain pending.
+The October 14, 2026 **0.7.0 build 16** milestone demonstrates the full-size textured coal shed outdoors on grass, following successful local tile-floor placement. Unity is pinned to **6000.3.25f1**, AR Foundation and ARKit to **6.3.5**. See [evidence and limitations](../docs/milestones/2026-10-14-full-size-coal-shed/README.md). Geographic registration, cross-launch persistence and Android parity remain pending. Configure your own signing team before exporting.
 
 ## Planned project layout
 

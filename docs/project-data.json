@@ -1,7 +1,7 @@
 {
-  "updated": "2026-10-08",
-  "stage": "First successful native AR proof of concept",
-  "status": "First native AR POC verified: iPhone 14 Pro / iOS 27.0.1 camera permission and live feed working. Next: horizontal-plane detection and simple test-object placement.",
+  "updated": "2026-10-14",
+  "stage": "Full-size coal shed local AR milestone",
+  "status": "Full-size textured coal shed placed outdoors on grass (0.7.0 b0016). Next: QGIS site control and BlenderGIS model registration.",
   "phases": [
     {
       "name": "Repository",
@@ -33,22 +33,18 @@
     "surveyedAnchor": false,
     "fieldValidated": false,
     "deploymentScope": "Personal Team development install on physical iPhone only; no public release",
-    "planeDetection": false,
-    "objectPlacement": false
+    "planeDetection": true,
+    "objectPlacement": true,
+    "fullSizeLocalAR": true,
+    "outdoorGrassDemonstration": true
   },
   "stoppingPoint": {
-    "date": "2026-10-08",
-    "unityValidationIssues": 0,
-    "unityIOSExport": "succeeded; fresh export after Scene List correction",
-    "signing": "Alexander Angulo (Personal Team); com.alexanderangulo.leadmillsarpoc",
-    "device": "Physical iPhone 14 Pro; developer certificate trusted; app installed and running",
-    "iosUpdate": "iOS 27.0.1 confirmed October 7; supersedes October 6 planned 26.7.1 update",
-    "startupScene": "Assets/Scenes/LeadMills_AR_POC.unity enabled; SampleScene unchecked",
-    "cameraPermission": "requested successfully October 8",
-    "liveCameraFeed": "working; user confirmed October 8",
-    "rootCause": "Build Profiles still exported SampleScene; edited AR scene and diagnostic script were not running",
-    "exportProcedure": "Use a fresh folder such as Builds/iOS_Diagnostic and open its generated Xcode project",
-    "nextAction": "Detect a real horizontal plane and place one simple test object; verify placement/tracking before importing Lead Mills site assets"
+    "date": "2026-10-14",
+    "deviceBuild": "LMAR_v0.7.0_b0016",
+    "device": "Physical iPhone 14 Pro",
+    "localPlacement": "Full-size textured shed, outdoor grass views; tile-floor success user-reported",
+    "meshScanAfterPlacement": "App-controlled scan off; thermal savings unmeasured",
+    "nextAction": "Inventory GIS/Blender source data and establish CRS/control/height reference; register model before phone-to-site integration"
   },
   "softwareBaseline": {
     "xcode": "27.0 (27A266a)",

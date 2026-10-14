@@ -1,0 +1,953 @@
+{
+  "snapshot": "unity/LeadMills_AR_POC",
+  "public_only_changes": [
+    "Assets/LeadMillsAR/Scripts/Editor/CoalShedSetup.cs",
+    "ProjectSettings/ProjectSettings.asset"
+  ],
+  "files": [
+    {
+      "path": "Assets/ARStartupDiagnostics.cs",
+      "sha256": "9539a736f5440b6117cea504942246465c946935abe108026b0f0052d826d886"
+    },
+    {
+      "path": "Assets/ARStartupDiagnostics.cs.meta",
+      "sha256": "b3dd4aa9e9bee4c59c0d6962e63c78c75de902ea3e424c861518eadc7f650c24"
+    },
+    {
+      "path": "Assets/InputSystem_Actions.inputactions",
+      "sha256": "1c6cbb519d65ecfe19a29231735b7f54741a20ac1a8ad4f46a18e1bfb28a3c39"
+    },
+    {
+      "path": "Assets/InputSystem_Actions.inputactions.meta",
+      "sha256": "3b4e424a80f5b4fa76b6abd774884a24285eaa61f22ff9bb20e5ad505fd8b569"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_FullSize.prefab",
+      "sha256": "043f74139f9682801555b2597a6f62592412792e1d0f411d163c7cf1b2b47a29"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_FullSize.prefab.meta",
+      "sha256": "a5b33196011fec14a5a151d236aa4b896e8b82d01d4b704c4cf5ba342872fa50"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_FullSize_FrontPlacement.prefab",
+      "sha256": "b9a39d81908729ba5ea15c84883fdedf3ed6ae86ca394fb41b7cae6d636b539d"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_FullSize_FrontPlacement.prefab.meta",
+      "sha256": "926a94355e870d8891509abe387a1659ba9d1a765e547acbe0a8395f2e72a26e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_Tabletop.prefab",
+      "sha256": "c6daee7c404f6aef703adb106d6389e205a3d8ee25bcb06b825c21996f318382"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/CoalShed_Tabletop.prefab.meta",
+      "sha256": "945ef4e00bd38a0596e1394d84baea8ca4762a8983b11edd8e9e8217c39d8f0f"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/Footprint.mat",
+      "sha256": "eb8be4ed3ae2fc5341bcf41a5ec7085b308104123466073aef330547713dc08b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/Footprint.mat.meta",
+      "sha256": "fe98dc48b846c9e13c53f5a4467843adb280c1f5dccd51d4383ecaff758a2d3e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_CoalShed_Exterior.mat",
+      "sha256": "bd6725625aae1c06d43d6ceb271198cb70e534764888a71deead445b77746621"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_CoalShed_Exterior.mat.meta",
+      "sha256": "f943c757516df05757579cb68a67190f315f8dfa4bd91d0a1e2f9650844cbb8e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_DoorTrim_WeatheredWhite.mat",
+      "sha256": "0905534086fe0c0c9830bd4a77225fde59d6a6accf2ae3c43457d443757fdb25"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_DoorTrim_WeatheredWhite.mat.meta",
+      "sha256": "f7574136b65954e3510e5d97527f54036f318ac3849f67569dfbb6cd47272335"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Door_Wood_Base.mat",
+      "sha256": "fdb2587ea516134c8ce836ebf756a63e7ed755913dd3f62a48ae3eb21583aa05"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Door_Wood_Base.mat.meta",
+      "sha256": "8d4c886e6ea0c5e4133d459a755c2557518b712c12de10356a4aba4ccd6982ce"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Fieldstone_Base.mat",
+      "sha256": "9184f0e241fd044702b63ada8458b2a5a2df5ea2404947f40dfa57e461cd5e37"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Fieldstone_Base.mat.meta",
+      "sha256": "e679ff15a579df4d24bf12c095a9282f02c64853cc991505c10a1d33d502f4f1"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Iron_Hardware.mat",
+      "sha256": "edd0f7a0d1cdbf998c9a8f171d7a67daa14f47cc45971492ad1a0308ec8df5e6"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Iron_Hardware.mat.meta",
+      "sha256": "c77dd3f7a3c9532767a646939979b36a62dffa795495efd00827c197cfb94292"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Roof_WoodShingle_Base.mat",
+      "sha256": "87b50c0fa67c49023323dda0e54383db2e0fa76b056e6769a8b23a64dfd7140c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials/MAT_Roof_WoodShingle_Base.mat.meta",
+      "sha256": "798a9fe6c719149fb7bd996a49833f9a2f52c0c46348d1fb8fa6b8cd071f8634"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Materials.meta",
+      "sha256": "348f8ed97d02ca7fad23af4cd2498e8b9a487cdef33614e8a092f1b78e417b3e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Meshes/CoalShed_Foundation.asset",
+      "sha256": "0a6d68582482ba620916c223f85e1ec25c2d9f220613586b68541950aa72a0e7"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Meshes/CoalShed_Foundation.asset.meta",
+      "sha256": "28ebf09776e70f31aeb530ac24fb08f3b5102c301199ca9cd1b1d2982b6a6c37"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Meshes/CoalShed_Roof.asset",
+      "sha256": "3190dadb0eb7e56a575dc396a30dc0370bf318a9051138fae0176c30460fbc17"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Meshes/CoalShed_Roof.asset.meta",
+      "sha256": "ef0544848f39aed2b32e74174a676c3773635ffd0dceeaa6d9ed1862546105fe"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed/Meshes.meta",
+      "sha256": "891cc52e2471b5147ecb73ba60a3b8f0e345619831c75682fe6d69403c85c343"
+    },
+    {
+      "path": "Assets/LeadMillsAR/CoalShed.meta",
+      "sha256": "b1612794be66db43256bfaefd068aaf44b1e98989943408bb9ec313dc28901b5"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/ContactOutline.mat",
+      "sha256": "3b82281bb76c1e0ebe990ef94e11733bdced65a2ac2780bbd06b02aa3faa4b2e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/ContactOutline.mat.meta",
+      "sha256": "a4567d9f7c521314f581fe0bbfc1cfbb95f4637216fd4ce0a24fb0463d79fc50"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/DetectedPlane.mat",
+      "sha256": "d3d0a9d7ca2a7fb4db29431810b006a9af29dbd05e95144d0d68bebaeae05a82"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/DetectedPlane.mat.meta",
+      "sha256": "4bdf4bffc1c818c6e0b651325dd79757e39beb32f3510ffeb655a35333ebc9e3"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/LiDARWire.mat",
+      "sha256": "0e33088f97766ffb75b16f7bc34debf4dcc239658e54c8649bcab99d69590cf6"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/LiDARWire.mat.meta",
+      "sha256": "d2d4a24721412a061f7b1a26a5be733fdb8a53f68c769506c66cdad06a0451b8"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/TestCube.mat",
+      "sha256": "a638d2ecaa07a946f7f23d896eafd678b40323691fe83f8fd1cf2a81cab2941a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials/TestCube.mat.meta",
+      "sha256": "b8531462064d7eab8d29658c8e137d842c3ec98d4c7ce36864011e62cf27b4c1"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Materials.meta",
+      "sha256": "c72e24a044fb6913164a4e0bbc66d99a17f417eec0a03ae40d6064967996a49b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/DetectedPlane.prefab",
+      "sha256": "0841856784933e2d1d974ae09ce6cbb10bb6dc4e3a69c71510d329806a21d850"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/DetectedPlane.prefab.meta",
+      "sha256": "3416feb19fa7b13a46c1f4c21d54fe536130cd64f0e691a6e46785505ac3c062"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/LiDARSourceMesh.prefab",
+      "sha256": "fb9a1f9d41f345cb17c0a1d81cd81a7266b228b31a4b5c6ac64a348b58d5a46c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/LiDARSourceMesh.prefab.meta",
+      "sha256": "b699f06fb63ad12c892865f897190314fe393d2fbf2acf53882dcad26e248a2a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/TestCube.prefab",
+      "sha256": "7acc459cf64281bc84d10db917d399103af0b3c6fc3302e61137a82be4979fa6"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs/TestCube.prefab.meta",
+      "sha256": "93d0d07bb59c873a465615717501d051ccc180b34ea13b923d1d30950660edbb"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Prefabs.meta",
+      "sha256": "076706cb4bc6496d2e33449ddc6f7133e444f99d694ed0e183edcb660ba346ae"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Resources/LeadMillsBuildIdentity.json",
+      "sha256": "9fdd7682f91e963214d8c05daf0d68ca06c171609f48d7ab6c20e776a5ca78e8"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Resources/LeadMillsBuildIdentity.json.meta",
+      "sha256": "68e2c04d87d1ce7c1022c71248edd3c6b11df03f90a4048f26aea5eda9f94f37"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Resources.meta",
+      "sha256": "ff4265d5370f1be96da104f5744f3c00290ad19960d71525e9618d54d1bc7826"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/AutomaticCameraAlignment.cs",
+      "sha256": "a396392a4b98d6dff0e5e646489d4237a878b07446bd51f539605c5160b4e7b3"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/AutomaticCameraAlignment.cs.meta",
+      "sha256": "9d0c06e7efd9fd5eb2bb6216186b634f2d795d00e5a7ed40741cce914056adc6"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/CameraRegistrationComparison.cs",
+      "sha256": "1ad7d4d05f6abba1a4a0aee0b571ec32c17bce53a97cc7e31589efff1d68dd6a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/CameraRegistrationComparison.cs.meta",
+      "sha256": "bd9bcbfc65d770e51639079f61b3435253019b6c1f2d4c308c7e1756d56b0249"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/BuildTraceability.cs",
+      "sha256": "5960eabe4d326814a37b536fe246a55f958b2b20a1adb40d3e858c87f0d8d70b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/BuildTraceability.cs.meta",
+      "sha256": "a54dd7488f46e5a669a3d4847c43975b94971b76ba008d86b8cf775a3581190f"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/CoalShedSetup.cs",
+      "sha256": "897805ac7d4718c2fac9108a5e1903d5d8242ec6ac3bbdfa834a93e2916ce647"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/CoalShedSetup.cs.meta",
+      "sha256": "d473d7b278ff4e426461d2ba0fc316d199018651910adc959ef3bd6c9d4846b0"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/FloorCalibrationMathValidation.cs",
+      "sha256": "d9f2bf1873800b1e93adfd516cf8629bbc26fa2fb600055b8369348297234c78"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/FloorCalibrationMathValidation.cs.meta",
+      "sha256": "196383e8b8c0a0d1780627305c3b89a34e416e8aef9b63aa5f617d67fc62dc65"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/PlanePlacementSetup.cs",
+      "sha256": "7ca1550aa0ef6996a5d0d4a0a3da687ab3fc33a35159463ba1bcd3a6ae5e2caf"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/PlanePlacementSetup.cs.meta",
+      "sha256": "3f083f6266b4c36cb7d85d7150585a6c47c273cda8e382013c50d086458f8611"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/SurfaceCoverageValidation.cs",
+      "sha256": "7cb6e1dc0e45377bcc426b05b44ab6285215bf917c65d86d2c9c8a1afe675956"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/SurfaceCoverageValidation.cs.meta",
+      "sha256": "15dae110da6bdb11ce31ce917bc6cd27c8afbff5559c821bfbec40267052ced5"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/VendingMachineAssetBuilder.cs",
+      "sha256": "c69c6302252201e141ebcecdf3816480484cbf9d1db4cc588bb91df28fd24061"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor/VendingMachineAssetBuilder.cs.meta",
+      "sha256": "27729266c396b1e1e2faeae1bf8e2b9099b9e27179ff6e884393ae2adde83316"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/Editor.meta",
+      "sha256": "dfcad1c39b51e8e036b627d17f1af261153aacb4fafbb3e87d1d1725c4c2f513"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/FloorProjectionCalibration.cs",
+      "sha256": "6a8db889b2f9f6d69c01d6ac418b85e991bad234645222a49aa8448b0a56e4ea"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/FloorProjectionCalibration.cs.meta",
+      "sha256": "fdc189193698a84a53c6a1a044b022b0d9d2c99541d49d9a6e7e69ad4101a0a8"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/GroundPlacementPolicy.cs",
+      "sha256": "0a69a9ed87133d7e170f547d07732b509f735965e5f9ea9e86d6f61fdb00e91f"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/GroundPlacementPolicy.cs.meta",
+      "sha256": "5961fc411b6b6e7109d8f203b64fc70cdc1de619974561c15131f154e5b3611c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/GroundStabilityCheck.cs",
+      "sha256": "f72e2166eed2a59d7db6216ea626269de837295ae762a7cb1b4444144d87ffc7"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/GroundStabilityCheck.cs.meta",
+      "sha256": "bf8399e9d45a86ddf302d83b845a7219a1dc8ba60d8507ccc292097002d1b5b7"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs",
+      "sha256": "4b561dbe4059f1da6a7423ae3924f8ec29d3d63daeff610aecc3294bff91411a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/HorizontalPlanePlacement.cs.meta",
+      "sha256": "dc475e1f4d200d228e3049a403f758c62d55a672d53d843ccc012a2aca23d277"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/LiDARMeshPreview.cs",
+      "sha256": "35b72496c710ac7910bfa531bee929c62d22ce2fd040db8637b0268ab49971ea"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/LiDARMeshPreview.cs.meta",
+      "sha256": "97a19b7014cbb3339182504502dab2b71d58a25e71d382855bbb7147453dd5fb"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/SurfaceCoverage.cs",
+      "sha256": "89d6477a363a002e95e6cceeac7365a3329150507ef521618c311507135b2464"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/SurfaceCoverage.cs.meta",
+      "sha256": "22ad3e7732703d03805035fb1c478d57a6963a8ed3e900f5f255a0782a389c78"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/ThreePointFloorCalibration.cs",
+      "sha256": "bc16afc4a06f260d4f62077ef908e58497d7a4ba7cb1f8e8faacf418f7537167"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/ThreePointFloorCalibration.cs.meta",
+      "sha256": "b1a53345ce18f37059c04663076cd882627dc4bdbff99c88ae4ab0ec3db2bb23"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/TrialTrace.cs",
+      "sha256": "fdf23bd57d057780f31bba9c117fbdace2cba40c5672fa6799950b0144f7f27c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts/TrialTrace.cs.meta",
+      "sha256": "d77d8a10649fc7611a130085eccc8290d1ca18a2d10b056231d964b4ae7db6a3"
+    },
+    {
+      "path": "Assets/LeadMillsAR/Scripts.meta",
+      "sha256": "80c25fe8d3ecbe6051f505ee671aa94d1763336da3e496866c6d2dd29361d6ac"
+    },
+    {
+      "path": "Assets/LeadMillsAR/TestConfiguration.json",
+      "sha256": "32031e083595f4a9a8d342908c00b04575d561698c128d357241fca07fe8d2b4"
+    },
+    {
+      "path": "Assets/LeadMillsAR/TestConfiguration.json.meta",
+      "sha256": "68afc278f0275bbbcd634fa1dca8d42ad08b23b0322f876784e48e426fc6da34"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/BluePaint.mat",
+      "sha256": "f9e03b56799160a10611c05c54a57f57e7f42267c55d63fa3ff0184481f7ff40"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/BluePaint.mat.meta",
+      "sha256": "76e560ee5a2efad9452da5f5cb9ce01520b0356f9942e86339a2f3f6ac9aee95"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/BrushedSteel.mat",
+      "sha256": "fa2b6a4c1b19fb7285e1f2011d4cc1504cdf2d4af58d2d6e4d39fcb1e50ef6b0"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/BrushedSteel.mat.meta",
+      "sha256": "926ad14666f09b94b75f2a96d76d59684d1b4586929a4aa1265a00a1646237e0"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/DisplayGlass.mat",
+      "sha256": "ce55f723a5a5f3e172ff3af9559e190a7f903102c9b9f193349cf7e86d140038"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/DisplayGlass.mat.meta",
+      "sha256": "6b01d4813c4a2534c5c127dbf2ba2109b3b2e6065fc5f521faa262cf422ffc2e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Footprint.mat",
+      "sha256": "66dab8288f730b2fa16795fc0db4f74062cf3fa809b75864b83b8357b38d2589"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Footprint.mat.meta",
+      "sha256": "a463d56338f5545652053f5a5b784413a015e5e1ecc65b390e460e5ce66d957a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Graphite.mat",
+      "sha256": "85298e19c89dee303cef2c63be34641ffec36c8bd03d2766e68f15cef8feb82e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Graphite.mat.meta",
+      "sha256": "5b465f5faeb550d7e50d24383166caa25cfc2a5ab72675ef3f5acaa1d289f5ad"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Interior.mat",
+      "sha256": "391c1fcebaa86b03a844bed5e2fd75eb0a1429a833422bec8ad8733d76e5304e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Interior.mat.meta",
+      "sha256": "808729f412a23f15f97c7f53e80b1eb3c85e77630168e5b449c0138b5e55beb2"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Lighting.mat",
+      "sha256": "c01d088527274d262456c5712a2a1d8f78227190216fb07710814c5c6782103d"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Lighting.mat.meta",
+      "sha256": "2e90233bc4fe8dea2ab19c3f27e670d9b19aa388ed2e823ead55f3bef87e75b7"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product0.mat",
+      "sha256": "f82fa003db59b59b6f23f41896ca50000101ee25292b3158ffc0c791e7fa66d2"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product0.mat.meta",
+      "sha256": "6e51462931c4f52a2fee7a1703354360f9d47fb7922769ed32fd2ccb12894780"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product1.mat",
+      "sha256": "7b1950ffb4719b3e8cea90649f5998564ec03a10a7db11e7767b12ff53fafe91"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product1.mat.meta",
+      "sha256": "4d5427dde77fa3ced4684499f26dc4c51defe08d35b1b87a8027b16b0df09883"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product2.mat",
+      "sha256": "a6c622679fc911dc868700ea7f67c1d3c34f9520bc2585dac098ba8bd160222b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product2.mat.meta",
+      "sha256": "b29ca187fdb101d9e3500bc6f4d588ca64d2d14d3c009703f067b90d52e30a65"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product3.mat",
+      "sha256": "7727c2676362508018fb5a7a8af495c1931548259b62fc0bc5807356937f6c01"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Product3.mat.meta",
+      "sha256": "d286a28af5078931d3a1728e65f3ebdb38f6fa4e142e9f5eafec11716288124e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Screen.mat",
+      "sha256": "be99dab3ba9b2a3220334ec87eb3288461bf2f2dcad77bd79ba0460b536368f5"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials/Screen.mat.meta",
+      "sha256": "c42ce52cec9c2d390b8399ac5fdd1dd126f4bd5030a23a9652471ebddc6408cf"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Materials.meta",
+      "sha256": "7bae01b062fc8266e3100dc3c598e9ecfbaa360a03615321109527fb71c167ea"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/BluePaint.asset",
+      "sha256": "09a5798b9f6f94ae9bacbd746789ca6422b51c36fc6238e477776dd6227bb2b5"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/BluePaint.asset.meta",
+      "sha256": "34cd4821d44bd4d013b71e8be83cbe84310d30d641d1a7f14be44526acf4ee91"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/BrushedSteel.asset",
+      "sha256": "e8ecf01d9c7fe2481ed00daa4c6d2aec05ae13242dc81bfb071d724b5256bbc2"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/BrushedSteel.asset.meta",
+      "sha256": "5cefd76592b5de1a1444231f122140fbb017ce43f6962463f0a16b1a4b5d3542"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Graphite.asset",
+      "sha256": "b23221c71423c7edce0cbb37bee502d320374b2e09526cf4297fd9bd81b96f0d"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Graphite.asset.meta",
+      "sha256": "c5a4a25d784d27033e005f5c527c55c71a248cf26318fb2c040ba3c5870380c5"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Interior.asset",
+      "sha256": "dd93deb280adf0870f9d8a1e6f1ecd8aca9498b760e161634c6f6a48d99cc681"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Interior.asset.meta",
+      "sha256": "e2b66d1d5244b9e5f9865283f95abf8880f857239715be35bca2535afee57cf8"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Lighting.asset",
+      "sha256": "3c8700345305a070febecea3ebab57211a0a0ac7bf06661eee168dda43af2920"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Lighting.asset.meta",
+      "sha256": "c1ad1966afd0a71710c6b59ecfcb912b26f0a87310e79178d18e860ff2402b8a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product0.asset",
+      "sha256": "b45785c5698c3e22b8d347d5e1daf04ee1b4c23fba3b8002b6b04f5e4eb03315"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product0.asset.meta",
+      "sha256": "8d1e29cd18a11ad853a1c50aeb820b3d394e150170066b601698b359aa0bc14a"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product1.asset",
+      "sha256": "004d8777e3cbde69e4a0c0dee61ff28c1646546e44cea9a5110872fa2c3b9f2e"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product1.asset.meta",
+      "sha256": "48edd857facbe9a5053550f7bbcf0ec70b8b5305c4d2684fa97a323cafddccf2"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product2.asset",
+      "sha256": "245df4a5967ce825d6ea36094829c958cff089a26561bb13a1f329bcef083b03"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product2.asset.meta",
+      "sha256": "8119b31ae1e43a735ca3efef89b438fa6a7c302aa6e96a2a1660ac15bbf5e59b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product3.asset",
+      "sha256": "f69ac0227e771d568c5d63c3108b560be85520c2d6548ee57d02cb5305a0d2a4"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Product3.asset.meta",
+      "sha256": "08d4f454f0b46be814c2d1110f3945c765ab23773234be9e51cf4b844c692a6c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Screen.asset",
+      "sha256": "32d8aa2c1ce621fb507effc6cfb56b34eb7946fee4ec792e4f47e150e0a4bfd7"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes/Screen.asset.meta",
+      "sha256": "e9b168d2bbf0d863c6f9a42738958c13ad89973f45a0d875b6358de8197a2e9f"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/Meshes.meta",
+      "sha256": "af0836504c413eefa53a3541bd819da3f553272e919e0fcc22db44b56ffb86c1"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.mtl",
+      "sha256": "5a76855812d5c3194465a300fc2d67181a4565ca24e50657be76a8c645e56aed"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.mtl.meta",
+      "sha256": "2c0d019c0867d40a432644c6b71298b0901427df1cb68b9ae2cb67bac29de401"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.obj",
+      "sha256": "7ece574f5d4c733f50592275bddfb2978df37c324416dd94b0e70f40cc7117a2"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.obj.meta",
+      "sha256": "9cc5843413a248fa735afb44454335d8f10caf7afc50549cac9ec96f3a54d995"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.prefab",
+      "sha256": "326b18cd3f0e881803580b6a55a287a49ba9da936683f5ea1d2422b1daa3827b"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine/VendingMachine.prefab.meta",
+      "sha256": "a56c7f48110f3d8b1816b2993dcdf9b6f95fdc78f8f5e7760582fd6f8bb34e5c"
+    },
+    {
+      "path": "Assets/LeadMillsAR/VendingMachine.meta",
+      "sha256": "547879b201b1c739bc2fd7565cece3fe16e97a24df29adb68c92a2476b62a416"
+    },
+    {
+      "path": "Assets/LeadMillsAR.meta",
+      "sha256": "d4eb27ee4f35371d337b859687232e914ef2c2a7322f0fdbe37f225348588d1a"
+    },
+    {
+      "path": "Assets/Readme.asset",
+      "sha256": "6d098604e909b6a0e64fe5910c2719704864d49678bcf5413bd47b67e5490107"
+    },
+    {
+      "path": "Assets/Readme.asset.meta",
+      "sha256": "46c6b89ac1d47bd0c0d1a8b141ae3e32cd95d3e74c49381f0d9f942488c254ce"
+    },
+    {
+      "path": "Assets/Scenes/LeadMills_AR_POC.unity",
+      "sha256": "ae0143c71403d317a651f08970b7b2f0ec00d9b4a5a3fadb865c9a4b48f11de5"
+    },
+    {
+      "path": "Assets/Scenes/LeadMills_AR_POC.unity.meta",
+      "sha256": "ac115ebb2d884ccb4865a838c1b7277b12ce536a830d23260f4c44880e2bd985"
+    },
+    {
+      "path": "Assets/Scenes/SampleScene.unity",
+      "sha256": "07fce8b04804ddccb3026db5b43d8dc41ba138e49d50d36a5c24877081eacdca"
+    },
+    {
+      "path": "Assets/Scenes/SampleScene.unity.meta",
+      "sha256": "b5815a6b12afaf810577bc89041c4ce46516c7cd6609693f8db616f8e5584d80"
+    },
+    {
+      "path": "Assets/Scenes.meta",
+      "sha256": "7b4a3f883982e0402ff0e05f455bba6292f1851179dcf4efb23b6069acee67ac"
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset",
+      "sha256": "463776c51ae49d4fef980e8fd268081b2f505610d79315003faae1acff8f4115"
+    },
+    {
+      "path": "Assets/Settings/DefaultVolumeProfile.asset.meta",
+      "sha256": "efbcb026cee6b8e32fdf27018c06b0515296a6ccbb43969e792fea270310700a"
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset",
+      "sha256": "9187dd282f044a54bc597c6a8473db4a293787c52f3fb899a748973571001f04"
+    },
+    {
+      "path": "Assets/Settings/Mobile_RPAsset.asset.meta",
+      "sha256": "53ea46647712c615fd1a3f2e0dddfa8559eeedc649e9a1dbf93ff913de28544c"
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset",
+      "sha256": "c31e852c001eed95654412dc4e31a40721c1b51d49ee1eefc5bec2aa4902da93"
+    },
+    {
+      "path": "Assets/Settings/Mobile_Renderer.asset.meta",
+      "sha256": "a148ee2b4987b05b8ff7ae5f9bf84916184f77aefddc821dceb551f5a69f8179"
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset",
+      "sha256": "19dce884fa0c406e1ae8a34f7d43e8eb141184c564958ad8610f08c36e8dec76"
+    },
+    {
+      "path": "Assets/Settings/PC_RPAsset.asset.meta",
+      "sha256": "bb469b9b6f318e9e9bed29c3b2e73e79371c04743c6f95dd6603941f1cd3e53e"
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset",
+      "sha256": "3d0b01d8ded3327263b6690be128a3de58d17c514943ae42fe743a3e084a9c79"
+    },
+    {
+      "path": "Assets/Settings/PC_Renderer.asset.meta",
+      "sha256": "b5df8ddb2708c6ed4c133a5ff9ee95a75cc20e4ee3ed6181366a61aedbaf31ec"
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset",
+      "sha256": "a8677d4bac051d24caa11cd622e39f968155ee277bfce132274f1de225692fe9"
+    },
+    {
+      "path": "Assets/Settings/SampleSceneProfile.asset.meta",
+      "sha256": "2e23abc214069f0adbf2b2207f1db54be7876629ec2a3681d0f4aa5b61622ef0"
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "sha256": "8cc3258209c2b9b259b990c91c69b9725954e0963fad2fb9088f579572abce38"
+    },
+    {
+      "path": "Assets/Settings/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "sha256": "f61661d8bc8dbe531daf09f6211ef978c7ba145c9207c8e76524396ae0722d7c"
+    },
+    {
+      "path": "Assets/Settings.meta",
+      "sha256": "73c8e19843240273facb0af6bdbf430d719e397aded705629594060ce25ce7ad"
+    },
+    {
+      "path": "Assets/TutorialInfo/Icons/URP.png",
+      "sha256": "1d17a9ff3537859abe2c008603d29d90cf43191ae77aa386167cc65e53ba03d9"
+    },
+    {
+      "path": "Assets/TutorialInfo/Icons/URP.png.meta",
+      "sha256": "b330f1fcfc4e6ceccc95fc34a38434141603469b135633e1c4e8a03c19f9fdbc"
+    },
+    {
+      "path": "Assets/TutorialInfo/Icons.meta",
+      "sha256": "546e7d7af6b4d5e17d284c8f1188d05472e681911b8359905ee9b9e20769a106"
+    },
+    {
+      "path": "Assets/TutorialInfo/Layout.wlt",
+      "sha256": "0a18bf035aa7ce914f19f7ce6b60a5a2d33e2371af6f492a8ea7a1bc78755b8b"
+    },
+    {
+      "path": "Assets/TutorialInfo/Layout.wlt.meta",
+      "sha256": "b8745a251df078ffa75dbaac0c4c6debecb61ab306b5b119a490ce6c635a11d8"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs",
+      "sha256": "d2023934bc2be23af69cd930ade85eff41c5db0a6f6666b05324b975befdb5b5"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs.meta",
+      "sha256": "f59080b424c16fa13edd105bf006fdbad98c11fce0c921043e63c8877f144cd9"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts/Editor.meta",
+      "sha256": "7036bdbc8af05799b5fd508484343b35c28a68b390198da4673d34357d7d667f"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts/Readme.cs",
+      "sha256": "c09c93844f93eb252a6fb39c222d169c63a63e96008fd040b9e7628c3e7ccc2e"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts/Readme.cs.meta",
+      "sha256": "80a3df9969fab6e656583ee9bbca884d0507e2b7de3417f6ea3118fba901cd60"
+    },
+    {
+      "path": "Assets/TutorialInfo/Scripts.meta",
+      "sha256": "930d0c8276cea1559a3e315f8500ea6ca8b58d980eee3b44aaa1d461742c47e0"
+    },
+    {
+      "path": "Assets/TutorialInfo.meta",
+      "sha256": "07f022e5932c833d026e020b27d73452ebd781993b616d76003494af1e140946"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/LeadMills_CoalShed_Unity_Draft01.fbx",
+      "sha256": "94297f24e7ab6706cb8cc868be31306e23559e420f079f791ac643ce5e17db9d"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/LeadMills_CoalShed_Unity_Draft01.fbx.meta",
+      "sha256": "1ef9445d85f119d6d27b4fa56ea6799e33fc629e4deca07eb17e706d123816a1"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Gray-Brown Wooden Shingle Texture.png",
+      "sha256": "a63e800a1dd5d67e897a4c731f2e5ed55d8fe152b3b902f73b59939ddd0e5cb7"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Gray-Brown Wooden Shingle Texture.png.meta",
+      "sha256": "11e269e91fa148f97c6b64a1fa4eb6ca83ddbbef5667ac91c91b11e938114e00"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Mossy Stone Wall Texture.png",
+      "sha256": "7703010cdec33c23eac09dc95cb843e9a962c42b229c153c09e57f5c4d300b6a"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Mossy Stone Wall Texture.png.meta",
+      "sha256": "49d4e1a492bf42b6bed140eb8ff6beba5905c4fb0504ad49dd917894f5eb6de0"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Rustic Wooden Planks.png",
+      "sha256": "a22528986f74e0548f29d4f0da8d89a6752c2fe30431788dc46784a05d804332"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered Rustic Wooden Planks.png.meta",
+      "sha256": "eed2d510201c3a120776b48a850072930d19ebb184eec6cf729662901a0940b7"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered White Wooden Siding.png",
+      "sha256": "939a8d1ece12473f622017649d44c0effa210914e66c2e0dbf9ac4acfbeb2c86"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures/Weathered White Wooden Siding.png.meta",
+      "sha256": "c69b13a7784fbfa445731c6bb87197c576b48bcf7e6ae6c220937257be1013aa"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01/Textures.meta",
+      "sha256": "a714f5c1567cb9ece425b19f0c343c3a61f23083109870161e5db38aa98d8bf8"
+    },
+    {
+      "path": "Assets/Unity Packages/LeadMills_CoalShed_Draft01.meta",
+      "sha256": "eb2f9220d90f7f00b5cd2a085b7e25d48f775ccf48efa488bf2cdbf2534b4b96"
+    },
+    {
+      "path": "Assets/Unity Packages.meta",
+      "sha256": "e11551efed7fbebd72efdfa2f4dc0c2d80fb4c6e6bb9202597549c9a4128c348"
+    },
+    {
+      "path": "Assets/XR/Loaders/ARKitLoader.asset",
+      "sha256": "7476366b546563e5d46845f35b3415d0faa76b627b8d5bc5c1f6528b873a5f56"
+    },
+    {
+      "path": "Assets/XR/Loaders/ARKitLoader.asset.meta",
+      "sha256": "f2ffeb649bf88faea512114eb0a284ae661365ef6e10a5b6109ffc2f8cf8bc13"
+    },
+    {
+      "path": "Assets/XR/Loaders/SimulationLoader.asset",
+      "sha256": "f2ba21266323a7535f0ff53d6ca6eacf13524a39d5899e924bccd18f1bd69e09"
+    },
+    {
+      "path": "Assets/XR/Loaders/SimulationLoader.asset.meta",
+      "sha256": "fa6075b1b5fa01d7a0aa5aaeb42d3925b4b7b1e18c7dbe30e7237e1d7ab39715"
+    },
+    {
+      "path": "Assets/XR/Loaders.meta",
+      "sha256": "67530fb8da67fb2f80be9a7985f23683c2ede4e5443699cf034c8d68000bca8c"
+    },
+    {
+      "path": "Assets/XR/Resources/XRSimulationRuntimeSettings.asset",
+      "sha256": "b5d862588e148e5370808d52abc0f8ec584ec8549a436dddc7044fb14faea9d5"
+    },
+    {
+      "path": "Assets/XR/Resources/XRSimulationRuntimeSettings.asset.meta",
+      "sha256": "8aa1be9a5fff54609e7a31f03596e1e379088b270f8d33b5b8548bd7f62034b8"
+    },
+    {
+      "path": "Assets/XR/Resources.meta",
+      "sha256": "f65063123a62b096035ee8529ef27b990481700f0aac62ecbf9dec31674b04ab"
+    },
+    {
+      "path": "Assets/XR/Settings/ARKitSettings.asset",
+      "sha256": "435ceedda64765ca8b5a40c56461075107195dcc8c6e06422842e606249a6559"
+    },
+    {
+      "path": "Assets/XR/Settings/ARKitSettings.asset.meta",
+      "sha256": "d1b9bdd99f025b16befea782d25ed45e38f56edbcb91ebbfa2efc70f2692a687"
+    },
+    {
+      "path": "Assets/XR/Settings/XRSimulationSettings.asset",
+      "sha256": "6752e6711c9ce08e84f68ad23a527c5308030e4c1a304e69fb67e2d78923dbd8"
+    },
+    {
+      "path": "Assets/XR/Settings/XRSimulationSettings.asset.meta",
+      "sha256": "46fa926aa2f87178f2375a48592a5fdb51e34ac7e6e7ce5eee72570e5e53340e"
+    },
+    {
+      "path": "Assets/XR/Settings.meta",
+      "sha256": "c692268df5f8bc066b6b586a060ab308acafc6bfe40139d189be22e3185e93de"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings/Resources/XRSimulationPreferences.asset",
+      "sha256": "d60ab84506a30e4296011af0cd34e207220b63790b76928c95ef60d3a6e5411f"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings/Resources/XRSimulationPreferences.asset.meta",
+      "sha256": "037e8563d25dd92fd667f3f172d9344170acb83a789f2c4b4a0aab32061cc470"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings/Resources.meta",
+      "sha256": "9f830c834dbefee57e86cf9d28f66e81e7f926c9891a47f7a4d652c2c438c7cf"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings/SimulationEnvironmentAssetsManager.asset",
+      "sha256": "8f8a2a16b400995761ace338f27be8ada34ae44f21b3010492724f3fa6ad59ae"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings/SimulationEnvironmentAssetsManager.asset.meta",
+      "sha256": "21d0ebeca2b5eafcbcc7a2c54fadb8a956c2c5dee57855e589837a6791bedf73"
+    },
+    {
+      "path": "Assets/XR/UserSimulationSettings.meta",
+      "sha256": "bbc8cd9877dc416dde70b3e36606ef19b6572edc99a80dd74489b317a90f5d32"
+    },
+    {
+      "path": "Assets/XR/XRGeneralSettingsPerBuildTarget.asset",
+      "sha256": "4b8d2fde94fb1c20d615d206cfaea80dd6afefc10c3ceae92dbfefefe0d7d012"
+    },
+    {
+      "path": "Assets/XR/XRGeneralSettingsPerBuildTarget.asset.meta",
+      "sha256": "ab5ede6982314de599d6e6b95aa5e3398fd5ace1f15e54fbe28c68c9720c18ee"
+    },
+    {
+      "path": "Assets/XR.meta",
+      "sha256": "98d3bbaf5c64119cbf62bc95ebefa4b4e0fe00e2fce3364e21db06decfb48457"
+    },
+    {
+      "path": "Packages/manifest.json",
+      "sha256": "0340e8844654db916c66cf54682c70568499ec681929ffb6f0a2b1b657613c5b"
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "sha256": "cc7dca152e7d9b42eac0082ebff752017dda9ce5e6a596b50b9c9fb5e2473404"
+    },
+    {
+      "path": "ProjectSettings/AudioManager.asset",
+      "sha256": "aeedeb3243f07b61dbbe854aa08b5ef6f0b5274dd9852ad9f6129dde3e105a31"
+    },
+    {
+      "path": "ProjectSettings/ClusterInputManager.asset",
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623"
+    },
+    {
+      "path": "ProjectSettings/DynamicsManager.asset",
+      "sha256": "b7c9a9dc08b98990109d4346f68745e15e238de400f96c583e53e1c83c743a78"
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "sha256": "1c80d9eba606e0c2a09a0b479b9d3311102801fc2a5788c197a2043ff4286f9a"
+    },
+    {
+      "path": "ProjectSettings/EditorSettings.asset",
+      "sha256": "32d6a9be4c9aa9795a96bd951820a2d9be1bfefab82ed05a5db111af0863938f"
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "sha256": "7fa8cab526fb3fd13db8594db44aa2fa445bcf8ec138c3b05039e5ea600fa333"
+    },
+    {
+      "path": "ProjectSettings/InputManager.asset",
+      "sha256": "7a1bb836a1008d26d0860d143e9d9df7ca41731d30a72901b518063819c62df2"
+    },
+    {
+      "path": "ProjectSettings/MemorySettings.asset",
+      "sha256": "1e8379a461b10ae09f3f696911088c16875d63e87ed5f2d95df9e1892703f9fd"
+    },
+    {
+      "path": "ProjectSettings/MultiplayerManager.asset",
+      "sha256": "aba89fd1a1ddad182727ad82727e536d27372e90328a8196da2a4560398983dd"
+    },
+    {
+      "path": "ProjectSettings/NavMeshAreas.asset",
+      "sha256": "80106cfa7e6181a1928b142c075f3e510d527441e3d79bc83590e4ac91e7cd66"
+    },
+    {
+      "path": "ProjectSettings/PackageManagerSettings.asset",
+      "sha256": "a7dabba589abe7fc2b45bd3d3fba3fe9be97043492703f716da2d9131c13a807"
+    },
+    {
+      "path": "ProjectSettings/Physics2DSettings.asset",
+      "sha256": "e3cbdbf0be15244b7b67d2f07bdb8e8981911c11a8c7fe8035f5261272fec658"
+    },
+    {
+      "path": "ProjectSettings/PresetManager.asset",
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c"
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "sha256": "957f2071b9d5397c99632db788dd39bd10616a613dcba2874fb21ace2a6217ae"
+    },
+    {
+      "path": "ProjectSettings/ProjectVersion.txt",
+      "sha256": "4a18b4936a9f83ec28b32cf336e6f62f6b00ddf12a48c792feac779add1380f3"
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "sha256": "ba11980f425034744963c2356c7d8e34f370b342c12765d09c17731ef9b2cfcb"
+    },
+    {
+      "path": "ProjectSettings/SceneTemplateSettings.json",
+      "sha256": "bb9098b3bfcde78d93e264b96f7b77b5430e64e8c57a7aad7f5a5d9c3945e16a"
+    },
+    {
+      "path": "ProjectSettings/ShaderGraphSettings.asset",
+      "sha256": "cdba1e5d65bcf6e3269d76ed3e60b6c21f98322002996642c9d74f1eb89f6b91"
+    },
+    {
+      "path": "ProjectSettings/TagManager.asset",
+      "sha256": "23fc56b484aa3d7edf5914cd3591f7a823ccef5e3f3496f8a51f30388ead63dc"
+    },
+    {
+      "path": "ProjectSettings/TimeManager.asset",
+      "sha256": "1a83e54adbbda7c9f4851103a0c6ab7f6448a3343d4ea5b7620452fa08416ecd"
+    },
+    {
+      "path": "ProjectSettings/URPProjectSettings.asset",
+      "sha256": "c317fe22b9488785c0611f0642429922e5d324430d929bffb41648130f30c218"
+    },
+    {
+      "path": "ProjectSettings/UnityConnectSettings.asset",
+      "sha256": "98f142992d8a623501c99648e1b7363adca08b67bb50390b566df368d00bc9a0"
+    },
+    {
+      "path": "ProjectSettings/VFXManager.asset",
+      "sha256": "f066c6483919961332415ee64204f74fe52f38c02e82892eb02b7a5b2e381f0e"
+    },
+    {
+      "path": "ProjectSettings/VersionControlSettings.asset",
+      "sha256": "e7bda45bf7a394745fee1316e6c71fa676004d591ad1f3aa247fd3e4ceb86071"
+    },
+    {
+      "path": "ProjectSettings/XRSettings.asset",
+      "sha256": "edd2beb4a2e388312b4b7da241aa51070434005d82c59363f1237dd2e567585f"
+    }
+  ]
+}

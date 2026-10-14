@@ -40,7 +40,9 @@ Dates are planning targets, not claims of completed work. Each phase closes only
 
 **October 8 progress (phase remains open):** the Mac baseline is Unity 6.3 LTS `6000.3.25f1` Apple Silicon with iOS Build Support, AR Foundation **6.3.5**, and Apple ARKit XR Plugin **6.3.5**. `LeadMills_AR_POC` (URP) has ARKit enabled and 0 Project Validation issues. Personal Team signing uses `com.alexanderangulo.leadmillsarpoc`. The physical iPhone 14 Pro updated to **iOS 27.0.1**; the October 7 install/launch worked but displayed the template sky/ground. On October 8, selecting only `Scenes/LeadMills_AR_POC` in the iOS Scene List and exporting to a fresh folder produced a camera permission prompt and working live camera feed: the **first successful native AR proof-of-concept milestone**. See the [October 7 log](iterations/2026-10-04/Daily_Log_2026-10-07.md) and [October 8 log](iterations/2026-10-04/Daily_Log_2026-10-08.md).
 
-**Next gate:** detect a real horizontal surface and place one simple test object; verify placement/tracking before importing Lead Mills site assets. Capture the local project source, package locks, build manifest, and test evidence for reproducibility. Matching Linux editor, Android build, anchor catalog/model rendering on both platforms, and the WebAR demonstration remain pending. The working iPhone camera feed does not close the cross-platform acceptance gate.
+**October 14 progress:** local placement and historical asset import now work. Full-size textured coal shed build 0.7.0 b0016 is demonstrated outdoors on grass; the user confirmed tile-floor placement. [Source, photos and limitations](docs/milestones/2026-10-14-full-size-coal-shed/README.md) are preserved. Phase 2 remains open because Android/cross-platform acceptance is pending.
+
+**Next gate:** prepare a defensible GIS site frame and model registration using [QGIS and BlenderGIS](docs/GEOREFERENCING_NEXT_PHASE.md). Then connect the local AR frame to approved geographic references and measure accuracy. Preserve the successful local-placement baseline.
 
 ## Phase 3 — geospatial-provider integration
 

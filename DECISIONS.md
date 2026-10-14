@@ -73,14 +73,28 @@ Enable only `Assets/Scenes/LeadMills_AR_POC.unity` in iOS Build Profiles and unc
 ## D-011 — horizontal-plane placement before historical assets
 
 **Date:** 2026-10-08<br>
-**Status:** Accepted; implementation pending
+**Status:** Completed locally October 14, 2026
 
 With the native camera pipeline working, next detect a real horizontal surface and place one simple test object. Establish stable placement/tracking before importing Lead Mills site assets or integrating geospatial providers. This camera milestone does not close Android, WebAR, or field-validation gates.
+
+## D-012 — preserve the full-size local-placement milestone
+
+**Date:** 2026-10-14<br>
+**Status:** Accepted; demonstrated locally
+
+Preserve 0.7.0 build 16 as the full-size coal shed baseline. Use a small capture target, stationary readiness and moderate ground acceptance rather than requiring the complete building footprint to be perfectly flat. Stop app-controlled mesh scanning after placement while retaining AR tracking. Photos demonstrate outdoor grass rendering; thermal savings and quantitative accuracy remain unmeasured. See the milestone report and October 14 log.
+
+## D-013 — GIS control before geographic phone placement
+
+**Date:** 2026-10-14<br>
+**Status:** Proposed next-phase workflow
+
+Use QGIS for CRS/control/elevation management and BlenderGIS for terrain/model assembly. Preserve an explicit model-to-site transform and distinguish the centered master origin from the front-edge phone prefab. Register the phone to that site frame separately; session-local anchors do not establish geographic coordinates. No CRS, control coordinates or provider choice is approved by this plan alone. See docs/GEOREFERENCING_NEXT_PHASE.md.
 
 ## Open decisions
 
 - License and any future visibility/ownership changes for the existing public `lexan347/Lead-Mills-AR-Research` repository.
-- Matching Linux Unity `6000.3.25f1` baseline and source/package-lock capture; AR Foundation / ARKit 6.3.5 are session-confirmed.
+- Matching Linux Unity `6000.3.25f1` baseline; source/package locks now captured, AR Foundation / ARKit 6.3.5 are session-confirmed.
 - Google versus Niantic primary provider after onsite tests.
 - Historical reconstruction source and uncertainty notation.
 - License for original code, models, and documentation.
