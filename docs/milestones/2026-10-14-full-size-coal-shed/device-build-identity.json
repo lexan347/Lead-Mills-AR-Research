@@ -1,0 +1,10 @@
+{
+    "version": "0.7.0",
+    "buildId": "LMAR_v0.7.0_b0016",
+    "protocol": "guided-placement-v12-stationary-readiness",
+    "configuration": "Full-size coal shed 1:1 (7.82m long x 4.26m wide x 3.51m high), front-edge placement; repaired URP materials; Portrait/CW90; 24cm capture target; 1.5s stationary surface readiness; rough-ground acceptance: 15deg overall, 60deg local facets, +/-10cm mesh height; tap target or Place; meshing stops after placement; 30FPS render",
+    "sourceRevision": "ec06d8d83c719d0ebfdbf757d4d8e5d4ee335a2d",
+    "exportedAtUtc": "2026-10-14T21:48:26.8967290Z",
+    "unityVersion": "6000.3.25f1",
+    "buildNumber": 16
+}

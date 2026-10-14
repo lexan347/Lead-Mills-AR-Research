@@ -1,0 +1,5 @@
+{
+  "version": "0.7.0",
+  "protocol": "guided-placement-v12-stationary-readiness",
+  "configuration": "Full-size coal shed 1:1 (7.82m long x 4.26m wide x 3.51m high), front-edge placement; repaired URP materials; Portrait/CW90; 24cm capture target; 1.5s stationary surface readiness; rough-ground acceptance: 15deg overall, 60deg local facets, +/-10cm mesh height; tap target or Place; meshing stops after placement; 30FPS render"
+}
