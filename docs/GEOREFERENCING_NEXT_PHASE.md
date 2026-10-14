@@ -6,6 +6,8 @@ Use **QGIS as the coordinate/control master** and **Blender with BlenderGIS for 
 
 ## 1. Inventory the source data
 
+The user confirmed existing GIS/terrain data is on the Linux machine, not the Mac laptop. Its filenames, CRS and elevation reference have not yet been inspected. Start on Linux or transfer the GIS project together with all referenced datasets; a project file alone may not contain its layers.
+
 Locate the existing `.blend` master, site maps/1890 plan, orthophoto, elevation raster/point cloud, any QGIS project, and approved control-point survey. Record provenance, license, date, horizontal CRS, units, vertical datum/geoid, and uncertainty. Missing CRS or altitude references must be resolved before alignment. Historical map features are interpretive evidence; they are not automatically surveyed control.
 
 **First concrete deliverable:** a source inventory and a QGIS GeoPackage with an empty, documented control-point layer. Keep unknown coordinates null. Existing public anchor policy in SITE_DATA.md applies.
