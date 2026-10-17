@@ -32,3 +32,6 @@ The enlarged lithograph crop depicts a **lower gabled end-cap building** with tw
 **Observed:** perspective-position difference and lower roof ridge. **Inferred, pending site-plan confirmation:** horizontal footprint setback/projection. The perspective artwork cannot measure setback magnitude or prove north/east/south/west direction. Do not force a single aligned wall plane or continuous roof between LM-035 and LM-036.
 
 **Modeling rule:** preserve LM-036 as an independent blockout with separately editable anchor, length, width, orientation, eave height, ridge height, and relationship to LM-035. Record `setback_direction=UNKNOWN` and `setback_m=UNKNOWN` until the owner supplies dimensions/georeferenced footprints. No new invented coordinates.
+
+## 2026-10-17 — Owner correction: direction of LM-036 setback
+**Authoritative correction from project owner:** LM-036 end-cap is offset **AWAY FROM THE RIVER (LANDWARD)** relative to the neighboring/taller building, **not toward the river**. Earlier speculative riverward projection is superseded. Setback magnitude remains unknown, as do independent depth and footprint dimensions. For the blockout, preserve separate LM-036 georeference and use the landward offset as a positional constraint once the shoreline-facing orientation is resolved.
