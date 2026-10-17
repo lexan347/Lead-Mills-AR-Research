@@ -1,0 +1,34 @@
+id,feature_name,type,centroid_lon_rough,centroid_lat_rough,historical_length_m,historical_width_m,historical_height_m,story_count,shape_type,approved_heading_deg,historic_elevation_offset_m,dimension_confidence,geometry_source,status
+LM-001,Mill/Smelting Building #1,building candidate,-70.88590486,42.49678948,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-002,Frontstreet Main Building 2,building candidate,-70.88614444,42.4968347,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-003,Frontstreet Main Building 1,building candidate,-70.88636749,42.49692632,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-004,Foundry,building candidate,-70.88559389,42.4971377,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-005,Peabody's Middle Transfer,building candidate,-70.88575594,42.4968975,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-006,Well,infrastructure/feature,-70.88506704,42.497553,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-007,Machine Shop,building candidate,-70.88533475,42.49706353,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-008,Outhouse 1,building candidate,-70.88492598,42.49731684,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-009,Old Original Bathhouse,building candidate,-70.88484588,42.49733943,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-010,Cooling House,building candidate,-70.88559874,42.49792442,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-011,Riverside Office,building candidate,-70.88545144,42.4980188,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-012,Original Dock-End Shipping and Recieving,building candidate,-70.88530453,42.49746179,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-013,S&R - Manger's Office,building candidate,-70.88542446,42.49738098,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-014,Original 2 story Barracks,building candidate,-70.88465511,42.49750028,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-015,Manager Barracks,building candidate,-70.88430485,42.49759308,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-016,Orignal Retaining River Rock Wall,infrastructure/feature,-70.88589317,42.4968764,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-017,Overseer Home,building candidate,-70.88408282,42.49764489,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-018,Peabody's Factory Home,building candidate,-70.88389972,42.4976844,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-019,Coal Shed,building candidate,-70.88547672,42.49686795,,,,unknown,unreviewed,120.25,DEFERRED,unknown,SSU-ForestRiverProject.kmz,visual-POC
+LM-020,Peabody'sII LeadWorks-Shipping & Recieving,building candidate,-70.88523258,42.49748787,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-021,Storage Rooms,building candidate,-70.88424079,42.49776514,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-022,Floormen Barracks,building candidate,-70.884421,42.49769079,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-023,Leasing Office,building candidate,-70.88478647,42.49744701,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-024,House 1,building candidate,-70.88455966,42.49752349,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-025,House 2,building candidate,-70.88439095,42.49756759,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-026,House 3,building candidate,-70.88425148,42.49761484,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-027,House 4,building candidate,-70.88410596,42.49764225,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-028,Junior Barracks,building candidate,-70.88453783,42.49764706,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-029,Bathhouse,building candidate,-70.88468221,42.497596,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-030,Pavillion,building candidate,-70.88489401,42.49751544,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-031,Dockside Extention,infrastructure/feature,-70.88585197,42.49723881,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-032,Streetfront Shed Next to Main Mill,building candidate,-70.88666485,42.4970392,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
+LM-033,Rail to S&R,infrastructure/feature,-70.884386,42.49799974,,,,unknown,unreviewed,,DEFERRED,unknown,SSU-ForestRiverProject.kmz,pending dimensions
