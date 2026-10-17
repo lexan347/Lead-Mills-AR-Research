@@ -25,3 +25,10 @@ Longitude/latitude or matching KMZ footprint, orientation, width/depth/length/he
 
 ## Date/chronology
 Lithograph dated 1848 by user; depicted smoke is an observation in an artistic source, not proof of operating-state details.
+
+## 2026-10-17 — End-cap offset observation (user image detail)
+The enlarged lithograph crop depicts a **lower gabled end-cap building** with two visible front-facing windows, against a taller gabled mass behind. Their roof ridges, eaves and visible planes differ. The user explicitly observes that the end-cap building is **offset** from the adjoining structure.
+
+**Observed:** perspective-position difference and lower roof ridge. **Inferred, pending site-plan confirmation:** horizontal footprint setback/projection. The perspective artwork cannot measure setback magnitude or prove north/east/south/west direction. Do not force a single aligned wall plane or continuous roof between LM-035 and LM-036.
+
+**Modeling rule:** preserve LM-036 as an independent blockout with separately editable anchor, length, width, orientation, eave height, ridge height, and relationship to LM-035. Record `setback_direction=UNKNOWN` and `setback_m=UNKNOWN` until the owner supplies dimensions/georeferenced footprints. No new invented coordinates.
